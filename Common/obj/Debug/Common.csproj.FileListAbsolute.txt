@@ -1,0 +1,4 @@
+D:\Documents\Visual Studio 2015\Projects\Portal\Common\bin\Debug\Common.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\Common\bin\Debug\Common.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\Common\obj\Debug\Common.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\Common\obj\Debug\Common.pdb

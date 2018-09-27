@@ -1,0 +1,13 @@
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\BLL.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\BLL.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\Common.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\DAL.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\Model.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\Common.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\DAL.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\Model.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\obj\Debug\BLL.dll
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\obj\Debug\BLL.pdb
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\BLL.dll.config
+D:\Documents\Visual Studio 2015\Projects\Portal\BLL\bin\Debug\MySql.Data.dll
