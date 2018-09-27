@@ -1,6 +1,0 @@
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\bin\Debug\Model.dll.config
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\bin\Debug\Model.dll
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\bin\Debug\Model.pdb
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\obj\Debug\Model.dll
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\obj\Debug\Model.pdb
-D:\Documents\Visual Studio 2015\Projects\Portal\Model\bin\Debug\MySql.Data.dll

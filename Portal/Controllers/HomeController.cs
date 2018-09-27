@@ -12,7 +12,7 @@ namespace Portal.Controllers
         public ActionResult Index()
         {
             return View();
-        }
+        } 
 
         public ActionResult Default()
         {
