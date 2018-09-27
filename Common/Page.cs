@@ -12,8 +12,8 @@ namespace Common
 
         public int PageSize { set; get; } 
 
-        public List<T> Data { set; get; }
+        public List<T> rows { set; get; }
 
-        public int Total { set; get; }
+        public int total { set; get; }
     }
 }

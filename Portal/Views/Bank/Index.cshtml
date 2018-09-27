@@ -1,7 +1,87 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "银行信息";
 }
+<script>
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_bank').datagrid({
+            title: '用户角色管理',
+            iconCls: 'icon-save',
+            height: 380,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            collapsible: true,
+            url: '/api/bankapi/list/1',
+            sortName: 'Id',
+            sortOrder: 'asc',
+            border: true,
+            idField: 'ID',
+            pagination: true,
+            rownumbers: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'ID', title: 'ID', width: 50, sortable: true },
+                { field: 'RoleName', title: '角色名称', width: 200, sortable: true },
+                {
+                    field: 'RoleType', title: "角色类型", width: 200, sortable: true,
+                    formatter: function (value, row, index) {
+                        if (value == 0) {
+                            return "普通用户";
+                        }
+                        if (value == 1) {
+                            return "高级用户";
+                        }
+                        if (value == 2) {
+                            return "VIP高级会员";
+                        }
+                        else {
+                            return "未知用户";
+                        }
+                    }
+                },
+                {
+                    field: 'SubTime', title: "添加时间", width: 250, sortable: true,
+                    formatter: function (value, row, index) {
+                        return "";
+                    }
+                }
+            ]],
 
-<h2>Index</h2>
+            toolbar: [{
+                id: 'btnadd',
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+                    ShowCreateUserRoleDialog();
+                }
+            }, '-', {
+                id: 'btncut',
+                text: '修改',
+                iconCls: 'icon-cut',
+                handler: function () {
 
+                    //实现弹出修改用户信息的层
+                    ShowUpdateUserRoleDialog();
+                }
+            }, '-', {
+                id: 'btnsave',
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    //确认只删除一条用户信息
+                    DeleteUserRoleInfoByClick();
+                }
+            }]
+        });
+    }
+    
+</script>
+<table id="gd_bank">
+
+</table>

@@ -32,10 +32,10 @@ namespace DAL
                 strSql.Where("b.Name=@0", parm.Name);
                 strSqlCount.Where("b.Name=@0", parm.Name);
             }
-            page.Data = _db.Fetch<Bank, Operator>(strSql).Skip(parm.Rows * parm.Index).Take(parm.Rows).ToList();
+            page.rows = _db.Fetch<Bank, Operator>(strSql).Skip(parm.Rows * parm.Index).Take(parm.Rows).ToList();
             page.PageSize = parm.Rows;
             page.PageIndex = parm.Index;
-            page.Total = _db.FirstOrDefault<int>(strSqlCount);
+            page.total = _db.FirstOrDefault<int>(strSqlCount);
             return page;
         }
 
