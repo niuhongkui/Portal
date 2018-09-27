@@ -13,3 +13,5 @@
 /DAL/obj/Debug
 /Model/bin/Debug
 /Model/obj/Debug
+/Portal/Logs
+/Portal/Models/BankVModel.cs
