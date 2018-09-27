@@ -3,25 +3,79 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
+using Model.Entity;
+using Common;
+using Newtonsoft.Json;
 
 namespace Portal.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
+        private readonly OperatorBLL _bll;
+        public LoginController()
+        {
+            _bll = new OperatorBLL();
+            IsChecked = false;
+        }
         // GET: Login
         public ActionResult Index()
         {
             return View();
         }
 
-        public JsonResult LoginOn()
+        public ActionResult LoginOn(Operator ope)
         {
-            return Json(null);
+            ope.PassWord = Encrypt.MD5(ope.PassWord);
+
+            var user = _bll.LoginOn(ope);
+            if (user.Success)
+            {
+                var currentUser = ToUser(user.Data);
+                Session["user"] = JsonConvert.SerializeObject(currentUser);
+                return Redirect("/home/index");
+            }
+            else
+            {
+                return Redirect("/home/index");
+            }
+
+
         }
 
-        public JsonResult LoginOut()
+        public ActionResult LoginOut()
         {
-            return null;
+            Session["user"] = null;
+            return View("Login/index");
+        }
+
+        private CurrentUser ToUser(Operator admin)
+        {
+            CurrentUser user = new CurrentUser();
+            user.PassWord = admin.PassWord;
+            user.UserName = admin.UserName;
+            user.Name = admin.Name;
+            user.UserType = admin.UserType;
+            user.Phone = admin.Phone;
+
+            //foreach (var n in admin.Roles)
+            //{
+            //    foreach (var l in n.Limits)
+            //    {
+            //        var limit = new Limit();
+            //        limit.ClassName = l.ClassName;
+            //        limit.Url = l.Url;
+            //        limit.Name = l.Name;
+            //        limit.PId = l.PId;
+            //        limit.Level = l.Level;
+            //        limit.Id = l.Id;
+
+            //        user.Limits.Add(limit);
+            //    }
+            //}
+            return user;
         }
     }
+
+
 }

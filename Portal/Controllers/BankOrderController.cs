@@ -6,24 +6,23 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class HomeController : BaseController
+    public class BankOrderController : BaseController
     {
-        // GET: Home
+        // GET: BankOrder
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Default()
+        public ActionResult Add()
         {
             return View();
         }
 
-
-        public ActionResult Error() {
+        public ActionResult Summary()
+        {
             return View();
         }
-
         
     }
 }

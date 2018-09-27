@@ -19,9 +19,8 @@ namespace BLL
         /// <param name="user"></param>
         /// <param name="userType">1系统管理员，2银行人员，3押运人员</param>
         /// <returns></returns>
-        public ApiMessage<Operator> LoginOn(Operator user, int userType)
+        public ApiMessage<Operator> LoginOn(Operator user)
         {
-            user.UserType = userType.ToString();
             return _dal.LoginOn(user);
         }
     }

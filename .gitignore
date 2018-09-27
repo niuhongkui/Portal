@@ -5,3 +5,11 @@
 /packages
 /Portal/bin
 /Portal/obj/Debug
+/BLL/bin/Debug
+/BLL/obj/Debug
+/Common/bin/Debug
+/Common/obj/Debug
+/DAL/bin/Debug
+/DAL/obj/Debug
+/Model/bin/Debug
+/Model/obj/Debug

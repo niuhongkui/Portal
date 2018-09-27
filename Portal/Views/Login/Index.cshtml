@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>陇原之家后台登录首页</title>
+    <title>登录</title>
     <link href="~/Content/themes/icon.css" rel="stylesheet" />
     <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
     <script src="~/scripts/jquery-1.11.3.min.js"></script>
@@ -32,31 +32,31 @@
         });
 
         //异步实现用户的登录
-        function LoginUserInfo(LoginUserInfo) {
-            $("#btnLogin").click(function() {
-                //验证用户必须输入必填项
-                var validate = $("#ff").form("validate");
-                if (validate == false) {
-                    return false;
-                }
-                //获取传递前台的参数，UserName，PassWord，Code
-                var postData = {
-                    UserName: $("#UserName").val(),
-                    PassWord: $("#PassWord").val(),
-                    //Code: $("#Code").val()
-                };
+        //function LoginUserInfo() {
+        //    $("#btnLogin").click(function() {
+        //        //验证用户必须输入必填项
+        //        var validate = $("#ff").form("validate");
+        //        if (validate == false) {
+        //            return false;
+        //        }
+        //        //获取传递前台的参数，UserName，PassWord，Code
+        //        var postData = {
+        //            UserName: $("#UserName").val(),
+        //            PassWord: $("#PassWord").val(),
+        //            //Code: $("#Code").val()
+        //        };
 
-                //异步实现登录功能
-                $.post("/api/LoginOn/LoginOn", postData, function (data) {
-                    if (data == "OK") {
-                        window.location.href = "/Home/Index";
-                    } else {
-                        window.location.href = "/Login/Index/";
-                    }
-                });
+        //        //异步实现登录功能
+        //        $.post("/api/LoginOn/LoginOn", postData, function (data) {
+        //            if (data == "OK") {
+        //                window.location.href = "/Home/Index";
+        //            } else {
+        //                window.location.href = "/Login/Index/";
+        //            }
+        //        });
 
-            });
-        }
+        //    });
+        //}
 
         //单击重新改变验证码
         function ClickRemoveChangeCode() {
@@ -79,7 +79,7 @@
     @*-------------------设置用户登录信息的弹出层-------------------*@
     <div id="AddUserDialog" class="easyui-dialog" style="width:350px;height:230px;padding:10px 20px"
          modal="true" closable="false" title="用户登录" buttons="#dlg-buttons" align="center">
-        <form id="ff" method="post" novalidate="novalidate">
+        <form id="ff" method="post" action="@Url.Action("LoginOn","Login")" novalidate="novalidate">
             <table id="tblAdd">
                 <tr>
                     <th colspan="2">用户登录信息</th>
@@ -110,7 +110,8 @@
                 </tr>*@
                 <tr>
                     <td colspan="2" style="text-align:center; padding-top:10px">
-                        <a href="javascript:void(0)" class="easyui-linkbutton" id="btnLogin" iconcls="icon-ok">确定</a>
+                        <button class="easyui-linkbutton" iconcls="icon-ok" type="submit">登 录</button>
+                        @*<a href="javascript:void(0)" class="easyui-linkbutton" id="btnLogin" iconcls="icon-ok"></a>*@
                     </td>
                 </tr>
             </table>

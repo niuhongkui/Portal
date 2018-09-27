@@ -20,9 +20,9 @@ namespace Portal.Controllers.Api
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiMessage<Operator> LoginOn([FromBody]Operator user)
+        public ApiMessage<Operator> LoginOn(Operator user)
         {
-            return null;
+            return _bll.LoginOn(user);
         }
         /// <summary>
         /// 登出

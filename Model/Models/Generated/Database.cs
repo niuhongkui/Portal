@@ -315,6 +315,12 @@ namespace Model
 
 
 
+
+
+		[Column] public string Admin { get; set; }
+
+
+
 	}
 
     

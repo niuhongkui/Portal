@@ -1,0 +1,73 @@
+﻿记录时间：2018-09-06 09:34:06,603 线程ID:[9] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：指定的参数已超出有效值的范围。
+参数名: Parameter '@1' specified but only 1 parameters supplied (in `select * from Operator 
+WHERE (UserName=@0  and IsDelete=0)
+AND (PassWord=@1 )`)
+记录时间：2018-09-06 09:34:51,899 线程ID:[8] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：指定的参数已超出有效值的范围。
+参数名: Parameter '@1' specified but only 1 parameters supplied (in `select * from Operator 
+WHERE (UserName=@0  and IsDelete=0)
+AND (PassWord=@1 )`)
+记录时间：2018-09-06 10:35:47,174 线程ID:[67] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：运算符“==”无法应用于“string”和“int”类型的操作数
+记录时间：2018-09-06 10:41:10,673 线程ID:[15] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Login/index”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Login/Login/index.aspx
+~/Views/Login/Login/index.ascx
+~/Views/Shared/Login/index.aspx
+~/Views/Shared/Login/index.ascx
+~/Views/Login/Login/index.cshtml
+~/Views/Login/Login/index.vbhtml
+~/Views/Shared/Login/index.cshtml
+~/Views/Shared/Login/index.vbhtml
+记录时间：2018-09-06 10:41:47,765 线程ID:[10] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Login/index”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Login/Login/index.aspx
+~/Views/Login/Login/index.ascx
+~/Views/Shared/Login/index.aspx
+~/Views/Shared/Login/index.ascx
+~/Views/Login/Login/index.cshtml
+~/Views/Login/Login/index.vbhtml
+~/Views/Shared/Login/index.cshtml
+~/Views/Shared/Login/index.vbhtml
+记录时间：2018-09-06 10:48:00,606 线程ID:[19] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Login/index”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Login/Login/index.aspx
+~/Views/Login/Login/index.ascx
+~/Views/Shared/Login/index.aspx
+~/Views/Shared/Login/index.ascx
+~/Views/Login/Login/index.cshtml
+~/Views/Login/Login/index.vbhtml
+~/Views/Shared/Login/index.cshtml
+~/Views/Shared/Login/index.vbhtml
+记录时间：2018-09-06 12:05:43,132 线程ID:[36] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Login/index”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Login/Login/index.aspx
+~/Views/Login/Login/index.ascx
+~/Views/Shared/Login/index.aspx
+~/Views/Shared/Login/index.ascx
+~/Views/Login/Login/index.cshtml
+~/Views/Login/Login/index.vbhtml
+~/Views/Shared/Login/index.cshtml
+~/Views/Shared/Login/index.vbhtml
+记录时间：2018-09-06 12:08:15,989 线程ID:[32] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Summary”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/BankOrder/Summary.aspx
+~/Views/BankOrder/Summary.ascx
+~/Views/Shared/Summary.aspx
+~/Views/Shared/Summary.ascx
+~/Views/BankOrder/Summary.cshtml
+~/Views/BankOrder/Summary.vbhtml
+~/Views/Shared/Summary.cshtml
+~/Views/Shared/Summary.vbhtml
+记录时间：2018-09-06 12:08:21,417 线程ID:[38] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Summary”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/BankOrder/Summary.aspx
+~/Views/BankOrder/Summary.ascx
+~/Views/Shared/Summary.aspx
+~/Views/Shared/Summary.ascx
+~/Views/BankOrder/Summary.cshtml
+~/Views/BankOrder/Summary.vbhtml
+~/Views/Shared/Summary.cshtml
+~/Views/Shared/Summary.vbhtml
+记录时间：2018-09-06 20:01:27,420 线程ID:[5] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：Unable to connect to any of the specified MySQL hosts.
+记录时间：2018-09-06 20:23:14,991 线程ID:[37] 日志级别：ERROR 出错类：Common.LogHelper property:[(null)] - 错误描述：未找到视图“Login/index”或其母版视图，或没有视图引擎支持搜索的位置。搜索了以下位置: 
+~/Views/Login/Login/index.aspx
+~/Views/Login/Login/index.ascx
+~/Views/Shared/Login/index.aspx
+~/Views/Shared/Login/index.ascx
+~/Views/Login/Login/index.cshtml
+~/Views/Login/Login/index.vbhtml
+~/Views/Shared/Login/index.cshtml
+~/Views/Shared/Login/index.vbhtml
