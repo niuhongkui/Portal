@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,8 @@ namespace Portal.Controllers
         // GET: Home
         public ActionResult Index()
         {
+
+            ViewBag.Auth = Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType);
             return View();
         }
 

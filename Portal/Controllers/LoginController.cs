@@ -37,12 +37,11 @@ namespace Portal.Controllers
                 Session["user"] = strUser;
                 //webapi登录验证用
                 CacheHelper.SetCache(Encrypt.MD5(currentUser.Id + "_"+currentUser.UserType), currentUser);
-                ViewBag.Auth = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
                 return Redirect("/home/index");
             }
             else
             {
-                return Redirect("/home/index");
+                return Redirect("/login/index");
             }
 
 

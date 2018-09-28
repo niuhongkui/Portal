@@ -79,6 +79,8 @@ else
 </div>
 <!-- end of footer -->
 <script type="text/javascript">
+    sessionStorage.setItem("userInfo", '@ViewBag.Auth');
+    debugger
     $(function () {
         $('.wu-side-tree a').bind("click", function () {
             var title = $(this).text();
