@@ -22,6 +22,7 @@ namespace Portal.Controllers.Api
             return _bankBll.List(parm);
         }
         [HttpGet]
+        //[AllowAnonymous]
         public string test(string id)
         {
             return id;
