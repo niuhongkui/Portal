@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Common;
 
 namespace Portal.Filter
 {
@@ -45,22 +46,8 @@ namespace Portal.Filter
         //校验用户名密码（正式环境中应该是数据库校验）
         private bool ValidateTicket(string encryptTicket)
         {
-            //解密Ticket
-            var strTicket = encryptTicket;
-
-            //从Ticket里面获取用户名和密码
-            var index = strTicket.IndexOf("&");
-            string strUser = strTicket.Substring(0, index);
-            string strPwd = strTicket.Substring(index + 1);
-
-            if (strUser == "admin" && strPwd == "123456")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var user = (CurrentUser)CacheHelper.GetCache(encryptTicket);
+            return user != null;
         }
     }
 }

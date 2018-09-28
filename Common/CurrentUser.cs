@@ -12,6 +12,7 @@ namespace Common
         {
             ImageUrl = "/content/images/p1.png";
         }
+        public string Id { set; get; }
         public string UserName { set; get; }
         public string Name { set; get; }
         public string PassWord { set; get; }

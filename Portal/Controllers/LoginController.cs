@@ -32,7 +32,11 @@ namespace Portal.Controllers
             if (user.Success)
             {
                 var currentUser = ToUser(user.Data);
-                Session["user"] = JsonConvert.SerializeObject(currentUser);
+                var strUser = JsonConvert.SerializeObject(currentUser);
+                //页面session
+                Session["user"] = strUser;
+                //webapi登录验证用
+                CacheHelper.SetCache(Encrypt.MD5(currentUser.UserName+"_"+currentUser.UserType), currentUser);
                 return Redirect("/home/index");
             }
             else
@@ -57,7 +61,7 @@ namespace Portal.Controllers
             user.Name = admin.Name;
             user.UserType = admin.UserType;
             user.Phone = admin.Phone;
-
+            user.Id = admin.Id;
             //foreach (var n in admin.Roles)
             //{
             //    foreach (var l in n.Limits)
