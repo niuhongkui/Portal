@@ -36,7 +36,8 @@ namespace Portal.Controllers
                 //页面session
                 Session["user"] = strUser;
                 //webapi登录验证用
-                CacheHelper.SetCache(Encrypt.MD5(currentUser.UserName+"_"+currentUser.UserType), currentUser);
+                CacheHelper.SetCache(Encrypt.MD5(currentUser.Id + "_"+currentUser.UserType), currentUser);
+                ViewBag.Auth = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
                 return Redirect("/home/index");
             }
             else
@@ -50,6 +51,7 @@ namespace Portal.Controllers
         public ActionResult LoginOut()
         {
             Session["user"] = null;
+            CacheHelper.RemoveCache(Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType));
             return View("Login/index");
         }
 
