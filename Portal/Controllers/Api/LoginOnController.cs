@@ -26,11 +26,11 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public ApiMessage<string> LoginOn(Operator user)
+        public ApiMessage<object> LoginOn(Operator user)
         {
             user.PassWord = Encrypt.MD5(user.PassWord);
             var userData = _bll.LoginOn(user);
-            var outData = new ApiMessage<string>
+            var outData = new ApiMessage<object>
             {
                 Success = userData.Success,
                 Msg = userData.Msg,
@@ -38,8 +38,9 @@ namespace Portal.Controllers.Api
             };
             if (!userData.Success) return outData;
             var currentUser = UserVModel.FormatUser(userData.Data);
-            outData.Data = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
-            CacheHelper.SetCache(outData.Data, currentUser,new TimeSpan(0,0,30));
+            var key = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
+            outData.Data = new {token=key,UserName=currentUser.UserName,UserType=currentUser.UserType};
+            CacheHelper.SetCache(key, currentUser,new TimeSpan(0,0,30));
             return outData;
         }
         /// <summary>
