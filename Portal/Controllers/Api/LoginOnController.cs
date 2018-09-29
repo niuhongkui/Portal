@@ -7,10 +7,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using Portal.Models;
 
 namespace Portal.Controllers.Api
 {
-    public class LoginOnController : ApiController
+    /// <summary>
+    /// 
+    /// </summary>
+    public class LoginOnController : BaseApiController
     {
         private OperatorBLL _bll = new OperatorBLL();
        
@@ -20,9 +25,21 @@ namespace Portal.Controllers.Api
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiMessage<Operator> LoginOn(Operator user)
+        [AllowAnonymous]
+        public ApiMessage<string> LoginOn(Operator user)
         {
-            return _bll.LoginOn(user);
+            var userData = _bll.LoginOn(user);
+            var outData = new ApiMessage<string>
+            {
+                Success = userData.Success,
+                Msg = userData.Msg,
+                MsgCode = userData.MsgCode
+            };
+            if (userData.Success) return outData;
+            var currentUser = UserVModel.FormatUser(userData.Data);
+            outData.Data = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
+            CacheHelper.SetCache(outData.Data, currentUser,new TimeSpan(0,0,30));
+            return outData;
         }
         /// <summary>
         /// 登出
@@ -30,9 +47,13 @@ namespace Portal.Controllers.Api
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiMessage<Operator> LoginOut([FromBody]Operator user)
+        public ApiMessage<string> LoginOut(Operator user)
         {
-            return null;
+            var key= Encrypt.MD5(user.Id + "_" + user.UserType);
+            var userInfo= CacheHelper.GetCache(key);
+            if (userInfo == null) return new ApiMessage<string>() {Success = false, Msg = "用户没有登录"};
+            CacheHelper.RemoveCache(key);
+            return new ApiMessage<string>() ;
         }
     }
 }

@@ -7,6 +7,7 @@ using BLL;
 using Model.Entity;
 using Common;
 using Newtonsoft.Json;
+using Portal.Models;
 
 namespace Portal.Controllers
 {
@@ -31,7 +32,7 @@ namespace Portal.Controllers
             var user = _bll.LoginOn(ope);
             if (user.Success)
             {
-                var currentUser = ToUser(user.Data);
+                var currentUser = UserVModel.FormatUser(user.Data);
                 var strUser = JsonConvert.SerializeObject(currentUser);
                 //页面session
                 Session["user"] = strUser;
@@ -54,32 +55,7 @@ namespace Portal.Controllers
             return View("Login/index");
         }
 
-        private CurrentUser ToUser(Operator admin)
-        {
-            CurrentUser user = new CurrentUser();
-            user.PassWord = admin.PassWord;
-            user.UserName = admin.UserName;
-            user.Name = admin.Name;
-            user.UserType = admin.UserType;
-            user.Phone = admin.Phone;
-            user.Id = admin.Id;
-            //foreach (var n in admin.Roles)
-            //{
-            //    foreach (var l in n.Limits)
-            //    {
-            //        var limit = new Limit();
-            //        limit.ClassName = l.ClassName;
-            //        limit.Url = l.Url;
-            //        limit.Name = l.Name;
-            //        limit.PId = l.PId;
-            //        limit.Level = l.Level;
-            //        limit.Id = l.Id;
-
-            //        user.Limits.Add(limit);
-            //    }
-            //}
-            return user;
-        }
+        
     }
 
 
