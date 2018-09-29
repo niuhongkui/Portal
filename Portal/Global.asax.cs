@@ -10,6 +10,7 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Common;
+using Portal.Filter;
 
 namespace Portal
 {
@@ -21,6 +22,7 @@ namespace Portal
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configuration.Filters.Add(new WebApiExceptionFilterAttribute());
         }
 
         

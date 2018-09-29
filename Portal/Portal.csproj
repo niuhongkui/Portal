@@ -2113,6 +2113,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Filter\RequestAuthorizeAttribute.cs" />
+    <Compile Include="Filter\WebApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
