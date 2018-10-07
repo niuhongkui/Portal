@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>    
+    <title>@ViewBag.Title</title>
     <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
     <link href="~/Content/wu.css" rel="stylesheet" />
     <link href="~/Content/icon.css" rel="stylesheet" />
     <script src="~/scripts/jquery-1.11.3.min.js"></script>
     <script src="~/scripts/jquery.easyui-1.4.5.min.js"></script>
     <script src="~/scripts/locale/easyui-lang-zh_CN.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
     <script>
         (function ($) {
             //1.得到$.ajax的对象
@@ -18,7 +19,7 @@
                 //2.每次调用发送ajax请求的时候定义默认的error处理方法
                 var fn = {
                     error: function (xmlHttpRequest, textStatus, errorThrown) {
-                        toastr.error(xmlHttpRequest.responseText, '错误消息', { closeButton: true, timeOut: 0, positionClass: 'toast-top-full-width' });
+                        //toastr.error(xmlHttpRequest.responseText, '错误消息', { closeButton: true, timeOut: 0, positionClass: 'toast-top-full-width' });
                     },
                     success: function (data, textStatus) { },
                     beforeSend: function (xhr) { },
@@ -44,9 +45,45 @@
                 _ajax(_options);
             };
         })(jQuery);
+        /**
+    * Name 添加菜单选项
+    * Param title 名称
+    * Param href 链接
+    * Param iconCls 图标样式
+    * Param iframe 链接跳转方式（true为iframe，false为href）
+    */
+    function addTopTab(title, href, iconCls, iframe) {
+        var tabPanel = $('body', parent.document).find('#wu-tabs');
+        if (!tabPanel.tabs('exists', title)) {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="' + href + '" style="width:100%;height:100%;"></iframe>';
+            if (iframe) {
+                tabPanel.tabs('add', {
+                    title: title,
+                    content: content,
+                    iconCls: iconCls,
+                    fit: true,
+                    cls: 'pd3',
+                    closable: true
+                });
+            }
+            else {
+                tabPanel.tabs('add', {
+                    title: title,
+                    href: href,
+                    iconCls: iconCls,
+                    fit: true,
+                    cls: 'pd3',
+                    closable: true
+                });
+            }
+        }
+        else {
+            tabPanel.tabs('select', title);
+        }
+    }
     </script>
 </head>
 <body class="easyui-layout">
-  @RenderBody()
+    @RenderBody()
 </body>
 </html>

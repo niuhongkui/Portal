@@ -8,9 +8,13 @@ namespace Common
 {
     public class Page<T>
     {
-        public int PageIndex { set; get; } 
+        public Page()
+        {
+            rows = new List<T>();
+        }
+        public int PageIndex { set; get; }
 
-        public int PageSize { set; get; } 
+        public int PageSize { set; get; }
 
         public List<T> rows { set; get; }
 

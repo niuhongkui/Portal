@@ -176,6 +176,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\portal.sql" />
     <Content Include="Content\icon.css" />
     <Content Include="Content\icons\accept.png" />
     <Content Include="Content\icons\add.png" />
@@ -2144,6 +2145,7 @@
     <Content Include="Views\Car\Index.cshtml" />
     <Content Include="Views\Atm\Index.cshtml" />
     <Content Include="SwaggerUI\lib\.DS_Store" />
+    <Content Include="Views\Bank\Add.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2151,9 +2153,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{9e6e767f-2a52-4cee-b63d-7fb4986adf8f}</Project>

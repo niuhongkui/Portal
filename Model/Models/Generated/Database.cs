@@ -311,7 +311,7 @@ namespace Model
 
 
 
-		[Column] public bool? IsDetele { get; set; }
+		[Column] public bool? IsDelete { get; set; }
 
 
 

@@ -17,5 +17,10 @@ namespace BLL
         {
             return _bankDal.List(parm);
         }
+
+        public ApiMessage<string> Delete(string id)
+        {
+            return _bankDal.Delete(id);
+        }
     }
 }

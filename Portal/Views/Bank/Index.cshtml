@@ -14,42 +14,18 @@
             nowrap: true,
             autoRowHeight: false,
             striped: false,
-            collapsible: true,
             url: '/api/bankapi/list/1',
-            sortName: 'Id',
-            sortOrder: 'asc',
             border: true,
-            idField: 'ID',
             pagination: true,
             rownumbers: true,
+            singleSelect: true,
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
                 { field: 'ck', checkbox: true },
-                { field: 'ID', title: 'ID', width: 50, sortable: true },
-                { field: 'RoleName', title: '角色名称', width: 200, sortable: true },
-                {
-                    field: 'RoleType', title: "角色类型", width: 200, sortable: true,
-                    formatter: function (value, row, index) {
-                        if (value == 0) {
-                            return "普通用户";
-                        }
-                        if (value == 1) {
-                            return "高级用户";
-                        }
-                        if (value == 2) {
-                            return "VIP高级会员";
-                        }
-                        else {
-                            return "未知用户";
-                        }
-                    }
-                },
-                {
-                    field: 'SubTime', title: "添加时间", width: 250, sortable: true,
-                    formatter: function (value, row, index) {
-                        return "";
-                    }
-                }
+                { field: 'BankName', title: '银行名称', width: 200 },
+                { field: 'BankUser', title: '系统管理员', width: 200 },
+                { field: 'UserName', title: '管理员名称', width: 200 },
+                { field: 'UserPhone', title: '管理员电话', width: 200 }
             ]],
 
             toolbar: [{
@@ -58,7 +34,7 @@
                 iconCls: 'icon-add',
                 handler: function () {
                     //实现弹出添加用户信息的层
-                    ShowCreateUserRoleDialog();
+                    edit();
                 }
             }, '-', {
                 id: 'btncut',
@@ -67,7 +43,12 @@
                 handler: function () {
 
                     //实现弹出修改用户信息的层
-                    ShowUpdateUserRoleDialog();
+                    var row = $('#gd_bank').datagrid("getChecked")
+                    if (row.length>0) {
+                        edit(row[0].Id);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
                 }
             }, '-', {
                 id: 'btnsave',
@@ -75,13 +56,51 @@
                 iconCls: 'icon-remove',
                 handler: function () {
                     //确认只删除一条用户信息
-                    DeleteUserRoleInfoByClick();
+                    var row = $('#gd_bank').datagrid("getChecked")
+                    if (row.length>0) {
+                        del(row[0].Id);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
                 }
             }]
         });
     }
-    
-</script>
-<table id="gd_bank">
 
-</table>
+    function edit(id) {
+        addTab("银行信息","/bank/add","",false)
+    }
+
+    function del(id) {
+        $.messager.confirm("删除", "确定删除吗？", function (r) {
+            if (r) {
+                $.get("/api/bankapi/delete/" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_bank').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+
+                })
+            }
+        })
+    }
+
+    function search(value) {
+        Query({ Name: value });
+    }
+</script>
+
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div style="padding-left:10px;margin-top:10px">
+            <label for="BankName">银行名称:</label>
+            <input class="easyui-searchbox" type="text" name="BankName" data-options="searcher:search,prompt:'请输入银行名称'" />
+        </div>
+    </div>
+    <div region="center" border="false">
+        <table id="gd_bank"></table>
+    </div>
+</div>
+

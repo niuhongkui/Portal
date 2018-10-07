@@ -15,8 +15,8 @@ namespace Common
         public string Query { set; get; }
 
         public string Code { set; get; }
-        public int Index { set; get; } = 0;
+        public int page { set; get; } = 0;
 
-        public int Rows { set; get; } = 15;
+        public int rows { set; get; } = 15;
     }
 }
