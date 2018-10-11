@@ -177,6 +177,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\portal.sql" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\icon.css" />
     <Content Include="Content\icons\accept.png" />
     <Content Include="Content\icons\add.png" />
@@ -2035,6 +2039,7 @@
     <Content Include="Content\themes\metro\window.css" />
     <Content Include="Content\themes\mobile.css" />
     <Content Include="Content\wu.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="images\bg_header.jpg" />
     <Content Include="images\bg_header_1.jpg" />
@@ -2043,7 +2048,14 @@
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Content\themes\material\images\Thumbs.db" />
     <Content Include="Log4net.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="scripts\jquery-1.11.3.intellisense.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\easyloader.js" />
     <Content Include="scripts\jquery-1.11.3.js" />
     <Content Include="scripts\jquery-1.11.3.min.js" />
@@ -2076,6 +2088,7 @@
     <Content Include="scripts\locale\easyui-lang-zh_CN.js" />
     <Content Include="scripts\locale\easyui-lang-zh_TW.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\npm.js" />
     <Content Include="SwaggerUI\css\screen.css" />
     <Content Include="SwaggerUI\images\pet_store_api.png" />
     <Content Include="SwaggerUI\images\wordnik_api.png" />

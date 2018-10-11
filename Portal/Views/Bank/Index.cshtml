@@ -37,6 +37,18 @@
                     edit();
                 }
             }, '-', {
+                id: 'btnadd',
+                text: '导出模板',
+                iconCls: 'icon-print',
+                handler: function () {
+                }
+            }, '-', {
+                id: 'btnadd',
+                text: '导入',
+                iconCls: 'icon-save',
+                handler: function () {
+                }
+            }, '-', {
                 id: 'btncut',
                 text: '修改',
                 iconCls: 'icon-cut',
@@ -44,7 +56,7 @@
 
                     //实现弹出修改用户信息的层
                     var row = $('#gd_bank').datagrid("getChecked")
-                    if (row.length>0) {
+                    if (row.length > 0) {
                         edit(row[0].Id);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
@@ -57,7 +69,7 @@
                 handler: function () {
                     //确认只删除一条用户信息
                     var row = $('#gd_bank').datagrid("getChecked")
-                    if (row.length>0) {
+                    if (row.length > 0) {
                         del(row[0].Id);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
@@ -68,7 +80,7 @@
     }
 
     function edit(id) {
-        addTab("银行信息","/bank/add","",false)
+        addTab("银行信息", "/bank/add", "icon-chart-organisation", false)
     }
 
     function del(id) {
