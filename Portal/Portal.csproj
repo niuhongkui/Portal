@@ -2089,6 +2089,8 @@
     <Content Include="scripts\locale\easyui-lang-zh_TW.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\npm.js" />
+    <Content Include="scripts\vue.js" />
+    <Content Include="scripts\vue.min.js" />
     <Content Include="SwaggerUI\css\screen.css" />
     <Content Include="SwaggerUI\images\pet_store_api.png" />
     <Content Include="SwaggerUI\images\wordnik_api.png" />

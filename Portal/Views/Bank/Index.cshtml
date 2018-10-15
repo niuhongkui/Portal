@@ -23,37 +23,33 @@
             columns: [[
                 { field: 'ck', checkbox: true },
                 { field: 'BankName', title: '银行名称', width: 200 },
+                { field: 'BankCode', title: '银行编码', width: 200 },
                 { field: 'BankUser', title: '系统管理员', width: 200 },
                 { field: 'UserName', title: '管理员名称', width: 200 },
                 { field: 'UserPhone', title: '管理员电话', width: 200 }
             ]],
 
             toolbar: [{
-                id: 'btnadd',
                 text: '添加',
                 iconCls: 'icon-add',
                 handler: function () {
                     //实现弹出添加用户信息的层
-                    edit();
+                    edit(0);
                 }
             }, '-', {
-                id: 'btnadd',
                 text: '导出模板',
                 iconCls: 'icon-print',
                 handler: function () {
                 }
             }, '-', {
-                id: 'btnadd',
                 text: '导入',
                 iconCls: 'icon-save',
                 handler: function () {
                 }
             }, '-', {
-                id: 'btncut',
                 text: '修改',
                 iconCls: 'icon-cut',
                 handler: function () {
-
                     //实现弹出修改用户信息的层
                     var row = $('#gd_bank').datagrid("getChecked")
                     if (row.length > 0) {
@@ -63,7 +59,6 @@
                     }
                 }
             }, '-', {
-                id: 'btnsave',
                 text: '删除',
                 iconCls: 'icon-remove',
                 handler: function () {
@@ -80,7 +75,7 @@
     }
 
     function edit(id) {
-        addTab("银行信息", "/bank/add", "icon-chart-organisation", false)
+        addTab("银行信息", "/bank/add/" + id, "icon-chart-organisation", false)
     }
 
     function del(id) {

@@ -83,4 +83,14 @@ namespace Common
         }
         #endregion
     }
+
+    public class DateCode
+    {
+        public static string GetCode(string type = "N")
+        {
+            var strCode = type + DateTime.Now.ToString("yyyyMMddHHmmss");
+            var rd = new Random();
+            return strCode+rd.Next(1000,10000).ToString();
+        }
+    }
 }

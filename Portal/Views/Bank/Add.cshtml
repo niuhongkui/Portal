@@ -2,20 +2,84 @@
 @{
     ViewBag.Title = "Edit";
 }
-<div class="col-sm-10" style="margin-top: 50px">
-    <form class="form-horizontal" role="form">
-        
+<script>
+    var vm = new Vue({
+        el: '#fmBank',
+        data: {
+            id: '@ViewBag.Id',
+            form: {}
+        },
+        methods: {
+            init: function () {
+                var that = this;
+                $.get("/api/bankapi/detail/" + that.id, function (json) {
+                    if (json.Success) {
+                        that.form = json.Data;
+                    }
+                })
+            },
+            save: function () {
+                var that = this;
+                $.ajax({
+                    method: "post",
+                    url: "/api/bankapi/save/" + that.id,
+                    contentType: 'application/json',
+                    data: JSON.stringify(that.form),
+                    success: function (json) {
+
+                    }
+                });
+            }
+        },
+        created: function () {
+            var that = this;
+            that.init();
+        }
+    })
+</script>
+<div id="fmBank" style="margin-top: 50px">
+    <form class="form-horizontal col-sm-10 ">
+
         <div class="form-group">
-            <label for="firstname" class="col-sm-2 control-label">名字</label>
+            <label class="col-sm-2 control-label">银行名称</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="firstname" placeholder="请输入名字">
+                <input type="text" v-model="form.BankName" class="form-control" placeholder="请输入银行名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">银行编码</label>
+            <div class="col-sm-10">
+                <input type="text" v-model="form.BankCode" class="form-control" placeholder="请输入银行编码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">管理员名称</label>
+            <div class="col-sm-10">
+                <input type="text" v-model="form.BankUser" class="form-control" placeholder="请输入管理员名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">管理员帐号</label>
+            <div class="col-sm-10">
+                <input type="text" v-model="form.UserName" class="form-control" placeholder="请输入管理员帐号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">管理员手机号</label>
+            <div class="col-sm-10">
+                <input type="text" v-model="form.UserPhone" class="form-control" placeholder="请输入管理员手机号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">管理员密码</label>
+            <div class="col-sm-10">
+                <input type="password" v-model="form.UserPwd" class="form-control" placeholder="请输入管理员密码">
             </div>
         </div>
 
-
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-                <button type="submit" class="btn btn-default">登录</button>
+                <button type="button" v-on:click="save" class="btn btn-default">登录</button>
             </div>
         </div>
     </form>

@@ -18,10 +18,13 @@ namespace Portal.Models
         /// <param name="model"></param>
         public BankVModel(Bank model)
         {
+            if (model == null)
+                return;
             BankName = model.Name;
+            BankCode = model.Code;
             BankUser = model.Operator.Name;
             UserName = model.Operator.UserName;
-            UserPhone= model.Operator.Phone;
+            UserPhone = model.Operator.Phone;
             UserPwd = model.Operator.PassWord;
             Id = model.Id;
         }
@@ -30,6 +33,10 @@ namespace Portal.Models
         /// 银行名称
         /// </summary>
         public string BankName { set; get; }
+        /// <summary>
+        /// 银行编码
+        /// </summary>
+        public string BankCode { set; get; }
         /// <summary>
         /// 
         /// </summary>
@@ -58,7 +65,7 @@ namespace Portal.Models
         /// <returns></returns>
         public Bank ToModel()
         {
-            var bank=new Bank();
+            var bank = new Bank();
             return bank;
         }
 

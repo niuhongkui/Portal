@@ -18,7 +18,7 @@ namespace Portal.Controllers.Api
     public class LoginOnController : BaseApiController
     {
         private OperatorBLL _bll = new OperatorBLL();
-       
+
         /// <summary>
         /// 登录
         /// </summary>
@@ -39,8 +39,8 @@ namespace Portal.Controllers.Api
             if (!userData.Success) return outData;
             var currentUser = UserVModel.FormatUser(userData.Data);
             var key = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
-            outData.Data = new {token=key,UserName=currentUser.UserName,UserType=currentUser.UserType};
-            CacheHelper.SetCache(key, currentUser,new TimeSpan(0,0,30));
+            outData.Data = new { token = key, UserName = currentUser.UserName, UserType = currentUser.UserType };
+            CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 0, 30));
             return outData;
         }
         /// <summary>
@@ -51,11 +51,22 @@ namespace Portal.Controllers.Api
         [HttpPost]
         public ApiMessage<string> LoginOut()
         {
-            var key= Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType);
-            var userInfo= CacheHelper.GetCache(key);
-            if (userInfo == null) return new ApiMessage<string>() {Success = false, Msg = "用户没有登录"};
+            var key = Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType);
+            var userInfo = CacheHelper.GetCache(key);
+            if (userInfo == null) return new ApiMessage<string>() { Success = false, Msg = "用户没有登录" };
             CacheHelper.RemoveCache(key);
-            return new ApiMessage<string>() ;
+            return new ApiMessage<string>();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ApiMessage<string> GetCode(string id)
+        {
+            var api = new ApiMessage<string>();
+            api.Data = DateCode.GetCode(id);
+            return api;
         }
     }
 }

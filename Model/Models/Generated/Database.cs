@@ -299,6 +299,12 @@ namespace Model
 
 
 
+		[Column] public string Code { get; set; }
+
+
+
+
+
 		[Column] public DateTime? UpdateDate { get; set; }
 
 

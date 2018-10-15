@@ -42,14 +42,38 @@ namespace Portal.Controllers.Api
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="parm"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         public ApiMessage<string> Delete(string id)
         {
             return _bankBll.Delete(id);
         }
-
+        /// <summary>
+        /// 明细
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ApiMessage<BankVModel> Detail(string id)
+        {
+            var data = _bankBll.Detail(id);
+            var api = new ApiMessage<BankVModel>();
+            api.Data = new BankVModel(data.Data);
+            return api;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<string> Save(BankVModel parm)
+        {
+            var api = new ApiMessage<string>();
+            api.Data = parm?.BankName;
+            return api;
+        }
 
         [HttpGet]
         //[AllowAnonymous]

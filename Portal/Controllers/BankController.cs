@@ -21,8 +21,9 @@ namespace Portal.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
+            ViewBag.Id = id;
             return View();
         }
     }
