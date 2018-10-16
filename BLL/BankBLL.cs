@@ -30,7 +30,28 @@ namespace BLL
 
         public ApiMessage<string> Save(Bank b)
         {
-            return _bankDal.Save(b);
+            var type = 0;
+            if (string.IsNullOrEmpty(b.Id))
+            {
+                b.Id = Guid.NewGuid().ToString();
+                b.Operator.PKId = b.Id;
+                b.UpdateDate = DateTime.Now;
+                b.CreateDate = DateTime.Now;
+                b.Admin = b.Operator.Id;
+
+                b.Operator.Id = Guid.NewGuid().ToString();
+                b.Operator.CreateDate = DateTime.Now;
+                b.Operator.IsDelete = false;
+                b.Operator.UpdateDate = DateTime.Now;
+                type = 0;
+            }
+            else
+            {
+                type = 1;
+                b.UpdateDate = DateTime.Now;
+                b.Operator.UpdateDate = DateTime.Now;
+            }
+            return _bankDal.Save(b,type);
         }
     }
 }

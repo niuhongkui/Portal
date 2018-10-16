@@ -26,6 +26,7 @@ namespace Portal.Models
             UserName = model.Operator.UserName;
             UserPhone = model.Operator.Phone;
             UserPwd = model.Operator.PassWord;
+            UserId = model.Operator.Id;
             Id = model.Id;
         }
 
@@ -58,6 +59,10 @@ namespace Portal.Models
         /// key
         /// </summary>
         public string Id { set; get; }
+        /// <summary>
+        /// key
+        /// </summary>
+        public string UserId { set; get; }
 
         /// <summary>
         /// 
@@ -66,6 +71,20 @@ namespace Portal.Models
         public Bank ToModel()
         {
             var bank = new Bank();
+            bank.Id = Id;
+            bank.Code = BankCode;
+            bank.Name = BankName;
+            bank.IsDelete = false;
+            bank.Admin = UserId;
+            var opr = new Operator();            
+            opr.Name = BankUser;
+            opr.UserName = UserName;
+            opr.UserType = "1";
+            opr.Phone = UserPhone;
+            opr.PKId = Id;
+            opr.PassWord = UserPwd;
+            opr.Id = UserId;
+            bank.Operator = opr;
             return bank;
         }
 

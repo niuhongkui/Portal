@@ -69,10 +69,8 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         public ApiMessage<string> Save(BankVModel parm)
-        {
-            var api = new ApiMessage<string>();
-            api.Data = parm?.BankName;
-            return api;
+        {            
+            return _bankBll.Save(parm.ToModel());
         }
 
         [HttpGet]
