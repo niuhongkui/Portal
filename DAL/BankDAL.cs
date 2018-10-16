@@ -82,5 +82,16 @@ namespace DAL
             return api;
 
         }
+
+        public ApiMessage<string> Save(Bank b)
+        {
+            using (var scope = new PetaPoco.Transaction(_db))
+            {
+                _db.Insert(b);
+                _db.Insert(b.Operator);
+                scope.Complete();
+            }
+            return new ApiMessage<string>();
+        }
     }
 }

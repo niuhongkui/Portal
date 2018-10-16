@@ -27,5 +27,10 @@ namespace BLL
         {
             return _bankDal.Detail(id);
         }
+
+        public ApiMessage<string> Save(Bank b)
+        {
+            return _bankDal.Save(b);
+        }
     }
 }

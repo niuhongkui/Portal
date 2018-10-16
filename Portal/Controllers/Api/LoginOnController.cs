@@ -46,7 +46,6 @@ namespace Portal.Controllers.Api
         /// <summary>
         /// 登出
         /// </summary>
-        /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
         public ApiMessage<string> LoginOut()
