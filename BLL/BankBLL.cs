@@ -37,9 +37,10 @@ namespace BLL
                 b.Operator.PKId = b.Id;
                 b.UpdateDate = DateTime.Now;
                 b.CreateDate = DateTime.Now;
-                b.Admin = b.Operator.Id;
+               
 
                 b.Operator.Id = Guid.NewGuid().ToString();
+                b.Admin = b.Operator.Id;
                 b.Operator.CreateDate = DateTime.Now;
                 b.Operator.IsDelete = false;
                 b.Operator.UpdateDate = DateTime.Now;
@@ -50,6 +51,10 @@ namespace BLL
                 type = 1;
                 b.UpdateDate = DateTime.Now;
                 b.Operator.UpdateDate = DateTime.Now;
+            }
+
+            if (b.Operator.PassWord.Split('-').Length != 16) {
+                b.Operator.PassWord = Common.Encrypt.MD5(b.Operator.PassWord);
             }
             return _bankDal.Save(b,type);
         }

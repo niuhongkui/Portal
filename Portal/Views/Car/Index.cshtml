@@ -1,7 +1,113 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "车辆信息";
 }
+<script>
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_car').datagrid({
+            title: '车辆管理',
+            iconCls: 'icon-save',
+            height: 380,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/api/bankapi/list/1',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'BankName', title: '银行名称', width: 200 },
+                { field: 'BankCode', title: '银行编码', width: 200 },
+                { field: 'BankUser', title: '系统管理员', width: 200 },
+                { field: 'UserName', title: '管理员名称', width: 200 },
+                { field: 'UserPhone', title: '管理员电话', width: 200 }
+            ]],
 
-<h2>Index</h2>
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+                    edit(0);
+                }
+            }, '-', {
+                text: '导出模板',
+                iconCls: 'icon-print',
+                handler: function () {
+                }
+            }, '-', {
+                text: '导入',
+                iconCls: 'icon-save',
+                handler: function () {
+                }
+            }, '-', {
+                text: '修改',
+                iconCls: 'icon-cut',
+                handler: function () {
+                    //实现弹出修改用户信息的层
+                    var row = $('#gd_bank').datagrid("getChecked")
+                    if (row.length > 0) {
+                        edit(row[0].Id);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
+                }
+            }, '-', {
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    //确认只删除一条用户信息
+                    var row = $('#gd_bank').datagrid("getChecked")
+                    if (row.length > 0) {
+                        del(row[0].Id);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
+                }
+            }]
+        });
+    }
+
+    function edit(id) {
+        addTab("银行信息", "/bank/add/" + id, "icon-chart-organisation", false)
+    }
+
+    function del(id) {
+        $.messager.confirm("删除", "确定删除吗？", function (r) {
+            if (r) {
+                $.get("/api/bankapi/delete/" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_bank').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+
+                })
+            }
+        })
+    }
+
+    function search(value) {
+        Query({ Name: value });
+    }
+</script>
+
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div style="padding-left:10px;margin-top:10px">
+            <label for="BankName">银行名称:</label>
+            <input class="easyui-searchbox" type="text" name="BankName" data-options="searcher:search,prompt:'请输入银行名称'" />
+        </div>
+    </div>
+    <div region="center" border="false">
+        <table id="gd_car"></table>
+    </div>
+</div>
 
