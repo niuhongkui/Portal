@@ -12,11 +12,18 @@
         methods: {
             init: function () {
                 var that = this;
-                $.get("/api/bankapi/detail/" + that.id, function (json) {
+                var url = "/api/bankapi/detail/" + that.id;
+                if (!that.id) {
+                    url = "/api/loginon/GetCode/B";
+                }
+                $.get(url, function (json) {
                     if (json.Success) {
-                        that.form = json.Data;
+                        if (that.id)
+                            that.form = json.Data;
+                        else
+                            that.form = { BankCode: json.Data }
                     }
-                })
+                });
             },
             save: function () {
                 var that = this;
