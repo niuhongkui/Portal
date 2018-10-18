@@ -14,7 +14,7 @@
             nowrap: true,
             autoRowHeight: false,
             striped: false,
-            url: '/api/bankapi/list/1',
+            url: '/api/carapi/list/1',
             border: true,
             pagination: true,
             rownumbers: true,
@@ -51,7 +51,7 @@
                 iconCls: 'icon-cut',
                 handler: function () {
                     //实现弹出修改用户信息的层
-                    var row = $('#gd_bank').datagrid("getChecked")
+                    var row = $('#gd_car').datagrid("getChecked")
                     if (row.length > 0) {
                         edit(row[0].Id);
                     } else {
@@ -63,7 +63,7 @@
                 iconCls: 'icon-remove',
                 handler: function () {
                     //确认只删除一条用户信息
-                    var row = $('#gd_bank').datagrid("getChecked")
+                    var row = $('#gd_car').datagrid("getChecked")
                     if (row.length > 0) {
                         del(row[0].Id);
                     } else {

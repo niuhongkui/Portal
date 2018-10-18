@@ -2117,6 +2117,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\BankApiController.cs" />
     <Compile Include="Controllers\Api\BaseApiController.cs" />
+    <Compile Include="Controllers\Api\CarApiController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BankOrderController.cs" />
@@ -2134,6 +2135,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BankVModel.cs" />
+    <Compile Include="Models\CarVModel.cs" />
     <Compile Include="Models\UserVModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -2161,6 +2163,7 @@
     <Content Include="Views\Atm\Index.cshtml" />
     <Content Include="SwaggerUI\lib\.DS_Store" />
     <Content Include="Views\Bank\Add.cshtml" />
+    <Content Include="Views\Car\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BankBLL.cs" />
+    <Compile Include="CarBLL.cs" />
     <Compile Include="OperatorBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
