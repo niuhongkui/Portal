@@ -19,10 +19,10 @@ namespace Portal.Controllers.Api
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public Page<BankVModel> List([FromBody] BaseParm parm)
+        public Page<CarVModel> List([FromBody] BaseParm parm)
         {
             var list = _carBll.List(parm);
-            var vmList = new Page<BankVModel>()
+            var vmList = new Page<CarVModel>()
             {
                 PageIndex = list.PageIndex,
                 PageSize = list.PageSize,
@@ -30,10 +30,35 @@ namespace Portal.Controllers.Api
             };
             foreach (var item in list.rows)
             {
-                var vm = new BankVModel(null);
+                var vm = new CarVModel(item);
                 vmList.rows.Add(vm);
             }
             return vmList;
+        }
+
+        /// <summary>
+        /// 明细
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ApiMessage<CarVModel> Detail(string id)
+        {
+            var data = _carBll.Detail(id);
+            var api = new ApiMessage<CarVModel>();
+            api.Data = new CarVModel(data.Data);
+            return api;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ApiMessage<string> Delete(string id)
+        {
+            return _carBll.Delete(id);
         }
     }
 }

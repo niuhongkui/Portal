@@ -27,8 +27,8 @@ namespace DAL
             var strSqlCount = PetaPoco.Sql.Builder;
             strSql.Append("select * from bank b left join operator o on o.PKId=b.Id");
             strSqlCount.Append("select count(1) from bank b left join operator o on o.PKId=b.Id");
-            strSql.Where("b.IsDelete='0'");
-            strSqlCount.Where("b.IsDelete='0'");
+            strSql.Where("b.IsDelete='0' and o.usertype=1");
+            strSqlCount.Where("b.IsDelete='0' and o.usertype=1");
             if (!string.IsNullOrEmpty(parm.Name))
             {
                 strSql.Where("b.Name LIKE  concat('%',@0,'%')", parm.Name);
@@ -75,7 +75,7 @@ namespace DAL
         {
             var strSql = PetaPoco.Sql.Builder;
             strSql.Append("select * from bank b left join operator o on o.PKId=b.Id");
-            strSql.Where("b.IsDelete='0' AND b.Id=@0", id);
+            strSql.Where("b.IsDelete='0' and o.usertype=1  AND b.Id=@0", id);
             var b = _db.Fetch<Bank, Operator>(strSql);
             var api = new ApiMessage<Bank>();
             api.Data = b.FirstOrDefault();
@@ -83,7 +83,7 @@ namespace DAL
 
         }
 
-        public ApiMessage<string> Save(Bank b ,int type=0)
+        public ApiMessage<string> Save(Bank b, int type = 0)
         {
             using (var scope = new PetaPoco.Transaction(_db))
             {
@@ -98,10 +98,15 @@ namespace DAL
                     copy.Update();
                     b.Operator.Update();
                 }
-                
+
                 scope.Complete();
             }
             return new ApiMessage<string>();
+        }
+
+        public List<bank> KeyValue()
+        {
+            return bank.Fetch("where IsDelete=0").ToList();
         }
     }
 }

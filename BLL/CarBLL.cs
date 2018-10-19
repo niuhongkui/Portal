@@ -16,5 +16,15 @@ namespace BLL
         {
             return _carDal.List(parm);
         }
+
+        public ApiMessage<Car> Detail(string id)
+        {
+            return _carDal.Detail(id);
+        }
+
+        public ApiMessage<string> Delete(string id)
+        {
+            return _carDal.Delete(id);
+        }
     }
 }

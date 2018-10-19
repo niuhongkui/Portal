@@ -19,8 +19,8 @@ namespace DAL
             var strSqlCount = PetaPoco.Sql.Builder;
             strSql.Append("select * from car b left join operator o on o.PKId=b.Id");
             strSqlCount.Append("select count(1) from car b left join operator o on o.PKId=b.Id");
-            strSql.Where("b.IsDelete='0'");
-            strSqlCount.Where("b.IsDelete='0'");
+            strSql.Where("b.IsDelete='0' and o.usertype=2");
+            strSqlCount.Where("b.IsDelete='0' and o.usertype=2");
             if (!string.IsNullOrEmpty(parm.Name))
             {
                 strSql.Where("b.Name LIKE  concat('%',@0,'%')", parm.Name);
@@ -31,6 +31,47 @@ namespace DAL
             page.PageIndex = parm.page;
             page.total = _db.FirstOrDefault<int>(strSqlCount);
             return page;
+        }
+
+        public ApiMessage<Car> Detail(string id)
+        {
+            var strSql = PetaPoco.Sql.Builder;
+            strSql.Append("select * from Car b left join operator o on o.PKId=b.Id");
+            strSql.Where("b.IsDelete='0' and o.usertype=2  AND b.Id=@0", id);
+            var b = _db.Fetch<Car, Operator>(strSql);
+            var api = new ApiMessage<Car>();
+            api.Data = b.FirstOrDefault();
+            return api;
+
+        }
+
+        public ApiMessage<string> Delete(string id)
+        {
+            ApiMessage<string> msg = new ApiMessage<string>();
+            var obj = Car.FirstOrDefault("where Id=@0", id);
+            if (obj != null)
+            {
+                obj.IsDelete = true;
+                var row = obj.Update();
+                if (row > 0)
+                {
+                    msg.Success = true;
+                    msg.Msg = "删除成功";
+                }
+                else
+                {
+                    msg.Success = false;
+                    msg.Msg = "删除失败";
+                }
+            }
+            else
+            {
+                msg.Success = false;
+                msg.Msg = "数据不存在";
+            }
+
+            return msg;
+
         }
     }
 }

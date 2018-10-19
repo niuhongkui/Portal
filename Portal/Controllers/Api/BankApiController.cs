@@ -17,6 +17,8 @@ namespace Portal.Controllers.Api
     {
         private readonly BankBLL _bankBll = new BankBLL();
 
+
+        //[AllowAnonymous]
         /// <summary>
         /// 列表
         /// </summary>
@@ -69,15 +71,23 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         public ApiMessage<string> Save(BankVModel parm)
-        {            
+        {
             return _bankBll.Save(parm.ToModel());
         }
 
+        /// <summary>
+        /// 选银行
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        //[AllowAnonymous]
-        public string test(string id)
+        public List<object> BankKeyValue()
         {
-            return id;
+            var list = _bankBll.KeyValue();
+            List<object> kv = new List<object>();
+            list.ForEach(n=> {
+                kv.Add(new { n.Id, n.Name });
+            });
+            return kv;
         }
     }
 }

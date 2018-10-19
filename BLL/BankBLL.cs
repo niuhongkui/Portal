@@ -58,5 +58,10 @@ namespace BLL
             }
             return _bankDal.Save(b,type);
         }
+
+        public List<bank> KeyValue()
+        {
+            return _bankDal.KeyValue();
+        }
     }
 }

@@ -22,10 +22,10 @@
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
                 { field: 'ck', checkbox: true },
-                { field: 'BankName', title: '银行名称', width: 200 },
+                { field: 'CarName', title: '车牌号', width: 200 },
+                { field: 'CarCode', title: '车辆编码', width: 200 },
+                { field: 'BankName', title: '签约银行', width: 200 },
                 { field: 'BankCode', title: '银行编码', width: 200 },
-                { field: 'BankUser', title: '系统管理员', width: 200 },
-                { field: 'UserName', title: '管理员名称', width: 200 },
                 { field: 'UserPhone', title: '管理员电话', width: 200 }
             ]],
 
@@ -75,7 +75,7 @@
     }
 
     function edit(id) {
-        addTab("银行信息", "/bank/add/" + id, "icon-chart-organisation", false)
+        addTab("银行信息", "/car/edit/" + id, "icon-chart-organisation", false)
     }
 
     function del(id) {

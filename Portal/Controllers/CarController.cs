@@ -14,8 +14,9 @@ namespace Portal.Controllers
             return View();
         }
 
-        public ActionResult Edit()
+        public ActionResult Edit(string id)
         {
+            ViewBag.Id = id;
             return View();
         }
     }

@@ -335,9 +335,7 @@ namespace Model
 
 
 
-	[PrimaryKey("Id")]
-
-
+	[PrimaryKey("Id", AutoIncrement=false)]
 
 
 	[ExplicitColumns]
@@ -347,7 +345,7 @@ namespace Model
 
 
 
-		[Column] public int Id { get; set; }
+		[Column] public string Id { get; set; }
 
 
 
@@ -359,31 +357,43 @@ namespace Model
 
 
 
-		[Column] public int? BankId { get; set; }
+		[Column] public string Code { get; set; }
 
 
 
 
 
-		[Column] public string UserName { get; set; }
+		[Column] public string BankId { get; set; }
 
 
 
 
 
-		[Column] public string PassWord { get; set; }
+		[Column] public string BankName { get; set; }
 
 
 
 
 
-		[Column] public bool? IsDelete { get; set; }
+		[Column] public string Admin { get; set; }
 
 
 
 
 
 		[Column] public DateTime? CreateDate { get; set; }
+
+
+
+
+
+		[Column] public DateTime? UpdateDate { get; set; }
+
+
+
+
+
+		[Column] public bool? IsDelete { get; set; }
 
 
 
