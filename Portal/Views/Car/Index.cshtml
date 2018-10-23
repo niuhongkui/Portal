@@ -81,7 +81,7 @@
     function del(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
-                $.get("/api/bankapi/delete/" + id, function (data) {
+                $.get("/api/carapi/delete/" + id, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
                         $('#gd_bank').datagrid("reload");

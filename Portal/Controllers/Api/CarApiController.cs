@@ -60,5 +60,16 @@ namespace Portal.Controllers.Api
         {
             return _carBll.Delete(id);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<string> Save(CarVModel parm)
+        {
+            return _carBll.Save(parm.ToModel());
+        }
     }
 }

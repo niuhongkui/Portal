@@ -27,7 +27,31 @@ namespace Portal.Models
             UserId = model.Operator.Id;
             Id = model.Id;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Car ToModel()
+        {
+            var bank = new Car();
+            bank.Id = Id;
+            bank.Code = CarCode;
+            bank.Name = CarName;
+            bank.BankId = BankId;
+            bank.BankName = BankName;
+            bank.IsDelete = false;
+            bank.Admin = UserId;
+            var opr = new Operator();
+            opr.Name = CarUser;
+            opr.UserName = UserName;
+            opr.UserType = "2";
+            opr.Phone = UserPhone;
+            opr.PKId = Id;
+            opr.PassWord = UserPwd;
+            opr.Id = UserId;
+            bank.Operator = opr;
+            return bank;
+        }
         /// <summary>
         /// 车牌号
         /// </summary>
