@@ -7,14 +7,14 @@
         Query({});
     });
     function Query(parm) {
-        $('#gd_bank').datagrid({
-            title: '车辆管理',
+        $('#gd_atm').datagrid({
+            title: 'ATM管理',
             iconCls: 'icon-save',
             height: 380,
             nowrap: true,
             autoRowHeight: false,
             striped: false,
-            url: '/api/bankapi/list/1',
+            url: '/api/atmapi/list/1',
             border: true,
             pagination: true,
             rownumbers: true,
@@ -22,9 +22,9 @@
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
                 { field: 'ck', checkbox: true },
-                { field: 'BankName', title: '银行名称', width: 200 },
-                { field: 'BankCode', title: '银行编码', width: 200 },
-                { field: 'BankUser', title: '系统管理员', width: 200 },
+                { field: 'ATMName', title: '银行名称', width: 200 },
+                { field: 'ATMCode', title: '银行编码', width: 200 },
+                { field: 'ATMUser', title: '系统管理员', width: 200 },
                 { field: 'UserName', title: '管理员名称', width: 200 },
                 { field: 'UserPhone', title: '管理员电话', width: 200 }
             ]],
@@ -51,7 +51,7 @@
                 iconCls: 'icon-cut',
                 handler: function () {
                     //实现弹出修改用户信息的层
-                    var row = $('#gd_bank').datagrid("getChecked")
+                    var row = $('#gd_atm').datagrid("getChecked")
                     if (row.length > 0) {
                         edit(row[0].Id);
                     } else {
@@ -63,7 +63,7 @@
                 iconCls: 'icon-remove',
                 handler: function () {
                     //确认只删除一条用户信息
-                    var row = $('#gd_bank').datagrid("getChecked")
+                    var row = $('#gd_atm').datagrid("getChecked")
                     if (row.length > 0) {
                         del(row[0].Id);
                     } else {
@@ -75,16 +75,16 @@
     }
 
     function edit(id) {
-        addTab("银行信息", "/bank/add/" + id, "icon-chart-organisation", false)
+        addTab("银行信息", "/atm/add/" + id, "icon-chart-organisation", false)
     }
 
     function del(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
-                $.get("/api/bankapi/delete/" + id, function (data) {
+                $.get("/api/atmapi/delete/" + id, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
-                        $('#gd_bank').datagrid("reload");
+                        $('#gd_atm').datagrid("reload");
                     } else {
                         $.messager.alert("警告", data.Msg, "error");
                     }
@@ -102,12 +102,12 @@
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
         <div style="padding-left:10px;margin-top:10px">
-            <label for="BankName">银行名称:</label>
-            <input class="easyui-searchbox" type="text" name="BankName" data-options="searcher:search,prompt:'请输入银行名称'" />
+            <label for="ATMName">ATM名称:</label>
+            <input class="easyui-searchbox" type="text" name="ATMName" data-options="searcher:search,prompt:'请输入银行名称'" />
         </div>
     </div>
     <div region="center" border="false">
-        <table id="gd_bank"></table>
+        <table id="gd_atm"></table>
     </div>
 </div>
 

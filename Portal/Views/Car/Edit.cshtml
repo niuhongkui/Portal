@@ -32,6 +32,13 @@
             },
             save: function () {
                 var that = this;
+
+                for (var i = 0; i < that.banks.length; i++) {
+                    if (that.form.BankId == that.banks[i].Id) {
+                        that.form.BankName = that.banks[i].Name;
+                        break;
+                    }
+                }
                 $.ajax({
                     method: "post",
                     url: "/api/Carapi/save/" + that.id,

@@ -2164,6 +2164,7 @@
     <Content Include="SwaggerUI\lib\.DS_Store" />
     <Content Include="Views\Bank\Add.cshtml" />
     <Content Include="Views\Car\Edit.cshtml" />
+    <Content Include="Views\Atm\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
