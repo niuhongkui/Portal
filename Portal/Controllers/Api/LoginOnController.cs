@@ -20,7 +20,7 @@ namespace Portal.Controllers.Api
         private OperatorBLL _bll = new OperatorBLL();
 
         /// <summary>
-        /// 登录
+        /// 登录 
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
