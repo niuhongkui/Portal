@@ -6,7 +6,7 @@
 <!-- begin of header -->
 <div class="wu-header" data-options="region:'north',border:false,split:true">
     <div class="wu-header-left">
-        <h1>演示专用</h1>
+        <h1>超市演示</h1>
     </div>
     <div class="wu-header-right">
         <p><strong class="easyui-tooltip" title="2条未读消息">@ViewBag.User.Name</strong>，欢迎您！</p>
@@ -15,30 +15,45 @@
 </div>
 <!-- end of header -->
 <!-- begin of sidebar -->
-@if (ViewBag.User.UserType == "1")
+@*@if (ViewBag.User.UserType == "1")*@
+@if (true)
 {
     <div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'">
         <div class="easyui-accordion" data-options="border:false,fit:true">
-            <div title="工单" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
+            <div title="商品管理" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","BankOrder")" iframe="0">新增派单</a></li>
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","BankOrder")" iframe="0">派单查询</a></li>
-                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-chart-curve" data-link="@Url.Action("Summary","BankOrder")" iframe="0">汇总</a></li>
+                    <li iconCls="icon-application-form-edit"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","BankOrder")" iframe="0">商品类别</a></li>
+                    <li iconCls="icon-application-form-edit"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","BankOrder")" iframe="0">商品档案</a></li>
+                    <li iconCls="icon-application-form-edit"><a href="javascript:void(0)" data-icon="icon-chart-curve" data-link="@Url.Action("Summary","BankOrder")" iframe="0">商品价格</a></li>
                 </ul>
             </div>
-            <div title="消息" data-options="iconCls:'icon-users'" style="padding:5px;">
+            <div title="员工管理" data-options="iconCls:'icon-users'" style="padding: 5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","Message")" iframe="0">发布消息</a></li>
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","Message")" iframe="0">消息列表</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">首页信息</a></li>
+                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add", "Message")" iframe="0">员工关联</a></li>
+                </ul>
+            </div>
+            <div title="进货管理" data-options="iconCls:'icon-book'" style="padding: 5px;">
+                <ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add", "BankOrder")" iframe="0">采购</a></li>
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index", "BankOrder")" iframe="0">采购单查询</a></li>
+                </ul>
+            </div>
+            <div title="销售管理" data-options="iconCls:'icon-chart-organisation'" style="padding:5px;">
+                <ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","BankOrder")" iframe="0">销售单</a></li>
+                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","BankOrder")" iframe="0">销售单查询</a></li>
+                </ul>
+            </div>
+            <div title="库存管理" data-options="iconCls:'icon-chart-curve'" style="padding: 5px;">
+                <ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index", "BankOrder")" iframe="0">出库</a></li>
+                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-chart-curve" data-link="@Url.Action("Summary", "BankOrder")" iframe="0">入库</a></li>
+                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add", "BankOrder")" iframe="0">盘点</a></li>
                 </ul>
             </div>
             <div title="系统设置" data-options="iconCls:'icon-wrench'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","Bank")" iframe="0">银行列表</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="@Url.Action("Index","Car")" iframe="0">车辆列表</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="@Url.Action("Index","Atm")" iframe="0">ATM列表</a></li>
-                    
+                    <li iconCls="icon-wrench"><a href="javascript:void(0)" data-icon="icon-wrench" data-link="@Url.Action("Index","Bank")" iframe="0">权限设置</a></li>
                 </ul>
             </div>
         </div>
