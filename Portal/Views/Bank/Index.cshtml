@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "银行信息";
+    ViewBag.Title = "人员信息";
 }
 <script>
     $(function () {
@@ -8,7 +8,7 @@
     });
     function Query(parm) {
         $('#gd_bank').datagrid({
-            title: '银行管理',
+            title: '人员管理',
             iconCls: 'icon-save',
             height: 380,
             nowrap: true,
@@ -22,11 +22,11 @@
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
                 { field: 'ck', checkbox: true },
-                { field: 'BankName', title: '银行名称', width: 200 },
-                { field: 'BankCode', title: '银行编码', width: 200 },
+                { field: 'BankName', title: '人员名称', width: 200 },
+                { field: 'BankCode', title: '人员行编码', width: 200 },
                 { field: 'BankUser', title: '系统管理员', width: 200 },
-                { field: 'UserName', title: '管理员名称', width: 200 },
-                { field: 'UserPhone', title: '管理员电话', width: 200 }
+                { field: 'UserName', title: '显示名称', width: 200 },
+                { field: 'UserPhone', title: '联系电话', width: 200 }
             ]],
 
             toolbar: [{
@@ -75,7 +75,7 @@
     }
 
     function edit(id) {
-        addTab("银行信息", "/bank/add/" + id, "icon-chart-organisation", false)
+        addTab("人员信息", "/bank/add/" + id, "icon-users", false)
     }
 
     function del(id) {
@@ -102,8 +102,8 @@
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
         <div style="padding-left:10px;margin-top:10px">
-            <label for="BankName">银行名称:</label>
-            <input class="easyui-searchbox" type="text" name="BankName" data-options="searcher:search,prompt:'请输入银行名称'" />
+            <label for="BankName">人员名称:</label>
+            <input class="easyui-searchbox" type="text" name="BankName" data-options="searcher:search,prompt:'请输入人员名称'" />
         </div>
     </div>
     <div region="center" border="false">
