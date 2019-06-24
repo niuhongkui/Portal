@@ -44,5 +44,16 @@ namespace Portal.Models
             //}
             return user;
         }
+        public static CurrentUser FormatUser(userinfo admin)
+        {
+            CurrentUser user = new CurrentUser();
+            user.PassWord = admin.PassWord;
+            user.UserName = admin.UserName;
+            user.UserCode = admin.UserCode;
+            user.UserType = "用户";
+            user.Phone = admin.Phone;
+            user.Id = admin.ID;
+            return user;
+        }
     }
 }

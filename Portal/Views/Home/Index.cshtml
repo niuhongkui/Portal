@@ -8,17 +8,17 @@
     <div class="wu-header-left">
         <h1>超市演示</h1>
     </div>
-    <div class="wu-header-right">
-        <p><strong class="easyui-tooltip" title="2条未读消息">@ViewBag.User.Name</strong>，欢迎您！</p>
+    <div class="wu-header-right" style="margin-top: 10px">
+        <p><strong class="easyui-tooltip" title="2条未读消息">@ViewBag.User.UserName</strong>，欢迎您！</p>
         <p><a href="@Url.Action("Index","Home")">网站首页</a>|<a href="@Url.Action("LoginOut", "Login")">安全退出</a></p>
     </div>
 </div>
 <!-- end of header -->
 <!-- begin of sidebar -->
 @*@if (ViewBag.User.UserType == "1")*@
-@if (true)
+@if (false)
 {
-    <div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'">
+    @*<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'">
         <div class="easyui-accordion" data-options="border:false,fit:true">
             <div title="商品管理" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
@@ -57,7 +57,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>*@
 }
 else
 {
@@ -65,15 +65,15 @@ else
         <div class="easyui-accordion" data-options="border:false,fit:true">
             <div title="工单" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","BankOrder")" iframe="0">新增派单</a></li>
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","BankOrder")" iframe="0">派单查询</a></li>
-                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-chart-curve" data-link="@Url.Action("Summary","BankOrder")" iframe="0">汇总</a></li>
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Index","Home")" iframe="0">新增派单</a></li>
+                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","Home")" iframe="0">派单查询</a></li>
+                    <li iconCls="icon-chart-curve"><a href="javascript:void(0)" data-icon="icon-chart-curve" data-link="@Url.Action("Index","Home")" iframe="0">汇总</a></li>
                 </ul>
             </div>
             <div title="消息" data-options="iconCls:'icon-users'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Add","Message")" iframe="0">发布消息</a></li>
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","Message")" iframe="0">消息列表</a></li>
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="@Url.Action("Index","Home")" iframe="0">发布消息</a></li>
+                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="@Url.Action("Index","Home")" iframe="0">消息列表</a></li>
                 </ul>
             </div>
         </div>

@@ -12,7 +12,7 @@ namespace Portal.Controllers
         // GET: Home
         public ActionResult Index()
         {
-
+            IsChecked = false;
             ViewBag.Auth = Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType);
             return View();
         }

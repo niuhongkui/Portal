@@ -12,20 +12,35 @@ using Portal.Models;
 
 namespace Portal.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class LoginController : BaseController
     {
         private readonly StaffBLL _bll;
+        /// <summary>
+        /// 
+        /// </summary>
         public LoginController()
         {
             _bll = new StaffBLL();
             IsChecked = false;
         }
-        // GET: Login
+
+        /// <summary>
+        /// view页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// 登录接口
+        /// </summary>
+        /// <param name="ope"></param>
+        /// <returns></returns>
         public ActionResult LoginOn(staff ope)
         {
             ope.PassWord = Encrypt.MD5(ope.PassWord);
@@ -49,6 +64,10 @@ namespace Portal.Controllers
 
         }
 
+        /// <summary>
+        /// 退出接口
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LoginOut()
         {
             Session["user"] = null;
