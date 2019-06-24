@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Model;
 using Newtonsoft.Json;
 using Portal.Models;
 
@@ -17,7 +18,7 @@ namespace Portal.Controllers.Api
     /// </summary>
     public class LoginOnController : BaseApiController
     {
-        private OperatorBLL _bll = new OperatorBLL();
+        private StaffBLL _bll = new StaffBLL();
 
         /// <summary>
         /// 登录 
@@ -26,7 +27,7 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public ApiMessage<object> LoginOn(Operator user)
+        public ApiMessage<object> LoginOn(staff user)
         {
             user.PassWord = Encrypt.MD5(user.PassWord);
             var userData = _bll.LoginOn(user);

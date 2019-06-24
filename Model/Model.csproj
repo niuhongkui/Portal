@@ -45,9 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\Bank.cs" />
-    <Compile Include="Entity\Car.cs" />
-    <Compile Include="Entity\Operator.cs" />
     <Compile Include="Entity\Order.cs" />
     <Compile Include="Models\Generated\Database.cs">
       <AutoGen>True</AutoGen>

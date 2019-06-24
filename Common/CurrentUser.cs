@@ -14,7 +14,7 @@ namespace Common
         }
         public string Id { set; get; }
         public string UserName { set; get; }
-        public string Name { set; get; }
+        public string UserCode { set; get; }
         public string PassWord { set; get; }
         public string ImageUrl { set; get; }
         public string UserType { set; get; }

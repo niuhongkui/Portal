@@ -1,130 +1,85 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : .
-Source Server Version : 50621
+Source Server         : localhost_3306
+Source Server Version : 50714
 Source Host           : localhost:3306
 Source Database       : portal
 
 Target Server Type    : MYSQL
-Target Server Version : 50621
+Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-10-19 23:27:49
+Date: 2019-06-24 15:32:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `action`
+-- Table structure for `meal`
 -- ----------------------------
-DROP TABLE IF EXISTS `action`;
-CREATE TABLE `action` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(45) DEFAULT NULL,
-  `PkId` varchar(45) DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `IsDelete` bit(1) DEFAULT NULL,
-  `CreateUser` varchar(45) DEFAULT NULL,
-  `CarId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `meal`;
+CREATE TABLE `meal` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Code` varchar(50) NOT NULL COMMENT '编码',
+  `Name` varchar(50) NOT NULL COMMENT '套餐名称',
+  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
+  `IsActive` int(2) NOT NULL COMMENT '有效',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `ImgUrl` varchar(50) NOT NULL COMMENT '图片路径',
+  `StationName` varchar(50) NOT NULL COMMENT '站点名称',
+  `StaffCode` varchar(50) NOT NULL COMMENT '创建人',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
+  `Price` decimal(10,2) NOT NULL COMMENT '价格',
+  `OriginalPrice` decimal(10,2) NOT NULL COMMENT '原价',
+  PRIMARY KEY (`ID`),
+  KEY `station_m_PK` (`StationID`),
+  CONSTRAINT `station_m_PK` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠套餐';
 
 -- ----------------------------
--- Records of action
--- ----------------------------
-
--- ----------------------------
--- Table structure for `atm`
--- ----------------------------
-DROP TABLE IF EXISTS `atm`;
-CREATE TABLE `atm` (
-  `Id` varchar(45) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  `Province` varchar(45) DEFAULT NULL,
-  `City` varchar(45) DEFAULT NULL,
-  `County` varchar(45) DEFAULT NULL,
-  `Address` varchar(45) DEFAULT NULL,
-  `BankId` varchar(45) DEFAULT NULL,
-  `CreateDate` varchar(45) DEFAULT NULL,
-  `UpdateDate` varchar(45) DEFAULT NULL,
-  `IsDelate` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of atm
+-- Records of meal
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `bank`
+-- Table structure for `mealdetail`
 -- ----------------------------
-DROP TABLE IF EXISTS `bank`;
-CREATE TABLE `bank` (
-  `Id` varchar(45) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  `Code` varchar(45) NOT NULL DEFAULT '',
-  `UpdateDate` datetime DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `IsDelete` bit(1) DEFAULT NULL,
-  `Admin` varchar(45) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `mealdetail`;
+CREATE TABLE `mealdetail` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `PID` varchar(50) NOT NULL COMMENT '外键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品Id',
+  `ProductName` varchar(50) NOT NULL COMMENT '商品名称',
+  `Price` decimal(10,2) NOT NULL COMMENT '价格',
+  `ImgUrl` varchar(255) NOT NULL COMMENT '图片',
+  `Amount` decimal(10,2) NOT NULL COMMENT '数量',
+  `OriginalPrice` decimal(10,2) NOT NULL COMMENT '原价',
+  `ProductCode` varchar(50) NOT NULL COMMENT '商品ocde',
+  PRIMARY KEY (`ID`),
+  KEY `m_d_Pk` (`PID`),
+  CONSTRAINT `m_d_Pk` FOREIGN KEY (`PID`) REFERENCES `meal` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='套餐明细';
 
 -- ----------------------------
--- Records of bank
+-- Records of mealdetail
 -- ----------------------------
-INSERT INTO `bank` VALUES ('1', ' 平安银行', '12345', '2018-10-17 22:23:16', null, '', '2');
-INSERT INTO `bank` VALUES ('29e51454-f683-40fc-8273-56cf99999583', '兴业银行', 'B201810172115253824', '2018-10-17 22:22:47', null, '', '42f40545-0f05-4c5b-ad2f-61965bc60f21');
 
 -- ----------------------------
--- Table structure for `car`
+-- Table structure for `oldprice`
 -- ----------------------------
-DROP TABLE IF EXISTS `car`;
-CREATE TABLE `car` (
-  `Id` varchar(45) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  `Code` varchar(45) DEFAULT NULL,
-  `BankId` varchar(45) DEFAULT NULL,
-  `BankName` varchar(45) DEFAULT NULL,
-  `Admin` varchar(45) DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `UpdateDate` datetime DEFAULT NULL,
-  `IsDelete` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `oldprice`;
+CREATE TABLE `oldprice` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `Price` decimal(10,2) NOT NULL COMMENT '价格',
+  `StaffCode` varchar(50) NOT NULL COMMENT '创建人编码',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='历史价格';
 
 -- ----------------------------
--- Records of car
+-- Records of oldprice
 -- ----------------------------
-INSERT INTO `car` VALUES ('1', 'aseer', '5555', '29e51454-f683-40fc-8273-56cf99999583', '兴业银行', '3', '2018-10-18 00:00:00', '2018-10-18 00:00:00', '');
-
--- ----------------------------
--- Table structure for `operator`
--- ----------------------------
-DROP TABLE IF EXISTS `operator`;
-CREATE TABLE `operator` (
-  `Id` varchar(50) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  `UserName` varchar(45) DEFAULT NULL,
-  `PassWord` varchar(100) DEFAULT NULL,
-  `UserType` varchar(45) DEFAULT NULL,
-  `Phone` varchar(45) DEFAULT NULL,
-  `IsDelete` bit(1) DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `UpdateDate` datetime DEFAULT NULL,
-  `PKId` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of operator
--- ----------------------------
-INSERT INTO `operator` VALUES ('1', '测试', 'admin', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '', '2018-01-01 00:00:00', '2018-01-01 00:00:00', '0');
-INSERT INTO `operator` VALUES ('2', '平安银行', 'payh', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '2', '', null, '2018-10-17 22:23:16', '1');
-INSERT INTO `operator` VALUES ('3', 'car', 'car', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '2', '111', '', '2018-10-17 22:22:47', '2018-10-17 22:22:47', '1');
-INSERT INTO `operator` VALUES ('42f40545-0f05-4c5b-ad2f-61965bc60f21', '妞妞', 'niuhk', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '15688888888', '', null, '2018-10-17 22:22:47', '29e51454-f683-40fc-8273-56cf99999583');
 
 -- ----------------------------
 -- Table structure for `order`
@@ -145,4 +100,161 @@ CREATE TABLE `order` (
 
 -- ----------------------------
 -- Records of order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `price`
+-- ----------------------------
+DROP TABLE IF EXISTS `price`;
+CREATE TABLE `price` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `Price` decimal(10,2) NOT NULL COMMENT '价格',
+  `StaffCode` varchar(50) NOT NULL COMMENT '创建人编码',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`ID`),
+  KEY `p_price_pk` (`ProductID`),
+  CONSTRAINT `p_price_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品价格';
+
+-- ----------------------------
+-- Records of price
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `product`
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Code` varchar(50) NOT NULL COMMENT '编码',
+  `Name` varchar(50) NOT NULL COMMENT '名称',
+  `TypeCode` varchar(50) NOT NULL COMMENT '类别编码',
+  `TypeName` varchar(50) NOT NULL COMMENT '类别名称',
+  `UnitCode` varchar(50) NOT NULL COMMENT '单位编码',
+  `UnitName` varchar(50) NOT NULL COMMENT '单位名称',
+  `StationID` varchar(50) NOT NULL COMMENT '服务站ID',
+  `StationCode` varchar(50) NOT NULL COMMENT '服务站code',
+  `StationName` varchar(50) NOT NULL COMMENT '服务站名称',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `IsActive` int(2) NOT NULL COMMENT '是否有效',
+  `ImgUrl` varchar(50) NOT NULL COMMENT '图片',
+  PRIMARY KEY (`ID`),
+  KEY `station_pro_pk` (`StationID`),
+  CONSTRAINT `station_pro_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
+
+-- ----------------------------
+-- Records of product
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `producttype`
+-- ----------------------------
+DROP TABLE IF EXISTS `producttype`;
+CREATE TABLE `producttype` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Code` varchar(50) NOT NULL COMMENT '编码',
+  `Name` varchar(50) NOT NULL COMMENT '类别名称',
+  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
+  `IsActive` int(2) NOT NULL COMMENT '是否有效',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `StaffID` varchar(50) NOT NULL COMMENT '创建人名称',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人名称',
+  PRIMARY KEY (`ID`),
+  KEY `Station_p_pk` (`StationID`),
+  KEY `Staff_p_pk` (`StaffID`),
+  CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StationID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Station_p_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类别';
+
+-- ----------------------------
+-- Records of producttype
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `productunit`
+-- ----------------------------
+DROP TABLE IF EXISTS `productunit`;
+CREATE TABLE `productunit` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Name` varchar(50) NOT NULL COMMENT '名称名称',
+  `Code` varchar(50) NOT NULL COMMENT '单位编码',
+  `IsActive` int(2) NOT NULL COMMENT '有效',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `StaffID` varchar(50) NOT NULL COMMENT '创建staffid',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人名称',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品单位';
+
+-- ----------------------------
+-- Records of productunit
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `staff`
+-- ----------------------------
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE `staff` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `UserCode` varchar(50) NOT NULL COMMENT '编码',
+  `UserName` varchar(50) NOT NULL COMMENT '名称',
+  `PassWord` varchar(50) NOT NULL COMMENT '密码',
+  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
+  `IsActive` int(2) NOT NULL COMMENT '是否有效',
+  `Phone` varchar(11) DEFAULT NULL COMMENT '手机号',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `StationName` varchar(50) NOT NULL COMMENT '服务站名称',
+  `StationCode` varchar(50) NOT NULL COMMENT '服务站编码',
+  PRIMARY KEY (`ID`),
+  KEY `station_pk` (`StationID`),
+  CONSTRAINT `station_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工';
+
+-- ----------------------------
+-- Records of staff
+-- ----------------------------
+INSERT INTO `staff` VALUES ('2', '2', '3', '2', '1', '1', '1', '2019-06-24 13:34:10', '2', '2');
+
+-- ----------------------------
+-- Table structure for `station`
+-- ----------------------------
+DROP TABLE IF EXISTS `station`;
+CREATE TABLE `station` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Code` varchar(255) NOT NULL COMMENT '编码',
+  `Name` varchar(50) NOT NULL COMMENT '服务站名称',
+  `Address` varchar(255) NOT NULL COMMENT '地址',
+  `Latitude` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
+  `Longitude` decimal(10,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
+  `IsActive` int(2) NOT NULL COMMENT '是否有效',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务站点';
+
+-- ----------------------------
+-- Records of station
+-- ----------------------------
+INSERT INTO `station` VALUES ('1', '1', '1', '1', '0.000000', '0.000000', '1', '2019-06-24 13:32:53');
+
+-- ----------------------------
+-- Table structure for `userinfo`
+-- ----------------------------
+DROP TABLE IF EXISTS `userinfo`;
+CREATE TABLE `userinfo` (
+  `ID` varchar(50) NOT NULL DEFAULT '' COMMENT '主键',
+  `UserName` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `UserCode` varchar(50) NOT NULL DEFAULT '' COMMENT '登录账号',
+  `PassWord` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `IsMember` int(2) NOT NULL DEFAULT '0' COMMENT '是否会员',
+  `IsActive` int(2) NOT NULL DEFAULT '1' COMMENT '是否可用用户',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `Phone` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- ----------------------------
+-- Records of userinfo
 -- ----------------------------

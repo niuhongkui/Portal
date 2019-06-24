@@ -56,5 +56,10 @@ namespace Common
                 return msg;
             }
         }
+
+        public static ApiMessage<string> Get(string strPhone)
+        {
+            return null;
+        }
     }
 }

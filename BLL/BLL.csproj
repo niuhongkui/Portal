@@ -44,10 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankBLL.cs" />
-    <Compile Include="CarBLL.cs" />
-    <Compile Include="OperatorBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaffBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

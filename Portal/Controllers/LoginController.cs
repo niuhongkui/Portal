@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BLL;
 using Model.Entity;
 using Common;
+using Model;
 using Newtonsoft.Json;
 using Portal.Models;
 
@@ -13,10 +14,10 @@ namespace Portal.Controllers
 {
     public class LoginController : BaseController
     {
-        private readonly OperatorBLL _bll;
+        private readonly StaffBLL _bll;
         public LoginController()
         {
-            _bll = new OperatorBLL();
+            _bll = new StaffBLL();
             IsChecked = false;
         }
         // GET: Login
@@ -25,7 +26,7 @@ namespace Portal.Controllers
             return View();
         }
 
-        public ActionResult LoginOn(Operator ope)
+        public ActionResult LoginOn(staff ope)
         {
             ope.PassWord = Encrypt.MD5(ope.PassWord);
 
@@ -52,7 +53,7 @@ namespace Portal.Controllers
         {
             Session["user"] = null;
             CacheHelper.RemoveCache(Encrypt.MD5(UserInfo.Id + "_" + UserInfo.UserType));
-            return View("Login/index");
+            return View("index");
         }
 
         

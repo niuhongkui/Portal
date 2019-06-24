@@ -106,80 +106,27 @@ namespace Model
 	
 
     
-	[TableName("portal.action")]
-	[PrimaryKey("Id")]
-	[ExplicitColumns]
-    public partial class action : DB.Record<action>  
-    {
-		[Column] public int Id { get; set; }
-		[Column] public string Name { get; set; }
-		[Column] public string PkId { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public bool? IsDelete { get; set; }
-		[Column] public string CreateUser { get; set; }
-		[Column] public int? CarId { get; set; }
-	}
-    
-	[TableName("portal.atm")]
-	[PrimaryKey("Id", AutoIncrement=false)]
-	[ExplicitColumns]
-    public partial class atm : DB.Record<atm>  
-    {
-		[Column] public string Id { get; set; }
-		[Column] public string Name { get; set; }
-		[Column] public string Province { get; set; }
-		[Column] public string City { get; set; }
-		[Column] public string County { get; set; }
-		[Column] public string Address { get; set; }
-		[Column] public string BankId { get; set; }
-		[Column] public string CreateDate { get; set; }
-		[Column] public string UpdateDate { get; set; }
-		[Column] public bool? IsDelate { get; set; }
-	}
-    
-	[TableName("portal.bank")]
-	[PrimaryKey("Id", AutoIncrement=false)]
-	[ExplicitColumns]
-    public partial class bank : DB.Record<bank>  
-    {
-		[Column] public string Id { get; set; }
-		[Column] public string Name { get; set; }
-		[Column] public string Code { get; set; }
-		[Column] public DateTime? UpdateDate { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public bool? IsDelete { get; set; }
-		[Column] public string Admin { get; set; }
-	}
-    
-	[TableName("portal.car")]
-	[PrimaryKey("Id", AutoIncrement=false)]
-	[ExplicitColumns]
-    public partial class car : DB.Record<car>  
-    {
-		[Column] public string Id { get; set; }
-		[Column] public string Name { get; set; }
-		[Column] public string Code { get; set; }
-		[Column] public string BankId { get; set; }
-		[Column] public string BankName { get; set; }
-		[Column] public string Admin { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public DateTime? UpdateDate { get; set; }
-		[Column] public bool? IsDelete { get; set; }
-	}
-    
 	[TableName("portal.meal")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class meal : DB.Record<meal>  
     {
 		[Column] public string ID { get; set; }
+		[Column] public string Code { get; set; }
 		[Column] public string Name { get; set; }
-		[Column] public int? StationID { get; set; }
-		[Column] public sbyte? IsAction { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
+		[Column] public string StationID { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string ImgUrl { get; set; }
+		[Column] public string StationName { get; set; }
+		[Column] public string StaffCode { get; set; }
+		[Column] public string StaffName { get; set; }
+		[Column] public decimal Price { get; set; }
+		[Column] public decimal OriginalPrice { get; set; }
 	}
     
 	[TableName("portal.mealdetail")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class mealdetail : DB.Record<mealdetail>  
     {
@@ -187,25 +134,23 @@ namespace Model
 		[Column] public string PID { get; set; }
 		[Column] public string ProductID { get; set; }
 		[Column] public string ProductName { get; set; }
-		[Column] public decimal? Price { get; set; }
+		[Column] public decimal Price { get; set; }
 		[Column] public string ImgUrl { get; set; }
+		[Column] public decimal Amount { get; set; }
+		[Column] public decimal OriginalPrice { get; set; }
+		[Column] public string ProductCode { get; set; }
 	}
     
-	[TableName("portal.operator")]
-	[PrimaryKey("Id", AutoIncrement=false)]
+	[TableName("portal.oldprice")]
 	[ExplicitColumns]
-    public partial class @operator : DB.Record<@operator>  
+    public partial class oldprice : DB.Record<oldprice>  
     {
-		[Column] public string Id { get; set; }
-		[Column] public string Name { get; set; }
-		[Column] public string UserName { get; set; }
-		[Column] public string PassWord { get; set; }
-		[Column] public string UserType { get; set; }
-		[Column] public string Phone { get; set; }
-		[Column] public bool? IsDelete { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public DateTime? UpdateDate { get; set; }
-		[Column] public string PKId { get; set; }
+		[Column] public string ID { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public decimal Price { get; set; }
+		[Column] public string StaffCode { get; set; }
+		[Column] public string StaffName { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
 	}
     
 	[TableName("portal.order")]
@@ -224,7 +169,21 @@ namespace Model
 		[Column] public string CreateBankId { get; set; }
 	}
     
+	[TableName("portal.price")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class price : DB.Record<price>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public decimal Price { get; set; }
+		[Column] public string StaffCode { get; set; }
+		[Column] public string StaffName { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+	}
+    
 	[TableName("portal.product")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class product : DB.Record<product>  
     {
@@ -238,11 +197,13 @@ namespace Model
 		[Column] public string StationID { get; set; }
 		[Column] public string StationCode { get; set; }
 		[Column] public string StationName { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public sbyte? IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public string ImgUrl { get; set; }
 	}
     
 	[TableName("portal.producttype")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class producttype : DB.Record<producttype>  
     {
@@ -250,18 +211,28 @@ namespace Model
 		[Column] public string Code { get; set; }
 		[Column] public string Name { get; set; }
 		[Column] public string StationID { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string StaffID { get; set; }
+		[Column] public string StaffName { get; set; }
 	}
     
 	[TableName("portal.productunit")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class productunit : DB.Record<productunit>  
     {
 		[Column] public string ID { get; set; }
 		[Column] public string Name { get; set; }
 		[Column] public string Code { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string StaffID { get; set; }
+		[Column] public string StaffName { get; set; }
 	}
     
 	[TableName("portal.staff")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class staff : DB.Record<staff>  
     {
@@ -270,20 +241,30 @@ namespace Model
 		[Column] public string UserName { get; set; }
 		[Column] public string PassWord { get; set; }
 		[Column] public string StationID { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public string Phone { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string StationName { get; set; }
+		[Column] public string StationCode { get; set; }
 	}
     
 	[TableName("portal.station")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class station : DB.Record<station>  
     {
 		[Column] public string ID { get; set; }
+		[Column] public string Code { get; set; }
 		[Column] public string Name { get; set; }
 		[Column] public string Address { get; set; }
-		[Column] public decimal? Latitude { get; set; }
-		[Column] public decimal? Longitude { get; set; }
+		[Column] public decimal Latitude { get; set; }
+		[Column] public decimal Longitude { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
 	}
     
 	[TableName("portal.userinfo")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class userinfo : DB.Record<userinfo>  
     {
@@ -291,5 +272,9 @@ namespace Model
 		[Column] public string UserName { get; set; }
 		[Column] public string UserCode { get; set; }
 		[Column] public string PassWord { get; set; }
+		[Column] public int IsMember { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string Phone { get; set; }
 	}
 }

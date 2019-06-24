@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Common;
+using Model;
 using Model.Entity;
 
 namespace Portal.Models
@@ -17,15 +18,15 @@ namespace Portal.Models
         /// </summary>
         /// <param name="admin"></param>
         /// <returns></returns>
-        public static CurrentUser FormatUser(Operator admin)
+        public static CurrentUser FormatUser(staff admin)
         {
             CurrentUser user = new CurrentUser();
             user.PassWord = admin.PassWord;
             user.UserName = admin.UserName;
-            user.Name = admin.Name;
-            user.UserType = admin.UserType;
+            user.UserCode = admin.UserCode;
+            user.UserType = "管理员";
             user.Phone = admin.Phone;
-            user.Id = admin.Id;
+            user.Id = admin.ID;
             //foreach (var n in admin.Roles)
             //{
             //    foreach (var l in n.Limits)
