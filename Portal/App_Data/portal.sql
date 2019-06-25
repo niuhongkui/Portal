@@ -10,10 +10,29 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-06-24 15:32:24
+Date: 2019-06-25 18:07:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cart`
+-- ----------------------------
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `UserInfoID` varchar(50) NOT NULL COMMENT '登录人ID',
+  `CreateDate` datetime NOT NULL COMMENT '创建日期',
+  `CartType` int(2) NOT NULL COMMENT '1正常商品，2促销，3套餐',
+  PRIMARY KEY (`ID`),
+  KEY `u_c_PK` (`UserInfoID`),
+  CONSTRAINT `u_c_PK` FOREIGN KEY (`UserInfoID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
+
+-- ----------------------------
+-- Records of cart
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `meal`
@@ -32,6 +51,7 @@ CREATE TABLE `meal` (
   `StaffName` varchar(50) NOT NULL COMMENT '创建人',
   `Price` decimal(10,2) NOT NULL COMMENT '价格',
   `OriginalPrice` decimal(10,2) NOT NULL COMMENT '原价',
+  `IsMember` int(2) NOT NULL DEFAULT '0' COMMENT '会员专享',
   PRIMARY KEY (`ID`),
   KEY `station_m_PK` (`StationID`),
   CONSTRAINT `station_m_PK` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -86,17 +106,19 @@ CREATE TABLE `oldprice` (
 -- ----------------------------
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
-  `Id` varchar(45) NOT NULL,
-  `OrderNo` varchar(45) DEFAULT NULL,
-  `AtmId` varchar(45) DEFAULT NULL,
-  `EndTime` datetime DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `State` int(11) DEFAULT NULL,
-  `IsDelete` bit(1) DEFAULT NULL,
-  `CreateUserId` varchar(45) DEFAULT NULL,
-  `CreateBankId` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `OrderNo` varchar(50) NOT NULL COMMENT '单号',
+  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `State` int(2) NOT NULL COMMENT '1待支付,2已支付,3已取货,',
+  `IsActive` int(2) NOT NULL COMMENT '是否有效',
+  `UserID` varchar(50) NOT NULL COMMENT '下单人',
+  `UserName` varchar(50) NOT NULL COMMENT '下单人名称',
+  `Remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `Amount` decimal(8,2) NOT NULL COMMENT '订单数量',
+  `Money` varchar(255) NOT NULL COMMENT '订单金额',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单';
 
 -- ----------------------------
 -- Records of order
@@ -193,6 +215,69 @@ CREATE TABLE `productunit` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `promot`
+-- ----------------------------
+DROP TABLE IF EXISTS `promot`;
+CREATE TABLE `promot` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `Code` varchar(50) NOT NULL COMMENT '编码',
+  `Name` varchar(50) NOT NULL COMMENT '套餐名称',
+  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
+  `IsActive` int(2) NOT NULL COMMENT '有效',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `ImgUrl` varchar(50) NOT NULL COMMENT '图片路径',
+  `StationName` varchar(50) NOT NULL COMMENT '站点名称',
+  `StaffCode` varchar(50) NOT NULL COMMENT '创建人',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
+  `PromotType` varchar(50) NOT NULL COMMENT '打折，直降，满减',
+  `IsMember` int(2) NOT NULL DEFAULT '0' COMMENT '会员专享',
+  PRIMARY KEY (`ID`),
+  KEY `station_promot_PK` (`StationID`),
+  CONSTRAINT `station_promot_PK` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='促销主表';
+
+-- ----------------------------
+-- Records of promot
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `promotdetail`
+-- ----------------------------
+DROP TABLE IF EXISTS `promotdetail`;
+CREATE TABLE `promotdetail` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `PID` varchar(50) NOT NULL COMMENT '外键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品Id',
+  `OriginalPrice` decimal(10,2) NOT NULL COMMENT '原价',
+  PRIMARY KEY (`ID`),
+  KEY `promot_d_Pk` (`PID`),
+  CONSTRAINT `promot_d_Pk` FOREIGN KEY (`PID`) REFERENCES `promot` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='促销明显';
+
+-- ----------------------------
+-- Records of promotdetail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `promotrule`
+-- ----------------------------
+DROP TABLE IF EXISTS `promotrule`;
+CREATE TABLE `promotrule` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `PID` varchar(50) NOT NULL COMMENT '外键',
+  `Text` varchar(50) NOT NULL COMMENT '文本显示',
+  `ExePrice` decimal(10,4) NOT NULL DEFAULT '0.0000' COMMENT '用于计算价格，直降金额，打折比例，满减扣减',
+  `Condition` decimal(10,4) NOT NULL COMMENT '满减条件',
+  PRIMARY KEY (`ID`),
+  KEY `promot_r_PK` (`PID`),
+  CONSTRAINT `promot_r_PK` FOREIGN KEY (`PID`) REFERENCES `promot` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='促销规则';
+
+-- ----------------------------
+-- Records of promotrule
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `staff`
 -- ----------------------------
 DROP TABLE IF EXISTS `staff`;
@@ -215,7 +300,7 @@ CREATE TABLE `staff` (
 -- ----------------------------
 -- Records of staff
 -- ----------------------------
-INSERT INTO `staff` VALUES ('2', '2', '3', '2', '1', '1', '1', '2019-06-24 13:34:10', '2', '2');
+INSERT INTO `staff` VALUES ('2', 'admin', '东风小区', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '15614385668', '2019-06-24 13:34:10', '东风小区', 'ST001');
 
 -- ----------------------------
 -- Table structure for `station`
@@ -237,7 +322,27 @@ CREATE TABLE `station` (
 -- ----------------------------
 -- Records of station
 -- ----------------------------
-INSERT INTO `station` VALUES ('1', '1', '1', '1', '0.000000', '0.000000', '1', '2019-06-24 13:32:53');
+INSERT INTO `station` VALUES ('1', 'ST001', '东风小区店', '新华路东风小学', '0.000000', '0.000000', '1', '2019-06-24 13:32:53');
+
+-- ----------------------------
+-- Table structure for `swiper`
+-- ----------------------------
+DROP TABLE IF EXISTS `swiper`;
+CREATE TABLE `swiper` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductName` varchar(50) DEFAULT NULL COMMENT '商品或者套餐名称',
+  `ProductID` int(11) DEFAULT NULL COMMENT '商品或者套餐ID',
+  `ImgUrl` varchar(255) NOT NULL COMMENT '轮播图片',
+  `Index` int(2) NOT NULL DEFAULT '1' COMMENT '排序',
+  `IsActive` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `StationID` int(11) NOT NULL COMMENT '所属服务站',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `ProductType` int(2) NOT NULL DEFAULT '1' COMMENT '1商品 2 促销 3 套餐'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图';
+
+-- ----------------------------
+-- Records of swiper
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `userinfo`
@@ -258,3 +363,4 @@ CREATE TABLE `userinfo` (
 -- ----------------------------
 -- Records of userinfo
 -- ----------------------------
+INSERT INTO `userinfo` VALUES ('1', 'niuhk', '15614385668', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '2019-06-24 18:08:29', '15614385668');
