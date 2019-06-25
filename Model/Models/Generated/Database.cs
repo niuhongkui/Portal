@@ -106,6 +106,18 @@ namespace Model
 	
 
     
+	[TableName("portal.cart")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class cart : DB.Record<cart>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public string UserInfoID { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public int CartType { get; set; }
+	}
+    
 	[TableName("portal.meal")]
 	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
@@ -123,6 +135,7 @@ namespace Model
 		[Column] public string StaffName { get; set; }
 		[Column] public decimal Price { get; set; }
 		[Column] public decimal OriginalPrice { get; set; }
+		[Column] public int IsMember { get; set; }
 	}
     
 	[TableName("portal.mealdetail")]
@@ -154,19 +167,21 @@ namespace Model
 	}
     
 	[TableName("portal.order")]
-	[PrimaryKey("Id", AutoIncrement=false)]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class order : DB.Record<order>  
     {
-		[Column] public string Id { get; set; }
+		[Column] public string ID { get; set; }
 		[Column] public string OrderNo { get; set; }
-		[Column] public string AtmId { get; set; }
-		[Column] public DateTime? EndTime { get; set; }
-		[Column] public DateTime? CreateDate { get; set; }
-		[Column] public int? State { get; set; }
-		[Column] public bool? IsDelete { get; set; }
-		[Column] public string CreateUserId { get; set; }
-		[Column] public string CreateBankId { get; set; }
+		[Column] public string StationID { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public int State { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public string UserID { get; set; }
+		[Column] public string UserName { get; set; }
+		[Column] public string Remark { get; set; }
+		[Column] public decimal Amount { get; set; }
+		[Column] public string Money { get; set; }
 	}
     
 	[TableName("portal.price")]
@@ -231,6 +246,48 @@ namespace Model
 		[Column] public string StaffName { get; set; }
 	}
     
+	[TableName("portal.promot")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class promot : DB.Record<promot>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string Code { get; set; }
+		[Column] public string Name { get; set; }
+		[Column] public string StationID { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string ImgUrl { get; set; }
+		[Column] public string StationName { get; set; }
+		[Column] public string StaffCode { get; set; }
+		[Column] public string StaffName { get; set; }
+		[Column] public string PromotType { get; set; }
+		[Column] public int IsMember { get; set; }
+	}
+    
+	[TableName("portal.promotdetail")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class promotdetail : DB.Record<promotdetail>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string PID { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public decimal OriginalPrice { get; set; }
+	}
+    
+	[TableName("portal.promotrule")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class promotrule : DB.Record<promotrule>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string PID { get; set; }
+		[Column] public string Text { get; set; }
+		[Column] public decimal ExePrice { get; set; }
+		[Column] public decimal Condition { get; set; }
+	}
+    
 	[TableName("portal.staff")]
 	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
@@ -261,6 +318,21 @@ namespace Model
 		[Column] public decimal Longitude { get; set; }
 		[Column] public int IsActive { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
+	}
+    
+	[TableName("portal.swiper")]
+	[ExplicitColumns]
+    public partial class swiper : DB.Record<swiper>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string ProductName { get; set; }
+		[Column] public int? ProductID { get; set; }
+		[Column] public string ImgUrl { get; set; }
+		[Column] public int Index { get; set; }
+		[Column] public int IsActive { get; set; }
+		[Column] public int StationID { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public int ProductType { get; set; }
 	}
     
 	[TableName("portal.userinfo")]
