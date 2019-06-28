@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class PriceController : Controller
+    public class PriceController : BaseController
     {
         // GET: Price
         public ActionResult Index()

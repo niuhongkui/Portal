@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-06-25 18:07:12
+Date: 2019-06-28 18:10:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -187,13 +187,14 @@ CREATE TABLE `producttype` (
   PRIMARY KEY (`ID`),
   KEY `Station_p_pk` (`StationID`),
   KEY `Staff_p_pk` (`StaffID`),
-  CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StationID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Station_p_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类别';
 
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
+INSERT INTO `producttype` VALUES ('1', 't123', '蔬菜', '1', '1', '2019-06-28 17:43:48', '2', 'admin');
 
 -- ----------------------------
 -- Table structure for `productunit`

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class PromotController : Controller
+    public class PromotController : BaseController
     {
         // GET: Promot
         public ActionResult Index()

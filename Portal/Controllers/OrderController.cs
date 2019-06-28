@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         // GET: Order
         public ActionResult Index()

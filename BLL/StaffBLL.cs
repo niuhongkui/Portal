@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common;
 using DAL;
 using Model;
+using Model.Entity;
 
 namespace BLL
 {

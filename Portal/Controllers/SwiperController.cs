@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class SwiperController : Controller
+    public class SwiperController : BaseController
     {
         // GET: Swiper
         public ActionResult Index()

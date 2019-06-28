@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    public class StationController : Controller
+    public class StationController : BaseController
     {
         // GET: Station
         public ActionResult Index()

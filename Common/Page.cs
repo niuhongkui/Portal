@@ -12,6 +12,12 @@ namespace Common
         {
             rows = new List<T>();
         }
+        public Page(BaseParm parm)
+        {
+            PageIndex = parm.index;
+            PageSize = parm.rows;
+            rows = new List<T>();
+        }
         public int PageIndex { set; get; }
 
         public int PageSize { set; get; }

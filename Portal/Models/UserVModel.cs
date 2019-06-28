@@ -27,6 +27,9 @@ namespace Portal.Models
             user.UserType = "管理员";
             user.Phone = admin.Phone;
             user.Id = admin.ID;
+            user.StationId = admin.StationID;
+            user.StationCode = admin.StationCode;
+            user.StationName = admin.StationName;
             //foreach (var n in admin.Roles)
             //{
             //    foreach (var l in n.Limits)

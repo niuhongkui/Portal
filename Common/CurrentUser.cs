@@ -18,7 +18,9 @@ namespace Common
         public string PassWord { set; get; }
         public string ImageUrl { set; get; }
         public string UserType { set; get; }
-
+        public string StationId { set; get; }
+        public string StationName { set; get; }
+        public string StationCode { set; get; }
         public string Phone { set; get; }
 
         public string Message { set; get; }

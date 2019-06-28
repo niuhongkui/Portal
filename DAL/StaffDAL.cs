@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Model;
+using Model.Entity;
 
 namespace DAL
 {

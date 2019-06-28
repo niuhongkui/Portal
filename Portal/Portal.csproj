@@ -2044,6 +2044,7 @@
     <Content Include="images\bg_header.jpg" />
     <Content Include="images\bg_header_1.jpg" />
     <Content Include="images\bg_header_2.jpg" />
+    <Content Include="images\favicon.ico" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Content\themes\material\images\Thumbs.db" />
@@ -2117,6 +2118,7 @@
     <Compile Include="App_Start\SwaggerNet.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\BaseApiController.cs" />
+    <Compile Include="Controllers\Api\ProductController.cs" />
     <Compile Include="Controllers\Api\UserInfoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2125,6 +2127,7 @@
     <Compile Include="Controllers\MealController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PriceController.cs" />
+    <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\PromotController.cs" />
     <Compile Include="Controllers\ReturnOrderController.cs" />
     <Compile Include="Controllers\StationController.cs" />
@@ -2163,6 +2166,8 @@
     <Content Include="Views\Station\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\ReturnOrder\Index.cshtml" />
+    <Content Include="Views\ProductType\Index.cshtml" />
+    <Content Include="Views\ProductType\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
