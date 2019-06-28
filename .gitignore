@@ -15,3 +15,12 @@
 /Model/obj/Debug
 /Portal/Logs
 /.vs
+/BLL/bin/Release
+/BLL/obj/Release
+/Common/bin/Release
+/Common/obj/Release
+/DAL
+/Model
+/Portal/Properties/PublishProfiles
+/Portal/obj/Release/TransformWebConfig
+/Portal/obj/Release

@@ -2053,6 +2053,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\11.pubxml" />
     <None Include="scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -2121,7 +2122,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\LoginOnController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MealController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PriceController.cs" />
+    <Compile Include="Controllers\PromotController.cs" />
+    <Compile Include="Controllers\ReturnOrderController.cs" />
+    <Compile Include="Controllers\StationController.cs" />
+    <Compile Include="Controllers\SwiperController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Filter\RequestAuthorizeAttribute.cs" />
     <Compile Include="Filter\WebApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -2129,6 +2138,7 @@
     </Compile>
     <Compile Include="Models\UserVModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -2144,6 +2154,15 @@
     <Content Include="Views\System\Index.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="SwaggerUI\lib\.DS_Store" />
+    <Content Include="Views\Meal\Index.cshtml" />
+    <Content Include="Views\Promot\Index.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Price\Index.cshtml" />
+    <Content Include="Views\Swiper\Index.cshtml" />
+    <Content Include="Views\UserInfo\Index.cshtml" />
+    <Content Include="Views\Station\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\ReturnOrder\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

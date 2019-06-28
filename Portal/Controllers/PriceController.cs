@@ -6,20 +6,12 @@ using System.Web.Mvc;
 
 namespace Portal.Controllers
 {
-    /// <summary>
-    /// 系统设置
-    /// </summary>
-    public class SystemController : BaseController
+    public class PriceController : Controller
     {
-        // GET: System
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        // GET: Price
         public ActionResult Index()
         {
             return View();
         }
-       
     }
 }
