@@ -11,11 +11,23 @@ namespace BLL
 {
     public class ProductTypeBLL
     {
-        private ProductTypeDAL _dal = new ProductTypeDAL();
+        private readonly ProductTypeDAL _dal = new ProductTypeDAL();
 
         public Page<producttype> List(BaseParm parm)
         {
             return _dal.List(parm);
+        }
+        public ApiMessage<string> Delete(string id)
+        {
+            return _dal.Delete(id);
+        }
+        public ApiMessage<string> Edit(producttype parm)
+        {
+            return _dal.Edit(parm);
+        }
+        public ApiMessage<producttype> Get(string id)
+        {
+            return _dal.Get(id);
         }
     }
 }

@@ -21,7 +21,17 @@
                 { field: 'ck', checkbox: true },
                 { field: 'Code', title: '类型编码', width: 200 },
                 { field: 'Name', title: '类型名称', width: 200 },
-                { field: 'IsActive', title: '是否启用', width: 200 }
+                {
+                    field: 'CreateDate', title: '创建时间', width: 200, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                },
+                {
+                    field: 'IsActive', title: '是否启用', width: 200, formatter: function (value) {
+                        return value == "1" ? "启用" : "不启用";
+                    }
+                }
             ]],
             toolbar: [{
                 text: '添加',
@@ -31,23 +41,13 @@
                     edit(0);
                 }
             }, '-', {
-                text: '导出模板',
-                iconCls: 'icon-print',
-                handler: function () {
-                }
-            }, '-', {
-                text: '导入',
-                iconCls: 'icon-save',
-                handler: function () {
-                }
-            }, '-', {
                 text: '修改',
                 iconCls: 'icon-cut',
                 handler: function () {
                     //实现弹出修改
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        edit(row[0].Id);
+                        edit(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -59,7 +59,7 @@
                     //确认只删除一条用户信息
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        del(row[0].Id);
+                        del(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -68,12 +68,12 @@
         });
     }
     function edit(id) {
-        addTab("类别信息", "/producttype/edit/" + id, "icon-text-align-left", false);
+        addTab("类别信息", "/producttype/edit?id=" + id, "icon-text-align-left", false);
     }
     function del(id) {
-        $.messager.confirm("删除", "确定删除吗？", function(r) {
+        $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
-                $.get("/api/bankapi/delete/" + id, function(data) {
+                $.get("/producttype/delete?id=" + id, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
                         $('#gd_type').datagrid("reload");
@@ -93,7 +93,7 @@
     <div region="north" border="false" style="height:50px">
         <div style="padding-left:10px;margin-top:10px">
             <label for="Name">类别名称:</label>
-            <input class="easyui-searchbox" type="text" name="Name" data-options="searcher:search,prompt:'请输入类别名称'" />
+            <input class="easyui-searchbox form-control"  type="text" name="Name" data-options="searcher:search,prompt:'请输入类别名称'" />
         </div>
     </div>
     <div region="center" border="false">
