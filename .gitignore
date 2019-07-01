@@ -19,8 +19,10 @@
 /BLL/obj/Release
 /Common/bin/Release
 /Common/obj/Release
-/DAL
-/Model
 /Portal/Properties/PublishProfiles
 /Portal/obj/Release/TransformWebConfig
 /Portal/obj/Release
+/Model/bin/Release
+/Model/obj/Release
+/DAL/obj/Release
+/DAL/bin/Release
