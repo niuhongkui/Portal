@@ -23,6 +23,10 @@ namespace BLL
         }
         public ApiMessage<string> Edit(producttype parm)
         {
+            if (string.IsNullOrEmpty(parm.ID))
+            {
+                parm.Code = CodeNo.Get(CodeType.ProductType);
+            }
             return _dal.Edit(parm);
         }
         public ApiMessage<producttype> Get(string id)

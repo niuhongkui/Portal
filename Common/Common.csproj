@@ -58,6 +58,7 @@
     <Compile Include="ApiMessage.cs" />
     <Compile Include="BaseParm.cs" />
     <Compile Include="CacheHelper.cs" />
+    <Compile Include="CodeNo.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="Encrypt.cs" />
     <Compile Include="LogHelper.cs" />

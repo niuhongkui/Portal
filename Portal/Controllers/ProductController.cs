@@ -8,12 +8,30 @@ using Common;
 
 namespace Portal.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ProductController : BaseController
     {
-        private readonly ProductBLL _typeBll = new ProductBLL();
+        private readonly ProductBLL _proBll = new ProductBLL();
         // GET: Product
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult Edit(string id)
+        {
+            ViewBag.Id = id;
             return View();
         }
 
@@ -23,11 +41,21 @@ namespace Portal.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public JsonResult GetType(BaseParm parm)
+        public JsonResult List(BaseParm parm)
         {
             parm.Id = UserInfo.StationId;
-            var json = _typeBll.List(parm);
+            var json = _proBll.List(parm);
             return Json(json);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonResult Get(string id)
+        {
+            var json = _proBll.Get(id);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

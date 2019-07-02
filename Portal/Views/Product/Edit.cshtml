@@ -9,7 +9,7 @@
         methods: {
             init: function () {
                 var that = this;
-                var url = "/producttype/Get?id=" + (that.id ? that.id : "");
+                var url = "/product/Get?id=" + (that.id ? that.id : "");
                 $.get(url, function (json) {
                     if (json.Success) {
                         that.form = json.Data;
@@ -21,7 +21,7 @@
                 that.form.IsActive = that.form.IsActive ? 1 : 0;
                 $.ajax({
                     method: "post",
-                    url: "/producttype/editjson/" ,
+                    url: "/product/editjson/" ,
                     data: that.form,
                     success: function (json) {
                         if (json.Success) {
@@ -42,15 +42,15 @@
 <div id="fmType" style="margin-top: 50px">
     <form class="form-horizontal col-sm-10 ">
         <div class="form-group">
-            <label class="col-sm-2 control-label">类别名称</label>
+            <label class="col-sm-2 control-label">商品名称</label>
             <div class="col-sm-10">
-                <input type="text" v-model="form.Name" class="form-control" placeholder="请输入类别名称">
+                <input type="text" v-model="form.Name" class="form-control" placeholder="请输入商品名称">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">类别编码</label>
+            <label class="col-sm-2 control-label">商品编码</label>
             <div class="col-sm-10">
-                <input type="text" v-model="form.Code" class="form-control" placeholder="请输入类别编码">
+                <input type="text" v-model="form.Code" class="form-control" placeholder="请输入商品编码">
             </div>
         </div>
         <div class="form-group">
@@ -59,7 +59,7 @@
                 <input type="checkbox" v-model="form.IsActive" class="form-control" placeholder="请输入管理员名称">
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
                 <button type="button" v-on:click="save" class="btn btn-default">保存</button>
