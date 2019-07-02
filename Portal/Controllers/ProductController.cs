@@ -57,5 +57,15 @@ namespace Portal.Controllers
             var json = _proBll.Get(id);
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetUnit()
+        {
+            var json = _proBll.GetUnit();
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -29,5 +29,10 @@ namespace BLL
         {
             return _dal.Get(id);
         }
+        
+        public Page<productunit> GetUnit()
+        {
+            return _dal.GetUnit();
+        }
     }
 }

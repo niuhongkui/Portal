@@ -71,5 +71,14 @@ namespace DAL
             json.Data = m;
             return json;
         }
+
+        public Page<productunit> GetUnit()
+        {
+            var page = new Page<productunit>();
+            var list= productunit.Fetch("");
+            page.rows = list;
+            page.total = list.Count;
+            return page;
+        }
     }
 }
