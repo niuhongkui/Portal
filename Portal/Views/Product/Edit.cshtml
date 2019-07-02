@@ -9,6 +9,12 @@
             unitData:[]
         },
         methods: {
+            selectType: function (e) {
+                this.form.TypeName = this.$refs["cbType"].selectedOptions[0].text;
+            },
+            selectUnit: function (e) {
+                this.form.UnitName = this.$refs["cbUnit"].selectedOptions[0].text;
+            },
             init: function () {
                 var that = this;
                 var url = "/product/Get?id=" + (that.id ? that.id : "");
@@ -64,8 +70,8 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">商品类型</label>
             <div class="col-sm-10">
-                <select class="form-control" v-model="form.TypeCode">
-                    <option v-for="option in typeData" value="option.Code">{{option.Name}}</option>
+                <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeCode">
+                    <option v-for="option in typeData" :value="option.Code">{{option.Name}}</option>
                 </select>
 
             </div>
@@ -73,8 +79,8 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">商品单位</label>
             <div class="col-sm-10">
-                <select class="form-control" v-model="form.UnitCode">
-                    <option v-for="option in unitData" value="option.Code">{{option.Name}}</option>
+                <select ref="cbUnit" v-on:change="selectUnit()" class="form-control" v-model="form.UnitCode">
+                    <option v-for="option in unitData" :value="option.Code">{{option.Name}}</option>
                 </select>
 
             </div>
