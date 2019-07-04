@@ -33,9 +33,11 @@
             save: function () {
                 var that = this;
                 that.form.IsActive = that.form.IsActive ? 1 : 0;
+                that.form.CreateDate = new Date();
+                that.form.ImgUrl = "2";
                 $.ajax({
                     method: "post",
-                    url: "/product/editjson/" ,
+                    url: "/product/save/" ,
                     data: that.form,
                     success: function (json) {
                         if (json.Success) {

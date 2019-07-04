@@ -42,5 +42,44 @@ namespace Portal.Controllers.Api
             CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 0, 30));
             return outData;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ApiMessage<string> VerifyCode(string strPhone)
+        {
+            var api=new ApiMessage<string>();
+
+
+            return api;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public ApiMessage<string> Registered(userinfo user)
+        {
+            var api = new ApiMessage<string>();
+
+
+            return api;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public ApiMessage<string> EditPassWord(userinfo user)
+        {
+            var api = new ApiMessage<string>();
+
+
+            return api;
+        }
+
     }
 }

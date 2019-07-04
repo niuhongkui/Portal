@@ -50,6 +50,7 @@ namespace DAL
             if (string.IsNullOrEmpty(t.ID))
             {
                 t.ID = Guid.NewGuid().ToString();
+                t.Code = CodeNo.Get(CodeType.Product);
                 t.Insert();
             }
             else
@@ -75,7 +76,7 @@ namespace DAL
         public Page<productunit> GetUnit()
         {
             var page = new Page<productunit>();
-            var list= productunit.Fetch("");
+            var list= productunit.Fetch(" where isactive=1");
             page.rows = list;
             page.total = list.Count;
             return page;

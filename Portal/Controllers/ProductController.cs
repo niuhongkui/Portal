@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BLL;
 using Common;
+using Model;
 
 namespace Portal.Controllers
 {
@@ -66,6 +67,20 @@ namespace Portal.Controllers
         {
             var json = _proBll.GetUnit();
             return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult Save(product model)
+        {
+            model.StationID = UserInfo.StationId;
+            model.StationCode = UserInfo.StationCode;
+            model.StationName = UserInfo.StationName;
+            model.CreateDate=DateTime.Now;
+            var json = _proBll.Edit(model);
+            return Json(json);
         }
     }
 }
