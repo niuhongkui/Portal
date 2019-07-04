@@ -2062,6 +2062,8 @@
     <Content Include="scripts\easyloader.js" />
     <Content Include="scripts\jquery-1.11.3.js" />
     <Content Include="scripts\jquery-1.11.3.min.js" />
+    <Content Include="scripts\jquery.ajax-upload..1.0.1.min.js" />
+    <Content Include="scripts\jquery.ajax-upload.1.0.1.js" />
     <Content Include="scripts\jquery.easyui-1.4.5.js" />
     <Content Include="scripts\jquery.easyui-1.4.5.min.js" />
     <Content Include="scripts\jquery.easyui.mobile-1.4.5.js" />
