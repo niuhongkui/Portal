@@ -24,7 +24,6 @@ namespace Portal.Controllers.Api
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [EnableCors("*", "x-requested-with,content-type", "POST,GET")]
         [HttpPost]
         [AllowAnonymous]
         public ApiMessage<object> LoginOn(userinfo user)
@@ -40,8 +39,16 @@ namespace Portal.Controllers.Api
             if (!userData.Success) return outData;
             var currentUser = UserVModel.FormatUser(userData.Data);
             var key = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
-            outData.Data = new { token = key, UserName = currentUser.UserName, UserType = currentUser.UserType };
-            CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 0, 30));
+            outData.Data = new
+            {
+                Token = key,
+                currentUser.UserName,
+                currentUser.UserCode,
+                currentUser.ImageUrl,
+                currentUser.Id,
+                currentUser.Phone
+            };
+            CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
             return outData;
         }
 
@@ -51,7 +58,7 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         public ApiMessage<string> VerifyCode(string strPhone)
         {
-            var api=new ApiMessage<string>();
+            var api = new ApiMessage<string>();
 
 
             return api;
