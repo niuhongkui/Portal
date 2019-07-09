@@ -7,6 +7,7 @@ using System.Web.Http;
 using BLL;
 using Common;
 using Model;
+using Portal.Filter;
 using Portal.Models;
 
 namespace Portal.Controllers.Api
@@ -23,6 +24,7 @@ namespace Portal.Controllers.Api
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
+        [EnableCors("*", "x-requested-with,content-type", "POST,GET")]
         [HttpPost]
         [AllowAnonymous]
         public ApiMessage<object> LoginOn(userinfo user)
