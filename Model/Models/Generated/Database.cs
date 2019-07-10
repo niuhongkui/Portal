@@ -348,5 +348,6 @@ namespace Model
 		[Column] public int IsActive { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string Phone { get; set; }
+		[Column] public string ImgUrl { get; set; }
 	}
 }

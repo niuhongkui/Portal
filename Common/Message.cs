@@ -7,6 +7,7 @@ using qcloudsms_csharp;
 using qcloudsms_csharp.json;
 using qcloudsms_csharp.httpclient;
 using System.Configuration;
+using Newtonsoft.Json;
 
 namespace Common
 {
@@ -29,8 +30,10 @@ namespace Common
             var msg = new ApiMessage<string>();
             try
             {
+                LogHelper.WriteLog(JsonConvert.SerializeObject(new {strPhone,strCode}),LogHelper.LogType.Info);
                 SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
                 var result = ssender.send(0, "86", strPhone, "【" + logoname + "】您的验证码是: " + strCode, "", "");
+                LogHelper.WriteLog(JsonConvert.SerializeObject(result), LogHelper.LogType.Info);
                 if (result.result == 0)
                     return msg;
                 msg.Success = false;

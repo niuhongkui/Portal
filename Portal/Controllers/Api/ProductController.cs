@@ -16,14 +16,29 @@ namespace Portal.Controllers.Api
     public class ProductController : BaseApiController
     {
         private readonly ProductTypeBLL _typeBll =new ProductTypeBLL();
+        private readonly ProductBLL _proBll = new ProductBLL();
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public Page<producttype> GetType(BaseParm parm)
+        [HttpPost]
+        [AllowAnonymous]
+        public Page<producttype> GetTypeList(BaseParm parm)
         {
             return _typeBll.List(parm);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public Page<product> GetList(BaseParm parm)
+        {
+            return _proBll.List(parm);
         }
     }
 }

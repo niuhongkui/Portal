@@ -7,6 +7,7 @@ using System.Web.Http;
 using BLL;
 using Common;
 using Model;
+using Model.Entity;
 using Portal.Filter;
 using Portal.Models;
 
@@ -56,11 +57,11 @@ namespace Portal.Controllers.Api
         /// 
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
         public ApiMessage<string> VerifyCode(string strPhone)
         {
-            var api = new ApiMessage<string>();
-
-
+            var api = _bll.VerifyCode(strPhone);
             return api;
         }
 
@@ -69,11 +70,11 @@ namespace Portal.Controllers.Api
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public ApiMessage<string> Registered(userinfo user)
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiMessage<string> Registered(UserInfoEx user)
         {
-            var api = new ApiMessage<string>();
-
-
+            var api = _bll.Registered(user);
             return api;
         }
 
@@ -82,11 +83,27 @@ namespace Portal.Controllers.Api
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public ApiMessage<string> EditPassWord(userinfo user)
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiMessage<string> EditPassWord(UserInfoEx user)
         {
-            var api = new ApiMessage<string>();
+            user.ID = UserInfo.Id;
+            user.UserCode = UserInfo.UserCode;
+            var api = _bll.EditPassWord(user);
+            return api;
+        }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<string> EditUser(UserInfoEx user)
+        {
+            user.ID = UserInfo.Id;
+            user.UserCode = UserInfo.UserCode;
+            var api = _bll.EditUser(user);
             return api;
         }
 

@@ -29,6 +29,9 @@ namespace Portal.Filter
             };
             var errMsg = JsonConvert.SerializeObject(err);
 
+            //记录异常
+            LogHelper.WriteLog(context.Exception.Message, LogHelper.LogType.Error);
+
             //系统异常码
             var oResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {

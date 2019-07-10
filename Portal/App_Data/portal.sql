@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-06-28 18:10:22
+Date: 2019-07-10 17:43:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,6 +132,8 @@ CREATE TABLE `price` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
   `Price` decimal(10,2) NOT NULL COMMENT '价格',
+  `UnitCode` varchar(50) NOT NULL COMMENT '商品单位Code',
+  `UnitName` varchar(50) NOT NULL COMMENT '商品单位Name',
   `StaffCode` varchar(50) NOT NULL COMMENT '创建人编码',
   `StaffName` varchar(50) NOT NULL COMMENT '创建人',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
@@ -170,6 +172,8 @@ CREATE TABLE `product` (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
+INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-04 13:28:07', '1', '/images/nopic.png');
+INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-04 13:28:24', '1', '/images/nopic.png');
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -194,7 +198,8 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('1', 't123', '蔬菜', '1', '1', '2019-06-28 17:43:48', '2', 'admin');
+INSERT INTO `producttype` VALUES ('d08eb24f-a4e4-43ab-8599-f1bdc96462e4', 'T201907020152143118', '蔬菜', '1', '1', '2019-07-02 13:53:27', '2', '东风小区');
+INSERT INTO `producttype` VALUES ('e942c436-79d0-4631-b527-f448155b31cd', 'T201907020153077066', '水果', '1', '1', '2019-07-02 13:53:07', '2', '东风小区');
 
 -- ----------------------------
 -- Table structure for `productunit`
@@ -214,6 +219,8 @@ CREATE TABLE `productunit` (
 -- ----------------------------
 -- Records of productunit
 -- ----------------------------
+INSERT INTO `productunit` VALUES ('1', '斤', '500g', '1', '2019-07-02 15:42:55', '1', '222');
+INSERT INTO `productunit` VALUES ('2', '千克', 'kg', '1', '2019-07-04 10:28:34', '1', '22');
 
 -- ----------------------------
 -- Table structure for `promot`
@@ -358,10 +365,12 @@ CREATE TABLE `userinfo` (
   `IsActive` int(2) NOT NULL DEFAULT '1' COMMENT '是否可用用户',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `Phone` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  `ImgUrl` varchar(50) NOT NULL COMMENT '头像',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of userinfo
 -- ----------------------------
-INSERT INTO `userinfo` VALUES ('1', 'niuhk', '15614385668', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '2019-06-24 18:08:29', '15614385668');
+INSERT INTO `userinfo` VALUES ('0d860f4e-8048-48a8-a582-a703f6c85ff7', '用户_558316', '13191885668', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '0', '1', '2019-07-10 11:07:46', '13191885668', '');
+INSERT INTO `userinfo` VALUES ('1', 'niuhk', '15614385668', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '2019-06-24 18:08:29', '15614385668', '\'\'');

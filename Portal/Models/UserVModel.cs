@@ -53,6 +53,7 @@ namespace Portal.Models
             user.PassWord = admin.PassWord;
             user.UserName = admin.UserName;
             user.UserCode = admin.UserCode;
+            user.ImageUrl = admin.ImgUrl;
             user.UserType = "用户";
             user.Phone = admin.Phone;
             user.Id = admin.ID;

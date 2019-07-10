@@ -34,6 +34,10 @@
       <HintPath>..\packages\MySql.Data.6.8.8\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -46,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Order.cs" />
+    <Compile Include="Entity\UserInfoEx.cs" />
     <Compile Include="Models\Generated\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

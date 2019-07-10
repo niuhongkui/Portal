@@ -25,7 +25,7 @@ namespace Common
 
         public string Message { set; get; }
 
-        public List<Limit> Limits { set; get; } = new List<Limit>();
+        //public List<Limit> Limits { set; get; } = new List<Limit>();
 
     }
 

@@ -13,14 +13,24 @@ namespace DAL
         private DB _db = new DB();
         public Page<producttype> List(BaseParm parm)
         { 
-            parm.Name = "%" + parm.Name + "%";
             var page = new Page<producttype>(parm);
-            page.rows= producttype.Fetch(" where Name like @Name and stationId=@Id", parm)
+            var strSql =new StringBuilder();
+            strSql.Append(" where 1=1");
+            if (!string.IsNullOrEmpty(parm.Name))
+            {
+                parm.Name = "%" + parm.Name + "%";
+                strSql.Append(" AND Name like @Name");
+            }
+            if (!string.IsNullOrEmpty(parm.Id))
+            {
+                strSql.Append(" AND stationId like @Id");
+            }
+            page.rows= producttype.Fetch(strSql.ToString(), parm)
                     .Take(parm.rows)
                     .Skip(parm.index*parm.rows)
                     .ToList();
             page.total =
-                _db.FirstOrDefault<int>("select count(1) from producttype where Name like @Name and stationId=@Id", parm);
+                _db.FirstOrDefault<int>("select count(1) from producttype "+ strSql, parm);
 
             return page;
         }
