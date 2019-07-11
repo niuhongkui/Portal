@@ -64,7 +64,7 @@ namespace Portal.Controllers.Api
             var api = _bll.VerifyCode(strPhone);
             return api;
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -78,6 +78,18 @@ namespace Portal.Controllers.Api
             return api;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strPhone"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ApiMessage<string> Re_VerifyCode(string strPhone)
+        {
+            var api = _bll.Re_VerifyCode(strPhone);
+            return api;
+        }
         /// <summary>
         /// 
         /// </summary>

@@ -56,6 +56,19 @@ namespace BLL
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public ApiMessage<string> Re_VerifyCode(string strPhone)
+        {
+            var api = new ApiMessage<string>();
+            if (!_dal.GetByPhone(strPhone).Success) return VerifyCode(strPhone);
+            api.Success = false;
+            api.Msg = "手机号已注册";
+            return api;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         public ApiMessage<string> Registered(UserInfoEx user)
@@ -63,6 +76,12 @@ namespace BLL
             var api = new ApiMessage<string>();
 
             var gCode = CacheHelper.GetCache("VCode_" + user.UserCode);
+            if (_dal.GetByPhone(user.UserCode).Success)
+            {
+                api.Success = false;
+                api.Msg = "手机号已注册";
+                return api;
+            }
             if (gCode == null)
             {
                 api.Success = false;
@@ -73,12 +92,6 @@ namespace BLL
             {
                 api.Success = false;
                 api.Msg = "验证码有误";
-                return api;
-            }
-            if (!_dal.GetByPhone(user.UserCode).Success)
-            {
-                api.Success = false;
-                api.Msg = "手机号已存在";
                 return api;
             }
             var dbUser = new userinfo
