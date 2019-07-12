@@ -99,8 +99,6 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<string> EditPassWord(UserInfoEx user)
         {
-            user.ID = UserInfo.Id;
-            user.UserCode = UserInfo.UserCode;
             var api = _bll.EditPassWord(user);
             return api;
         }

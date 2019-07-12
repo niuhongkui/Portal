@@ -30,7 +30,7 @@ namespace BLL
         /// <returns></returns>
         public ApiMessage<string> VerifyCode(string strPhone)
         {
-            var api = new ApiMessage<string>();
+            var api = new ApiMessage<string>() {Msg = "发送成功"};
             var gCode = CacheHelper.GetCache("GCode_" + strPhone);
             if (gCode != null)
             {
@@ -131,7 +131,14 @@ namespace BLL
                 api.Msg = "验证码有误";
                 return api;
             }
-            var dbUser = _dal.Get(user.ID).Data;
+            var dbModel = _dal.GetByPhone(user.UserCode);
+            if (!dbModel.Success)
+            {
+                api.Success = false;
+                api.Msg = "账号不存在";
+                return api;
+            }
+            var dbUser = dbModel.Data;
             dbUser.PassWord = Encrypt.MD5(user.PassWord);
             return _dal.Edit(dbUser);
         }
