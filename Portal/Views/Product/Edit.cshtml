@@ -130,7 +130,7 @@
             <label class="col-sm-2 control-label">商品类型</label>
             <div class="col-sm-10">
                 <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeCode">
-                    <option v-for="option in typeData" value="option.Code">{{option.Name}}</option>
+                    <option v-for="option in typeData" :value="option.Code">{{option.Name}}</option>
                 </select>
             </div>
         </div>
@@ -138,7 +138,7 @@
             <label class="col-sm-2 control-label">商品单位</label>
             <div class="col-sm-10">
                 <select ref="cbUnit" v-on:change="selectUnit()" class="form-control" v-model="form.UnitCode">
-                    <option v-for="option in unitData" value="option.Code">{{option.Name}}</option>
+                    <option v-for="option in unitData" :value="option.Code">{{option.Name}}</option>
                 </select>
             </div>
         </div>

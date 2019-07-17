@@ -28,6 +28,11 @@
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
                 { field: 'ck', checkbox: true },
+                {
+                    field: 'ID', title: '价格', width: 60, formatter: function (value, row, index) {
+                        return "<a href='#' onclick='javascript:lookPrice(\"" + value + "\")'  class='easyui-linkbutton'>查看</a>"
+                    }
+                },
                 { field: 'Code', title: '商品编码', width: 180 },
                 { field: 'Name', title: '商品名称', width: 180 },
                 {
@@ -88,6 +93,10 @@
     function edit(id) {
         addTab("商品信息", "/product/edit?id=" + id, "icon-application", false);
     }
+    function lookPrice(id) {
+        addTab("商品信息", "/price/index?id=" + id, "icon-application-key", false);
+    }
+
     function del(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
