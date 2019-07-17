@@ -7,7 +7,7 @@
             form: {},
             typeData: [],
             unitData: [],
-            interval:null
+            interval: null
         },
         methods: {
             selectType: function (e) {
@@ -30,7 +30,7 @@
                 $.get("/product/getunit", function (json) {
                     that.unitData = json.rows;
                 });
-                
+
 
             },
             save: function () {
@@ -54,9 +54,25 @@
                     }
                 });
             },
-            delImg:function() {
-                var that = this;
-                that.form.ImgUrl = "";
+            handleAvatarSuccess(res, file) {
+                //URL.createObjectURL(file.raw);
+                if(res.Success)
+                    this.form.ImgUrl = res.Data;
+                else {
+                    $.messager.alert('提示', res.Msg, 'error');
+                }
+            },
+            beforeAvatarUpload(file) {
+                var isJPG = file.type === 'image/jpeg';
+                var isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             }
         },
         created: function () {
@@ -64,9 +80,38 @@
             that.init();
         }
     })
-    //图片上传 
-   
 </script>
+<style>
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+    .el-upload__input {
+        display: none !important
+    }
+</style>
 <div id="fmType" style="margin-top: 50px">
     <form class="form-horizontal col-sm-10 ">
         <div class="form-group">
@@ -85,7 +130,7 @@
             <label class="col-sm-2 control-label">商品类型</label>
             <div class="col-sm-10">
                 <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeCode">
-                    <option v-for="option in typeData" :value="option.Code">{{option.Name}}</option>
+                    <option v-for="option in typeData" value="option.Code">{{option.Name}}</option>
                 </select>
             </div>
         </div>
@@ -93,24 +138,27 @@
             <label class="col-sm-2 control-label">商品单位</label>
             <div class="col-sm-10">
                 <select ref="cbUnit" v-on:change="selectUnit()" class="form-control" v-model="form.UnitCode">
-                    <option v-for="option in unitData" :value="option.Code">{{option.Name}}</option>
+                    <option v-for="option in unitData" value="option.Code">{{option.Name}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">商品图片</label>
             <div class="col-sm-10">
-                <img style="height: 200px; width: 200px" src="form.ImgUrl" onerror="vm.form.ImgUrl = '/images/nopic.png'"/>
-                <input type="hidden" id="hidImgName" /> 
-                <div class="col-sm-10">
-                    <button type="button" id="btnUploadImg" class="btn btn-default">上传</button> <button type="button" v-on:click="delImg" class="btn btn-default">删除</button>
-                </div>
+                <el-upload class="avatar-uploader"
+                           action="/upload/img"
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                           :before-upload="beforeAvatarUpload">
+                    <img v-if="form.ImgUrl" :src="form.ImgUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">是否启用</label>
             <div class="col-sm-10">
-                <input type="checkbox" v-model="form.IsActive" class="form-control" >
+                <input type="checkbox" v-model="form.IsActive" class="form-control">
             </div>
         </div>
         <div class="form-group">
