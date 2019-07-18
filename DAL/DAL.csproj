@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PriceDAL.cs" />
     <Compile Include="ProductDAL.cs" />
     <Compile Include="ProductTypeDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

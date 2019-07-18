@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PriceBLL.cs" />
     <Compile Include="ProductBLL.cs" />
     <Compile Include="ProductTypeBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

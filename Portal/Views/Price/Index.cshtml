@@ -1,7 +1,62 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
-}
+<style>
+    .datagrid-row {
+        height: 60px;
+    }
 
-<h2>Index</h2>
+    .datagrid-cell {
+        height: auto;
+    }
+</style>
+<script>
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_price').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/price/list?id=@ViewBag.Id',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ck', checkbox: true },,
+                { field: 'PCode', title: '商品编码', width: 180 },
+                { field: 'PName', title: '商品名称', width: 180 },
+                { field: 'TypeCode', title: '类型编码', width: 180 },
+                { field: 'TypeName', title: '类型名称', width: 180 },
+                { field: 'Code', title: '单位编码', width: 180 },
+                { field: 'Name', title: '单位名称', width: 180 },
+                { field: 'Price', title: '价格', width: 180 },
+                {
+                    field: 'CreateDate', title: '创建时间', width: 180, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                }
+            ]]
+        });
+    }
+    function edit(id) {
+        addTab("商品信息", "/product/edit?id=" + id, "icon-application", false);
+    }
 
+</script>
+
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div style="padding-left:10px;margin-top:10px">
+           
+        </div>
+    </div>
+    <div region="center" border="false">
+        <table id="gd_price"></table>
+    </div>
+</div>
