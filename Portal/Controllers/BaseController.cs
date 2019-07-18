@@ -47,7 +47,8 @@ namespace Portal.Controllers
             LogHelper.WriteLog(filterContext.Exception.Message, LogHelper.LogType.Error);
             //设置为true阻止golbal里面的错误执行
             filterContext.ExceptionHandled = true;
-            filterContext.Result = new RedirectResult("/home/error");
+            if (!Request.IsAjaxRequest())
+                filterContext.Result = new RedirectResult("/home/error");
         }
     }
 }
