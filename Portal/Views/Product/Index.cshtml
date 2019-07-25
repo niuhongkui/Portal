@@ -1,10 +1,10 @@
 ﻿
 <style>
     
-.datagrid-row {
+#d_product .datagrid-row {
   height: 60px;
 }
-.datagrid-cell   {
+#d_product .datagrid-cell   {
     height: auto;
 }
 </style>
@@ -123,7 +123,7 @@
             <input class="easyui-searchbox form-control" type="text" name="Name" data-options="searcher:search,prompt:'请输入商品名称'" />
         </div>
     </div>
-    <div region="center" border="false">
+    <div region="center" id="d_product" border="false">
         <table id="gd_product"></table>
     </div>
 </div>

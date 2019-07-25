@@ -1,20 +1,37 @@
 ﻿
-<style>
-    .datagrid-row {
-        height: 60px;
-    }
-
-    .datagrid-cell {
-        height: auto;
-    }
-</style>
 <script>
     $(function () {
         Query({});
     });
+    var page_price=function () {
+        var ths = this;
+        ths.editIndex = undefined;
+        ths.endEditing = function () {
+            if (ths.editIndex == undefined) { return true }
+            if ($('#gd_price').datagrid('validateRow', ths.editIndex)) {
+                $('#gd_price').datagrid('endEdit', ths.editIndex);
+                ths.editIndex = undefined;
+                return true;
+            } else {
+                return false;
+            }
+        }
+        ths.onClickRow = function (index) {
+            if (ths.editIndex != index) {
+                if (ths.endEditing()) {
+                    $('#gd_price').datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    ths.editIndex = index;
+                } else {
+                    $('#gd_price').datagrid('selectRow', ths.editIndex);
+                }
+            }
+        }
+    }
+    var obj_price = new page_price();
     function Query(parm) {
         $('#gd_price').datagrid({
-            title: '',
+            title: '商品价格',
             iconCls: 'icon-save',
             height: 500,
             nowrap: true,
@@ -25,23 +42,38 @@
             pagination: true,
             rownumbers: true,
             singleSelect: true,
+            onClickRow: function (index) {
+                obj_price.onClickRow(index);
+            },
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
-                { field: 'ck', checkbox: true },,
+                { field: 'ck', checkbox: true },
                 { field: 'PCode', title: '商品编码', width: 180 },
                 { field: 'PName', title: '商品名称', width: 180 },
                 { field: 'TypeCode', title: '类型编码', width: 180 },
                 { field: 'TypeName', title: '类型名称', width: 180 },
                 { field: 'Code', title: '单位编码', width: 180 },
                 { field: 'Name', title: '单位名称', width: 180 },
-                { field: 'Price', title: '价格', width: 180 },
+                { field: 'Price', title: '价格', width: 180, editor: { type: 'numberbox', options: { precision: 1 } } },
                 {
                     field: 'CreateDate', title: '创建时间', width: 180, formatter: function (str) {
+                        if (!str)
+                            return '';
+                        if (str.length < 3)
+                            return '';
                         var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
                         return d.format("yyyy-MM-dd hh:mm:ss");
                     }
                 }
-            ]]
+            ]],
+            toolbar: [{
+                text: '保存',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+
+                }
+            }]
         });
     }
     function edit(id) {
@@ -49,11 +81,10 @@
     }
 
 </script>
-
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
         <div style="padding-left:10px;margin-top:10px">
-           
+
         </div>
     </div>
     <div region="center" border="false">
