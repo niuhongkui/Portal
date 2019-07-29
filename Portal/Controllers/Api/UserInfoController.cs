@@ -10,6 +10,7 @@ using Model;
 using Model.Entity;
 using Portal.Filter;
 using Portal.Models;
+using System.IO;
 
 namespace Portal.Controllers.Api
 {
@@ -150,11 +151,41 @@ namespace Portal.Controllers.Api
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public ApiMessage<string> UploadImg(UserInfoEx user)
+        public ApiMessage<string> UploadImg()
         {
-            var api = _bll.EditPassWord(user);
-            return api;
+            var request = System.Web.HttpContext.Current.Request;
+            var res = new ApiMessage<string>();
+            var files = request.Files;
+            string[] limitPictureType = { ".JPG", ".JPEG", ".GIF", ".PNG", ".BMP" };
+            request.InputStream
+            if (files.Count > 0) {
+
+                var file = files[0];
+                var name = file.FileName;
+                //获取后缀名
+                string namejpg = Path.GetExtension(name).ToUpper();
+                //判断是否符合要求
+                if (!limitPictureType.Contains(namejpg) && file.ContentLength > 0)
+                {
+                    res.Success = false;
+                    res.Msg = "图片格式错误";
+                    return res;
+                }
+                var tempPath = $"/images/" + UserInfo.UserCode + "/";
+                //获取上传的路径
+                var path = System.Web.Hosting.HostingEnvironment.MapPath(tempPath);
+                //生成一个新的文件名
+                var gid = Guid.NewGuid().ToString();
+                var newname = gid + namejpg;
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                //上传
+                file.SaveAs(path + newname);
+                res.Data = tempPath + newname;
+                return res;
+            }
+
+            return new ApiMessage<string>() { Success=false,Msg="上传失败"};
         }
     }
 }
