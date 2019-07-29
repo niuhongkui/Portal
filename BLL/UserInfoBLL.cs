@@ -27,6 +27,20 @@ namespace BLL
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public ApiMessage<userinfo> LoginByToken(userinfo user)
+        {
+            var msgData= _dal.LoginByToken(user.UserCode);
+            if (!msgData.Success)
+                return msgData;
+            var key= Encrypt.MD5(msgData.Data.ID + "_用户" );
+            return key == user.PassWord ? msgData : new ApiMessage<userinfo>() {Success = false,Msg = "用户不存在"};
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public ApiMessage<string> VerifyCode(string strPhone)
         {

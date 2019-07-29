@@ -26,6 +26,19 @@ namespace DAL
             return new ApiMessage<userinfo> { Data = loginUser };
         }
 
+        public ApiMessage<userinfo> LoginByToken(string userCode)
+        {
+            var strSql = PetaPoco.Sql.Builder;
+            strSql.Append("select * from userinfo f  ");
+            strSql.Where("f.UserCode=@0  and f.IsActive=1", userCode);
+            var loginUser = _db.Fetch<userinfo>(strSql).FirstOrDefault();
+            if (string.IsNullOrEmpty(loginUser?.ID))
+            {
+                return new ApiMessage<userinfo> { MsgCode = "400", Msg = "用户不存在或密码有误", Success = false };
+            }
+            return new ApiMessage<userinfo> { Data = loginUser };
+        }
+
         public ApiMessage<string> Add(userinfo user)
         {
             var row = user.Insert();

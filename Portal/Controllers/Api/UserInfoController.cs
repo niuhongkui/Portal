@@ -54,6 +54,38 @@ namespace Portal.Controllers.Api
         }
 
         /// <summary>
+        /// 登录 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiMessage<object> LoginByToken(userinfo user)
+        {
+            var userData = _bll.LoginByToken(user);
+            var outData = new ApiMessage<object>
+            {
+                Success = userData.Success,
+                Msg = userData.Msg,
+                MsgCode = userData.MsgCode
+            };
+            if (!userData.Success) return outData;
+            var currentUser = UserVModel.FormatUser(userData.Data);
+            var key = Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType);
+            outData.Data = new
+            {
+                Token = key,
+                currentUser.UserName,
+                currentUser.UserCode,
+                currentUser.ImageUrl,
+                currentUser.Id,
+                currentUser.Phone
+            };
+            CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
+            return outData;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
