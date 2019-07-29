@@ -149,5 +149,12 @@ namespace Portal.Controllers.Api
             return api;
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiMessage<string> UploadImg(UserInfoEx user)
+        {
+            var api = _bll.EditPassWord(user);
+            return api;
+        }
     }
 }
