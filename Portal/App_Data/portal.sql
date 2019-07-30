@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-07-10 17:43:16
+Date: 2019-07-30 10:16:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -163,7 +163,7 @@ CREATE TABLE `product` (
   `StationName` varchar(50) NOT NULL COMMENT '服务站名称',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
-  `ImgUrl` varchar(50) NOT NULL COMMENT '图片',
+  `ImgUrl` varchar(255) NOT NULL COMMENT '图片',
   PRIMARY KEY (`ID`),
   KEY `station_pro_pk` (`StationID`),
   CONSTRAINT `station_pro_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -173,7 +173,8 @@ CREATE TABLE `product` (
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-04 13:28:07', '1', '/images/nopic.png');
-INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-04 13:28:24', '1', '/images/nopic.png');
+INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-25 09:50:40', '1', '/upload/20190717/9a65240a-883a-438d-8de9-f432e59b7205.JPG');
+INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', '500g', '斤', '1', 'ST001', '东风小区', '2019-07-12 17:01:41', '1', '/images/nopic.png');
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -365,7 +366,7 @@ CREATE TABLE `userinfo` (
   `IsActive` int(2) NOT NULL DEFAULT '1' COMMENT '是否可用用户',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `Phone` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
-  `ImgUrl` varchar(50) NOT NULL COMMENT '头像',
+  `ImgUrl` varchar(200) NOT NULL COMMENT '头像',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
@@ -373,4 +374,7 @@ CREATE TABLE `userinfo` (
 -- Records of userinfo
 -- ----------------------------
 INSERT INTO `userinfo` VALUES ('0d860f4e-8048-48a8-a582-a703f6c85ff7', '用户_558316', '13191885668', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '0', '1', '2019-07-10 11:07:46', '13191885668', '');
-INSERT INTO `userinfo` VALUES ('1', 'niuhk', '15614385668', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '2019-06-24 18:08:29', '15614385668', '\'\'');
+INSERT INTO `userinfo` VALUES ('1', 'niuhk', '15614385668', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '1', '1', '2019-06-24 18:08:29', '15614385668', '/upload/20190717/9a65240a-883a-438d-8de9-f432e59b7205.JPG');
+INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '15614385666', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2019-07-29 11:02:09', '15614385666', '');
+INSERT INTO `userinfo` VALUES ('9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '15614385667', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2019-07-29 11:00:23', '15614385667', '');
+INSERT INTO `userinfo` VALUES ('97f6c8c6-2516-4523-aed7-292850bd8404', '用户_251672', '15614385662', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '0', '1', '2019-07-12 16:05:36', '15614385662', '');
