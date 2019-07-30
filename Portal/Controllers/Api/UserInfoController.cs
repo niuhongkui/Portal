@@ -11,6 +11,7 @@ using Model.Entity;
 using Portal.Filter;
 using Portal.Models;
 using System.IO;
+using System.Web;
 
 namespace Portal.Controllers.Api
 {
@@ -97,7 +98,7 @@ namespace Portal.Controllers.Api
             var api = _bll.VerifyCode(strPhone);
             return api;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -147,6 +148,14 @@ namespace Portal.Controllers.Api
             user.ID = UserInfo.Id;
             user.UserCode = UserInfo.UserCode;
             var api = _bll.EditUser(user);
+            if (api.Success)
+            {
+                var key = Encrypt.MD5(UserInfo.Id + "_用户");
+                var currentUser = (CurrentUser)CacheHelper.GetCache(key);
+                currentUser.UserName = user.UserName;
+                currentUser.ImageUrl = user.ImgUrl;
+                CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
+            }
             return api;
         }
 
@@ -157,9 +166,8 @@ namespace Portal.Controllers.Api
             var res = new ApiMessage<string>();
             var files = request.Files;
             string[] limitPictureType = { ".JPG", ".JPEG", ".GIF", ".PNG", ".BMP" };
-            request.InputStream
-            if (files.Count > 0) {
-
+            if (files.Count > 0)
+            {
                 var file = files[0];
                 var name = file.FileName;
                 //获取后缀名
@@ -182,10 +190,16 @@ namespace Portal.Controllers.Api
                 //上传
                 file.SaveAs(path + newname);
                 res.Data = tempPath + newname;
+                //更新数据库 
+                var user = new UserInfoEx();
+                user.UserName = UserInfo.UserName;
+                user.ImgUrl = res.Data;
+                EditUser(user);
+
                 return res;
             }
 
-            return new ApiMessage<string>() { Success=false,Msg="上传失败"};
+            return new ApiMessage<string>() { Success = false, Msg = "上传失败" };
         }
     }
 }
