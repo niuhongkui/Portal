@@ -192,6 +192,8 @@ namespace Model
 		[Column] public string ID { get; set; }
 		[Column] public string ProductID { get; set; }
 		[Column] public decimal Price { get; set; }
+		[Column] public string UnitCode { get; set; }
+		[Column] public string UnitName { get; set; }
 		[Column] public string StaffCode { get; set; }
 		[Column] public string StaffName { get; set; }
 		[Column] public DateTime CreateDate { get; set; }

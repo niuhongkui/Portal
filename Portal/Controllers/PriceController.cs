@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using BLL;
 using Common;
+using Model.Entity;
+using Newtonsoft.Json;
 
 namespace Portal.Controllers
 {
@@ -36,6 +38,16 @@ namespace Portal.Controllers
             var parm = new BaseParm {Id = id};
             var list = _bll.List(parm);
             return Json(list);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult Save(List<PriceEx> list)
+        {
+            var res = _bll.Save(list,UserInfo);
+            return Json(res);
         }
     }
 }

@@ -16,5 +16,6 @@ namespace Model.Entity
         public string PName { set; get; }
         public string TypeName { set; get; }
         public string TypeCode { set; get; }
+        public string ProductID { set; get; }
     }
 }

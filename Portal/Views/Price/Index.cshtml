@@ -42,7 +42,6 @@
             striped: false,
             url: '/price/list?id=@ViewBag.Id',
             border: true,
-            pagination: true,
             rownumbers: true,
             singleSelect: true,
             onClickRow: function(index) {
@@ -80,15 +79,37 @@
                     iconCls: 'icon-add',
                     handler: function() {
                         //实现弹出添加用户信息的层
-
+                        save();
                     }
                 }
             ]
         });
     }
 
-    function edit(id) {
-        addTab("商品信息", "/product/edit?id=" + id, "icon-application", false);
+    function save() {
+        var rows = $('#gd_price').datagrid("getRows");
+        var list = [];
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i].Price) {
+                if (rows[i].Price > 0) {
+                    list.push(rows[i]);
+                }
+            }
+        }
+        $.ajax({
+            method: "post",
+            url: "/price/save/",
+            contentType: "application/json;charset=utf-8",
+            dataType: 'json',
+            data:JSON.stringify(list),
+            success: function (json) {
+                if (json.Success) {
+                    $.messager.alert('提示', "保存成功！", 'info');
+                } else {
+                    $.messager.alert('提示', json.Msg, 'error');
+                }
+            }
+        });
     }
 
 </script>
