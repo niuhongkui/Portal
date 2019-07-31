@@ -83,5 +83,14 @@ namespace Portal.Controllers
             var json = _typeBll.Get(id);
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetCategory()
+        {
+            return Json(_typeBll.GetCategory());
+        }
     }
 }

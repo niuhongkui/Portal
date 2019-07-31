@@ -61,6 +61,7 @@
     <Compile Include="CodeNo.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="Encrypt.cs" />
+    <Compile Include="EnumberHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Page.cs" />

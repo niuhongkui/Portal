@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\Enums.cs" />
     <Compile Include="Entity\Order.cs" />
     <Compile Include="Entity\PriceEx.cs" />
     <Compile Include="Entity\UserInfoEx.cs" />

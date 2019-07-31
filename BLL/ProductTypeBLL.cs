@@ -33,5 +33,12 @@ namespace BLL
         {
             return _dal.Get(id);
         }
+
+        public Page<EnumberEntity> GetCategory()
+        {
+            var list = EnumberHelper.EnumToList<Model.Entity.Category>();
+            var page = new Page<EnumberEntity> {rows = list};
+            return page;
+        }
     }
 }
