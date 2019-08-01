@@ -15,7 +15,7 @@ namespace Portal.Controllers.Api
     /// </summary>
     public class ProductController : BaseApiController
     {
-        private readonly ProductTypeBLL _typeBll =new ProductTypeBLL();
+        private readonly ProductTypeBLL _typeBll = new ProductTypeBLL();
         private readonly ProductBLL _proBll = new ProductBLL();
         /// <summary>
         /// 
@@ -39,6 +39,29 @@ namespace Portal.Controllers.Api
         public Page<product> GetList(BaseParm parm)
         {
             return _proBll.List(parm);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ApiMessage<object> GetCate()
+        {
+            var list = new List<object>();
+            var top= _typeBll.GetCategory().rows;
+            var last = _typeBll.List(new BaseParm()).rows;
+            foreach (var item in top)
+            {
+                list.Add(new { id=item.EnumValue,name=item.EnumName});
+            }
+            foreach (var item in last)
+            {
+                list.Add(new {id=item.ID,pid=item.TopCategoryID,name=item.Name });
+            }
+            var res = new ApiMessage<object>();
+            res.Data = list;
+            return res;
         }
     }
 }
