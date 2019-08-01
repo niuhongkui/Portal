@@ -232,6 +232,9 @@ namespace Model
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string StaffID { get; set; }
 		[Column] public string StaffName { get; set; }
+		[Column] public string ImgUrl { get; set; }
+		[Column] public string TopCategoryID { get; set; }
+		[Column] public string TopCategoryName { get; set; }
 	}
     
 	[TableName("portal.productunit")]

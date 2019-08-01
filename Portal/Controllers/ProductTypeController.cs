@@ -90,7 +90,9 @@ namespace Portal.Controllers
         /// <returns></returns>
         public JsonResult GetCategory()
         {
-            return Json(_typeBll.GetCategory());
+            var list = _typeBll.GetCategory();
+            var res = list.rows.Select(n => new {id = n.EnumValue, text = n.EnumName});
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -21,6 +21,7 @@
                 { field: 'ck', checkbox: true },
                 { field: 'Code', title: '类型编码', width: 200 },
                 { field: 'Name', title: '类型名称', width: 200 },
+                { field: 'TopCategoryName', title: '大类名称', width: 200 },
                 {
                     field: 'CreateDate', title: '创建时间', width: 200, formatter: function (str) {
                         var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
@@ -85,15 +86,21 @@
         });
     }
     function search(value) {
-        Query({ Name: value });
+        var selId = $("#TopCategoryID").combobox("getValue");
+        Query({ Name: value, Type: selId });
     }
 </script>
 
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
-        <div style="padding-left:10px;margin-top:10px">
-            <label for="Name">类别名称:</label>
-            <input class="easyui-searchbox form-control"  type="text" name="Name" data-options="searcher:search,prompt:'请输入类别名称'" />
+        <div class="search-list">
+            <label class="search-lable" from="TopCategoryID">主类别:</label>
+            <select class="easyui-combobox form-control search-text" data-options="url:'/producttype/GetCategory',method:'get',
+					valueField:'id',
+					textField:'text',
+					panelHeight:'auto'" id="TopCategoryID" name="TopCategoryID"></select>
+            <label class="search-lable" for="Name">类别名称:</label>
+            <input class="easyui-searchbox form-control search-text" type="text" name="Name" data-options="searcher:search,prompt:'请输入类别名称'" />
         </div>
     </div>
     <div region="center" border="false">

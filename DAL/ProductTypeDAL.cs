@@ -25,6 +25,10 @@ namespace DAL
             {
                 strSql.Append(" AND stationId like @Id");
             }
+            if (!string.IsNullOrEmpty(parm.Type))
+            {
+                strSql.Append(" AND TopCategoryID = @Type");
+            }
             page.rows= producttype.Fetch(strSql.ToString(), parm)
                     .Take(parm.rows)
                     .Skip(parm.index*parm.rows)

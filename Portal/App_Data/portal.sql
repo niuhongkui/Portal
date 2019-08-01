@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-07-30 10:16:52
+Date: 2019-08-01 17:10:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -145,6 +145,8 @@ CREATE TABLE `price` (
 -- ----------------------------
 -- Records of price
 -- ----------------------------
+INSERT INTO `price` VALUES ('403da68b-f424-4646-b21b-9fe8deb504ed', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1.50', '500g', '斤', 'admin', '东风小区', '2019-07-30 15:44:36');
+INSERT INTO `price` VALUES ('99038a4d-35bf-4d92-bb63-207b0e4f35ee', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '3.00', 'kg', '千克', 'admin', '东风小区', '2019-07-30 15:44:36');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -189,6 +191,9 @@ CREATE TABLE `producttype` (
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `StaffID` varchar(50) NOT NULL COMMENT '创建人名称',
   `StaffName` varchar(50) NOT NULL COMMENT '创建人名称',
+  `ImgUrl` varchar(200) NOT NULL COMMENT '类型图片',
+  `TopCategoryID` varchar(50) NOT NULL COMMENT '一级大类型',
+  `TopCategoryName` varchar(50) NOT NULL COMMENT '一级大类型名称',
   PRIMARY KEY (`ID`),
   KEY `Station_p_pk` (`StationID`),
   KEY `Staff_p_pk` (`StaffID`),
@@ -199,8 +204,8 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('d08eb24f-a4e4-43ab-8599-f1bdc96462e4', 'T201907020152143118', '蔬菜', '1', '1', '2019-07-02 13:53:27', '2', '东风小区');
-INSERT INTO `producttype` VALUES ('e942c436-79d0-4631-b527-f448155b31cd', 'T201907020153077066', '水果', '1', '1', '2019-07-02 13:53:07', '2', '东风小区');
+INSERT INTO `producttype` VALUES ('d08eb24f-a4e4-43ab-8599-f1bdc96462e4', 'T201907020152143118', '蔬菜', '1', '1', '2019-07-02 13:53:27', '2', '东风小区', ' ', '', '');
+INSERT INTO `producttype` VALUES ('e942c436-79d0-4631-b527-f448155b31cd', 'T201907020153077066', '水果', '1', '1', '2019-07-02 13:53:07', '2', '东风小区', ' ', '', '');
 
 -- ----------------------------
 -- Table structure for `productunit`
