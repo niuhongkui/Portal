@@ -57,7 +57,7 @@ namespace Portal.Controllers.Api
             }
             foreach (var item in last)
             {
-                list.Add(new {id=item.ID,pid=item.TopCategoryID,name=item.Name });
+                list.Add(new {id=item.ID,pid=item.TopCategoryID,name=item.Name, picture =item.ImgUrl});
             }
             var res = new ApiMessage<object>();
             res.Data = list;
