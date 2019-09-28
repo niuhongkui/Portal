@@ -68,7 +68,6 @@ namespace Portal.Controllers
             parm.CreateDate=DateTime.Now;
             parm.StaffID = UserInfo.Id;
             parm.StaffName = UserInfo.UserName;
-            parm.ImgUrl = "";
             var json = _typeBll.Edit(parm);
             return Json(json);
         }
