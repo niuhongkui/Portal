@@ -75,9 +75,6 @@ namespace Portal.Controllers
         /// <returns></returns>
         public JsonResult Save(product model)
         {
-            model.StationID = UserInfo.StationId;
-            model.StationCode = UserInfo.StationCode;
-            model.StationName = UserInfo.StationName;
             model.CreateDate=DateTime.Now;
             var json = _proBll.Edit(model);
             return Json(json);

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-08-01 17:10:40
+Date: 2019-09-28 17:30:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -146,6 +146,8 @@ CREATE TABLE `price` (
 -- Records of price
 -- ----------------------------
 INSERT INTO `price` VALUES ('403da68b-f424-4646-b21b-9fe8deb504ed', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1.50', '500g', '斤', 'admin', '东风小区', '2019-07-30 15:44:36');
+INSERT INTO `price` VALUES ('5227fab2-155a-4b4e-80af-ac6a6a07d200', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '6.00', 'kg', '千克', 'admin', '东风小区', '2019-08-15 13:56:50');
+INSERT INTO `price` VALUES ('60972cf7-04b2-454d-bfe8-79e0038aa755', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '3.00', '500g', '斤', 'admin', '东风小区', '2019-08-15 13:56:50');
 INSERT INTO `price` VALUES ('99038a4d-35bf-4d92-bb63-207b0e4f35ee', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '3.00', 'kg', '千克', 'admin', '东风小区', '2019-07-30 15:44:36');
 
 -- ----------------------------
@@ -160,23 +162,18 @@ CREATE TABLE `product` (
   `TypeName` varchar(50) NOT NULL COMMENT '类别名称',
   `UnitCode` varchar(50) NOT NULL COMMENT '单位编码',
   `UnitName` varchar(50) NOT NULL COMMENT '单位名称',
-  `StationID` varchar(50) NOT NULL COMMENT '服务站ID',
-  `StationCode` varchar(50) NOT NULL COMMENT '服务站code',
-  `StationName` varchar(50) NOT NULL COMMENT '服务站名称',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
   `ImgUrl` varchar(255) NOT NULL COMMENT '图片',
-  PRIMARY KEY (`ID`),
-  KEY `station_pro_pk` (`StationID`),
-  CONSTRAINT `station_pro_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-04 13:28:07', '1', '/images/nopic.png');
-INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201907020152143118', '蔬菜', 'kg', '千克', '1', 'ST001', '东风小区', '2019-07-25 09:50:40', '1', '/upload/20190717/9a65240a-883a-438d-8de9-f432e59b7205.JPG');
-INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', '500g', '斤', '1', 'ST001', '东风小区', '2019-07-12 17:01:41', '1', '/images/nopic.png');
+INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201907020152143118', '蔬菜', 'kg', '千克', '2019-07-04 13:28:07', '1', '/images/nopic.png');
+INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201907020152143118', '蔬菜', 'kg', '千克', '2019-07-25 09:50:40', '1', '/upload/20190717/9a65240a-883a-438d-8de9-f432e59b7205.JPG');
+INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', '500g', '斤', '2019-07-12 17:01:41', '1', '/images/nopic.png');
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -186,7 +183,6 @@ CREATE TABLE `producttype` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `Code` varchar(50) NOT NULL COMMENT '编码',
   `Name` varchar(50) NOT NULL COMMENT '类别名称',
-  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `StaffID` varchar(50) NOT NULL COMMENT '创建人名称',
@@ -195,17 +191,14 @@ CREATE TABLE `producttype` (
   `TopCategoryID` varchar(50) NOT NULL COMMENT '一级大类型',
   `TopCategoryName` varchar(50) NOT NULL COMMENT '一级大类型名称',
   PRIMARY KEY (`ID`),
-  KEY `Station_p_pk` (`StationID`),
   KEY `Staff_p_pk` (`StaffID`),
-  CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Station_p_pk` FOREIGN KEY (`StationID`) REFERENCES `station` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类别';
 
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('d08eb24f-a4e4-43ab-8599-f1bdc96462e4', 'T201907020152143118', '蔬菜', '1', '1', '2019-07-02 13:53:27', '2', '东风小区', ' ', '', '');
-INSERT INTO `producttype` VALUES ('e942c436-79d0-4631-b527-f448155b31cd', 'T201907020153077066', '水果', '1', '1', '2019-07-02 13:53:07', '2', '东风小区', ' ', '', '');
+INSERT INTO `producttype` VALUES ('0d3907a5-fd6f-46b6-8aa5-dab5c2fb19db', 'T201909280408181429', '777', '1', '2019-09-28 16:49:03', '2', '东风小区', '', '3', '调料');
 
 -- ----------------------------
 -- Table structure for `productunit`

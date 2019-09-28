@@ -211,9 +211,6 @@ namespace Model
 		[Column] public string TypeName { get; set; }
 		[Column] public string UnitCode { get; set; }
 		[Column] public string UnitName { get; set; }
-		[Column] public string StationID { get; set; }
-		[Column] public string StationCode { get; set; }
-		[Column] public string StationName { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public int IsActive { get; set; }
 		[Column] public string ImgUrl { get; set; }
@@ -227,7 +224,6 @@ namespace Model
 		[Column] public string ID { get; set; }
 		[Column] public string Code { get; set; }
 		[Column] public string Name { get; set; }
-		[Column] public string StationID { get; set; }
 		[Column] public int IsActive { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string StaffID { get; set; }
