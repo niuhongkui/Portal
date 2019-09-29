@@ -26,13 +26,12 @@
             },
             save: function () {
                 var that = this;
-                that.form.IsActive = that.form.IsActive ? 1 : 0;
+                var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
                 $.ajax({
                     method: "post",
                     url: "/producttype/editjson/",
-                    data: that.form,
+                    data: data,
                     success: function (json) {
-                        that.form.IsActive = that.form.IsActive ==1? true : false;
                         if (json.Success) {
                             $.messager.alert('提示', "保存成功！", 'info');
                         } else {
