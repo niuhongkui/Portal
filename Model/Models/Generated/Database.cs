@@ -322,16 +322,16 @@ namespace Model
 	}
     
 	[TableName("portal.swiper")]
+	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
     public partial class swiper : DB.Record<swiper>  
     {
 		[Column] public string ID { get; set; }
 		[Column] public string ProductName { get; set; }
-		[Column] public int? ProductID { get; set; }
+		[Column] public string ProductID { get; set; }
 		[Column] public string ImgUrl { get; set; }
 		[Column] public int Index { get; set; }
 		[Column] public int IsActive { get; set; }
-		[Column] public int StationID { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public int ProductType { get; set; }
 	}
@@ -350,5 +350,6 @@ namespace Model
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string Phone { get; set; }
 		[Column] public string ImgUrl { get; set; }
+		[Column] public DateTime? MemberDate { get; set; }
 	}
 }

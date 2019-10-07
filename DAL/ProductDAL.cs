@@ -22,10 +22,6 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND Name like @Name");
             }
-            if (!string.IsNullOrEmpty(parm.Id))
-            {
-                strSql.Append(" AND stationId like @Id");
-            }
             if (!string.IsNullOrEmpty(parm.Type))
             {
                 strSql.Append(" AND TypeCode like @Type");

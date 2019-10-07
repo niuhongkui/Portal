@@ -29,8 +29,11 @@
             columns: [[
                 { field: 'ck', checkbox: true },
                 {
-                    field: 'ID', title: '价格', width: 60, formatter: function (value, row, index) {
-                        return "<a href='#' onclick='javascript:lookPrice(\"" + value + "\")'  class='easyui-linkbutton'>查看</a>"
+                    field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
+                        var btn = "<a href='#' onclick='javascript:lookPrice(\"" + value + "\")'  class='easyui-linkbutton'>价格</a>"
+                        btn += " <a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a>";
+                        btn += " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        return btn;
                     }
                 },
                 { field: 'Code', title: '商品编码', width: 180 },
@@ -111,7 +114,8 @@
             }
         });
     }
-    function search(value) {
+    function searchList() {
+        var value = $("#p_name").textbox("getValue");
         Query({ Name: value });
     }
 </script>
@@ -120,7 +124,8 @@
     <div region="north" border="false" style="height:50px">
         <div class="search-list">
             <label class="search-lable" for="Name">商品名称:</label>
-            <input  class="easyui-searchbox form-control search-text" type="text" name="Name" data-options="searcher:search,prompt:'请输入商品名称'" />
+            <input id="p_name"  class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
     <div region="center" id="d_product" border="false">

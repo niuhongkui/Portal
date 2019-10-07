@@ -42,24 +42,60 @@ namespace DAL
         public ApiMessage<string> Add(userinfo user)
         {
             var row = user.Insert();
-            return new ApiMessage<string> { Msg = "保存成功"};
+            return new ApiMessage<string> { Msg = "保存成功" };
         }
 
         public ApiMessage<userinfo> GetByPhone(string strPhone)
         {
             var model = userinfo.FirstOrDefault(" where UserCode=@0", strPhone);
-            return model == null ? new ApiMessage<userinfo> { Success = false} : new ApiMessage<userinfo>() {Data = model};
+            return model == null ? new ApiMessage<userinfo> { Success = false } : new ApiMessage<userinfo>() { Data = model };
         }
 
         public ApiMessage<string> Edit(userinfo user)
         {
             var row = user.Update();
-            return row>0 ? new ApiMessage<string> { Msg = "保存成功" } : new ApiMessage<string> {Success = false,Msg = "保存失败" };
+            return row > 0 ? new ApiMessage<string> { Msg = "保存成功" } : new ApiMessage<string> { Success = false, Msg = "保存失败" };
         }
         public ApiMessage<userinfo> Get(string id)
         {
-            var api = new ApiMessage<userinfo> {Data = userinfo.FirstOrDefault(" where id=@0", id)};
+            var api = new ApiMessage<userinfo> { Data = userinfo.FirstOrDefault(" where id=@0", id) };
             return api;
         }
+
+        public Page<userinfo> List(BaseParm parm)
+        {
+            var page = new Page<userinfo>(parm);
+            var strSql = new StringBuilder();
+            strSql.Append(" where 1=1");
+            if (!string.IsNullOrEmpty(parm.Name))
+            {
+                parm.Name = "%" + parm.Name + "%";
+                strSql.Append(" AND UserName like @Name");
+            }
+            if (!string.IsNullOrEmpty(parm.Code))
+            {
+                parm.Code = "%" + parm.Code + "%";
+                strSql.Append(" AND UserName like @Code");
+            }
+            page.rows = userinfo.Fetch(strSql.ToString(), parm)
+                    .Take(parm.rows)
+                    .Skip(parm.index * parm.rows)
+                    .ToList();
+            page.total =
+                _db.FirstOrDefault<int>("select count(1) from userinfo " + strSql, parm);
+
+            return page;
+        }
+
+        public ApiMessage<string> Delete(string id)
+        {
+            var rows = userinfo.Delete("where id=@0", id);
+            if (rows > 0)
+                return new ApiMessage<string> { Msg = "删除成功" };
+            else
+                return new ApiMessage<string> { Success = false, Msg = "删除失败" };
+        }
+
+
     }
 }

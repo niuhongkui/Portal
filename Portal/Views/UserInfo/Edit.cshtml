@@ -1,51 +1,35 @@
 ﻿
 <script>
     var vm = new Vue({
-        el: '#fmType',
+        el: '#fmUser',
         data: {
             id: '@ViewBag.Id',
             form: {},
-            typeData: [],
-            unitData: [],
             interval: null
         },
         methods: {
-            selectType: function (e) {
-                this.form.TypeName = this.$refs["cbType"].selectedOptions[0].text;
-            },
-            selectUnit: function (e) {
-                this.form.UnitName = this.$refs["cbUnit"].selectedOptions[0].text;
-            },
             init: function () {
                 var that = this;
-                var url = "/product/Get?id=" + (that.id ? that.id : "");
+                var url = "/userinfo/Get?id=" + (that.id ? that.id : "");
                 $.get(url, function (json) {
                     if (json.Success) {
                         json.Data.IsActive = json.Data.IsActive == 1 ? true : false;
+                        json.Data.IsMember = json.Data.IsMember == 1 ? true : false;
                         that.form = json.Data;
                     }
                 });
-                $.post("/productType/gettype", {}, function (json) {
-                    that.typeData = json.rows;
-                });
-                $.get("/product/getunit", function (json) {
-                    that.unitData = json.rows;
-                });
-
-
             },
             save: function () {
                 var that = this;
-                if (!that.form.ImgUrl) {
-                    $.messager.alert('提示', "请添加图片！", 'info');
-                    return;
-                }
-                var that = this;
-                var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
+                var data = $.extend({}, that.form, {
+                    IsMember: that.form.IsMember ? 1 : 0,
+                    IsActive: that.form.IsActive ? 1 : 0,
+                    ImgUrl: that.form.ImgUrl ? that.form.ImgUrl : ""
+                });
 
                 $.ajax({
                     method: "post",
-                    url: "/product/save/",
+                    url: "/userinfo/save/",
                     data: data,
                     success: function (json) {
                         if (json.Success) {
@@ -58,7 +42,7 @@
             },
             handleAvatarSuccess(res, file) {
                 //URL.createObjectURL(file.raw);
-                if(res.Success)
+                if (res.Success)
                     this.form.ImgUrl = res.Data;
                 else {
                     $.messager.alert('提示', res.Msg, 'error');
@@ -84,49 +68,45 @@
     })
 </script>
 <style>
- 
+
 </style>
-<div id="fmType" style="margin-top: 50px">
+<div id="fmUser" style="margin-top: 50px">
     <form class="form-horizontal col-sm-10 ">
         <div class="form-group">
-            <label class="col-sm-2 control-label">商品名称</label>
+            <label class="col-sm-2 control-label">名称</label>
             <div class="col-sm-10">
-                <input type="text" v-model="form.Name" class="form-control" placeholder="请输入商品名称">
+                <input type="text" v-model="form.UserName" class="form-control" placeholder="请输入名称">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">商品编码</label>
+            <label class="col-sm-2 control-label"> 账号</label>
             <div class="col-sm-10">
-                <input type="text" v-model="form.Code" class="form-control" placeholder="请输入商品编码">
+                <input type="text" v-model="form.UserCode" class="form-control" placeholder="请输入账号">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">商品类型</label>
-            <div class="col-sm-10">
-                <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeCode">
-                    <option v-for="option in typeData" :value="option.Code">{{option.Name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">商品单位</label>
-            <div class="col-sm-10">
-                <select ref="cbUnit" v-on:change="selectUnit()" class="form-control" v-model="form.UnitCode">
-                    <option v-for="option in unitData" :value="option.Code">{{option.Name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">商品图片</label>
+            <label class="col-sm-2 control-label">头像</label>
             <div class="col-sm-10">
                 <el-upload class="avatar-uploader"
                            action="/upload/img"
-                           :show-file-list="false"
-                           :on-success="handleAvatarSuccess"
-                           :before-upload="beforeAvatarUpload">
-                    <img v-if="form.ImgUrl" :src="form.ImgUrl" class="avatar">
+                           show-file-list="false"
+                           on-success="handleAvatarSuccess"
+                           before-upload="beforeAvatarUpload">
+                    <img v-if="form.ImgUrl" src="form.ImgUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"> 密码</label>
+            <div class="col-sm-10">
+                <input type="password" v-model="form.PassWord" class="form-control" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">是否会员</label>
+            <div class="col-sm-10">
+                <el-switch v-model="form.IsMember"></el-switch>
             </div>
         </div>
         <div class="form-group">

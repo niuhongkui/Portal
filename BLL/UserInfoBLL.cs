@@ -31,11 +31,11 @@ namespace BLL
         /// <returns></returns>
         public ApiMessage<userinfo> LoginByToken(userinfo user)
         {
-            var msgData= _dal.LoginByToken(user.UserCode);
+            var msgData = _dal.LoginByToken(user.UserCode);
             if (!msgData.Success)
                 return msgData;
-            var key= Encrypt.MD5(msgData.Data.ID + "_用户" );
-            return key == user.PassWord ? msgData : new ApiMessage<userinfo>() {Success = false,Msg = "用户不存在"};
+            var key = Encrypt.MD5(msgData.Data.ID + "_用户");
+            return key == user.PassWord ? msgData : new ApiMessage<userinfo>() { Success = false, Msg = "用户不存在" };
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace BLL
         /// <returns></returns>
         public ApiMessage<string> VerifyCode(string strPhone)
         {
-            var api = new ApiMessage<string>() {Msg = "发送成功"};
+            var api = new ApiMessage<string>() { Msg = "发送成功" };
             var gCode = CacheHelper.GetCache("GCode_" + strPhone);
             if (gCode != null)
             {
@@ -102,7 +102,7 @@ namespace BLL
                 api.Msg = "验证码已过期";
                 return api;
             }
-            if ( gCode.ToString()!=user.VerifyCode)
+            if (gCode.ToString() != user.VerifyCode)
             {
                 api.Success = false;
                 api.Msg = "验证码有误";
@@ -120,7 +120,7 @@ namespace BLL
                 ImgUrl = "",
                 UserName = "用户_" + new Random().Next(100000, 999999)
             };
-            api= _dal.Add(dbUser);
+            api = _dal.Add(dbUser);
             return api;
         }
 
@@ -169,6 +169,42 @@ namespace BLL
             dbUser.ImgUrl = user.ImgUrl;
             var api = _dal.Edit(dbUser);
             return api;
+        }
+
+        public Page<userinfo> List(BaseParm parm)
+        {
+            return _dal.List(parm);
+        }
+
+        public ApiMessage<userinfo> Get(string id)
+        {
+
+            return _dal.Get(id);
+        }
+
+        public ApiMessage<string> Save(userinfo user)
+        {
+            if (string.IsNullOrEmpty(user.ID))
+            {
+                user.ID = Guid.NewGuid().ToString();
+                user.CreateDate = DateTime.Now;
+                user.Phone = "";
+                user.PassWord = Encrypt.MD5(user.PassWord);
+                return _dal.Add(user);
+            }
+            else
+            {
+                if (user.PassWord.Split('-').Length < 5)
+                {
+                    user.PassWord = Encrypt.MD5(user.PassWord);
+                }
+                return _dal.Edit(user);
+            }
+        }
+
+        public ApiMessage<string> Delete(string id)
+        {
+            return _dal.Delete(id);
         }
     }
 }

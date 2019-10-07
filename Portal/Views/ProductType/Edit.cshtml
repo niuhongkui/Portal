@@ -26,6 +26,10 @@
             },
             save: function () {
                 var that = this;
+                if (!that.form.ImgUrl) {
+                    $.messager.alert('提示', "请添加图片！", 'info');
+                    return;
+                }
                 var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
                 $.ajax({
                     method: "post",

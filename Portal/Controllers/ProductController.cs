@@ -44,7 +44,6 @@ namespace Portal.Controllers
         /// <returns></returns>
         public JsonResult List(BaseParm parm)
         {
-            parm.Id = UserInfo.StationId;
             var json = _proBll.List(parm);
             return Json(json);
         }

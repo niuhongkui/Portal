@@ -1,4 +1,12 @@
-﻿
+﻿<style>
+    #d_type .datagrid-row {
+        height: 60px;
+    }
+
+    #d_type .datagrid-cell {
+        height: auto;
+    }
+</style>
 <script>
     $(function () {
         Query({});
@@ -27,6 +35,11 @@
                 },
                 { field: 'Code', title: '类型编码', width: 200 },
                 { field: 'Name', title: '类型名称', width: 200 },
+                {
+                    field: 'ImgUrl', title: '类型图片', width: 180, formatter: function (value, row, index) {
+                        return "<img src='" + value + "' border='1'  style='height:60px;width:60px'  onerror=\"this.src='/images/nopic.png'\" />";
+                    }
+                },
                 { field: 'TopCategoryName', title: '大类名称', width: 200 },
                 {
                     field: 'CreateDate', title: '创建时间', width: 200, formatter: function (str) {
@@ -111,7 +124,7 @@
             <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
-    <div region="center" border="false">
+    <div id="d_type" region="center" border="false">
         <table id="gd_type"></table>
     </div>
 </div>

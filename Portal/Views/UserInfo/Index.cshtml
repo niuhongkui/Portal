@@ -1,7 +1,130 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<script>
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_user').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/Userinfo/list',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ck', checkbox: true },
+                {
+                    field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
+                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        return span;
+                    }
+                },
+                { field: 'UserCode', title: '账号', width: 200 },
+                { field: 'UserName', title: '名称', width: 200 },
+                {
+                    field: 'ImgUrl', title: '用户头像', width: 180, formatter: function (value, row, index) {
+                        return "<img src='" + value + "' border='1'  style='height:60px;width:60px'  onerror=\"this.src='/images/nopic.png'\" />";
+                    }
+                },
+                {
+                    field: 'CreateDate', title: '注册时间', width: 200, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                },
+                {
+                    field: 'MemberDate', title: '会员日期', width: 200, formatter: function (str) {
+                        if (str) {
+                            var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                            return d.format("yyyy-MM-dd hh:mm:ss");
+                        }
+                    }
+                },
+                {
+                    field: 'IsMember', title: '是否会员', width: 100, formatter: function (value) {
+                        return value == "1" ? "是" : "否";
+                    }
+                },
+                {
+                    field: 'IsActive', title: '是否启用', width: 100, formatter: function (value) {
+                        return value == "1" ? "启用" : "不启用";
+                    }
+                }
+            ]],
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+                    edit("");
+                }
+            }, '-', {
+                text: '修改',
+                iconCls: 'icon-cut',
+                handler: function () {
+                    //实现弹出修改
+                    var row = $('#gd_user').datagrid("getChecked");
+                    if (row.length > 0) {
+                        edit(row[0].ID);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
+                }
+            }, '-', {
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    //确认只删除一条用户信息
+                    var row = $('#gd_user').datagrid("getChecked");
+                    if (row.length > 0) {
+                        del(row[0].ID);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
+                }
+            }]
+        });
+    }
+    function edit(id) {
+        addTab("用户详情", "/userinfo/edit?id=" + id, "icon-user", false);
+    }
+    function del(id) {
+        $.messager.confirm("删除", "确定删除吗？", function (r) {
+            if (r) {
+                $.get("/userinfo/delete?id=" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_user').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+                });
+            }
+        });
+    }
+    function searchList() {
+        var userCode = $("#userCode").textbox("getValue");
+        var value = $("#userName").textbox("getValue");
+        Query({ Name: value, Code: userCode });
+    }
+</script>
 
-<h2>Index</h2>
-
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div class="search-list">
+            <label class="search-lable" from="userName">名称:</label>
+            <select class="easyui-textbox form-control search-text" data-options="prompt:'请输入名称'"   id="userName" name="UserName"></select>
+            <label class="search-lable" for="userCode">账号:</label>
+            <input id="userCode" class="easyui-textbox form-control search-text" type="text" name="UserCode" data-options="prompt:'请输入类别名称'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+        </div>
+    </div>
+    <div id="d_user" region="center" border="false">
+        <table id="gd_user"></table>
+    </div>
+</div>

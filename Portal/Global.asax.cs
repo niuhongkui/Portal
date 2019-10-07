@@ -24,7 +24,5 @@ namespace Portal
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configuration.Filters.Add(new WebApiExceptionFilterAttribute());
         }
-
-        
     }
 }
