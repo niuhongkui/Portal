@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Model;
+using Model.Entity;
 
 namespace DAL
 {
     public class ProductDAL
     {
         private DB _db = new DB();
+
         public Page<product> List(BaseParm parm)
         {
-           
+
             var page = new Page<product>(parm);
             var strSql = new StringBuilder();
             strSql.Append(" where 1=1");
@@ -27,9 +29,9 @@ namespace DAL
                 strSql.Append(" AND TypeCode like @Type");
             }
             page.rows = product.Fetch(strSql.ToString(), parm)
-                    .Take(parm.rows)
-                    .Skip(parm.index * parm.rows)
-                    .ToList();
+                .Take(parm.rows)
+                .Skip(parm.index*parm.rows)
+                .ToList();
             page.total =
                 _db.FirstOrDefault<int>("select count(1) from product " + strSql, parm);
 
@@ -70,6 +72,7 @@ namespace DAL
             }
             return new ApiMessage<string>();
         }
+
         public ApiMessage<product> Get(string id)
         {
             var json = new ApiMessage<product>();
@@ -87,9 +90,29 @@ namespace DAL
         public Page<productunit> GetUnit()
         {
             var page = new Page<productunit>();
-            var list= productunit.Fetch(" where isactive=1");
+            var list = productunit.Fetch(" where isactive=1");
             page.rows = list;
             page.total = list.Count;
+            return page;
+        }
+
+        public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
+        {
+            var page = new ApiMessage<List<Goods>>();
+            var list =
+                _db.Fetch<Goods>(
+                    @"SELECT  p.ID,p.`Name` title,p.ImgUrl image,'' image2,'' image3,0 sales,MIN(p1.Price) price,p.TypeCode 
+                    FROM product p 
+                    LEFT JOIN price p1 ON p.ID = p1.ProductID
+                    LEFT JOIN producttype t on t.`Code`=p.TypeCode
+                    WHERE p1.Price>0 AND p.IsActive=1  AND t.ID=@id
+                    GROUP BY p.ID LIMIT @m,@n",new
+                    {
+                        id=parm.Id,
+                        m =parm.index*parm.rows-parm.rows,
+                        n =parm.rows
+                    });
+            page.Data = list;
             return page;
         }
     }

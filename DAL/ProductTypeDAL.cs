@@ -21,6 +21,7 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND Name like @Name");
             }
+            
             if (!string.IsNullOrEmpty(parm.Type))
             {
                 strSql.Append(" AND TopCategoryID = @Type");

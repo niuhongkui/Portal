@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common;
 using DAL;
 using Model;
+using Model.Entity;
 
 namespace BLL
 {
@@ -34,6 +35,11 @@ namespace BLL
         public Page<productunit> GetUnit()
         {
             return _dal.GetUnit();
+        }
+
+        public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
+        {
+            return _dal.GetGoods(parm);
         }
     }
 }
