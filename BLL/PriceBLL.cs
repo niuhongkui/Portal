@@ -34,6 +34,8 @@ namespace BLL
                 p.UnitName = n.Name;
                 p.StaffCode = user.UserCode;
                 p.StaffName = user.UserName;
+                p.MemberPrice = n.MemberPrice;
+                p.CreateDate = n.CreateDate;
                 prices.Add(p);
             });
             _dal.Save(prices);

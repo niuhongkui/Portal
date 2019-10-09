@@ -10,6 +10,7 @@ namespace Model.Entity
     {
         public string ID { set; get; }
         public decimal Price { set; get; }
+        public decimal MemberPrice { set; get; }
         public string Name { set; get; }
         public string Code { set; get; }
         public string PCode { set; get; }
@@ -17,5 +18,7 @@ namespace Model.Entity
         public string TypeName { set; get; }
         public string TypeCode { set; get; }
         public string ProductID { set; get; }
+        public DateTime CreateDate { set; get; }
+
     }
 }

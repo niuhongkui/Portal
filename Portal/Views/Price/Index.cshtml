@@ -52,12 +52,13 @@
                 [
                     { field: 'ck', checkbox: true },
                     { field: 'PCode', title: '商品编码', width: 180 },
-                    { field: 'PName', title: '商品名称', width: 180 },
+                    { field: 'PName', title: '商品名称', width: 100 },
                     { field: 'TypeCode', title: '类型编码', width: 180 },
-                    { field: 'TypeName', title: '类型名称', width: 180 },
+                    { field: 'TypeName', title: '类型名称', width: 100 },
                     { field: 'Code', title: '单位编码', width: 180 },
-                    { field: 'Name', title: '单位名称', width: 180 },
-                    { field: 'Price', title: '价格', width: 180, editor: { type: 'numberbox', options: { precision: 1 } } },
+                    { field: 'Name', title: '单位名称', width: 100 },
+                    { field: 'Price', title: '单价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
+                    { field: 'MemberPrice', title: '会员价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
                     {
                         field: 'CreateDate',
                         title: '创建时间',
@@ -115,6 +116,9 @@
 </script>
 <style>
       #d_price table td[field='Price'] span {
+            color: #3EAFE0;
+        }
+      #d_price table td[field='MemberPrice'] span {
             color: #3EAFE0;
         }
 </style>

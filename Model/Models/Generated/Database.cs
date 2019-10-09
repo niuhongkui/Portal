@@ -192,6 +192,7 @@ namespace Model
 		[Column] public string ID { get; set; }
 		[Column] public string ProductID { get; set; }
 		[Column] public decimal Price { get; set; }
+		[Column] public decimal MemberPrice { get; set; }
 		[Column] public string UnitCode { get; set; }
 		[Column] public string UnitName { get; set; }
 		[Column] public string StaffCode { get; set; }
@@ -214,6 +215,10 @@ namespace Model
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public int IsActive { get; set; }
 		[Column] public string ImgUrl { get; set; }
+		[Column] public string ImgUrl2 { get; set; }
+		[Column] public string ImgUrl3 { get; set; }
+		[Column] public string Detail { get; set; }
+		[Column] public int Sales { get; set; }
 	}
     
 	[TableName("portal.producttype")]
