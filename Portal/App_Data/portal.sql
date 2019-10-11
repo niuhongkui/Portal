@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50621
+Source Server         : localhost_3306
+Source Server Version : 50714
 Source Host           : localhost:3306
 Source Database       : portal
 
 Target Server Type    : MYSQL
-Target Server Version : 50621
+Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-10-09 20:22:11
+Date: 2019-10-11 17:16:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,17 +21,54 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
+  `UserID` varchar(50) NOT NULL COMMENT '用户ID',
   `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
-  `UserInfoID` varchar(50) NOT NULL COMMENT '登录人ID',
-  `CreateDate` datetime NOT NULL COMMENT '创建日期',
-  `CartType` int(2) NOT NULL COMMENT '1正常商品，2促销，3套餐',
+  `UnutID` varchar(50) NOT NULL COMMENT '商品单位ID',
+  `Amount` int(10) NOT NULL DEFAULT '0' COMMENT '数量',
+  `UserName` varchar(50) NOT NULL,
+  `ProductName` varchar(50) NOT NULL,
+  `UnitName` varchar(50) NOT NULL,
+  `CreatDate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `u_c_PK` (`UserInfoID`),
-  CONSTRAINT `u_c_PK` FOREIGN KEY (`UserInfoID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `favorite_index` (`ID`) USING HASH,
+  KEY `c_u_pk` (`UserID`),
+  KEY `c_p_pk` (`ProductID`),
+  KEY `c_p_u_pk` (`UnutID`),
+  CONSTRAINT `c_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `c_p_u_pk` FOREIGN KEY (`UnutID`) REFERENCES `productunit` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `c_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
 
 -- ----------------------------
 -- Records of cart
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `favorite`
+-- ----------------------------
+DROP TABLE IF EXISTS `favorite`;
+CREATE TABLE `favorite` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `UserID` varchar(50) NOT NULL COMMENT '用户ID',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `UnutID` varchar(50) NOT NULL COMMENT '商品单位ID',
+  `Amount` int(10) NOT NULL DEFAULT '0' COMMENT '数量',
+  `UserName` varchar(50) NOT NULL,
+  `ProductName` varchar(50) NOT NULL,
+  `UnitName` varchar(50) NOT NULL,
+  `CreatDate` datetime NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `favorite_index` (`ID`) USING HASH,
+  KEY `f_u_pk` (`UserID`),
+  KEY `f_p_pk` (`ProductID`),
+  KEY `f_p_u_pk` (`UnutID`),
+  CONSTRAINT `f_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `f_p_u_pk` FOREIGN KEY (`UnutID`) REFERENCES `productunit` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `f_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='�ղ�';
+
+-- ----------------------------
+-- Records of favorite
 -- ----------------------------
 
 -- ----------------------------
@@ -108,20 +145,47 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `OrderNo` varchar(50) NOT NULL COMMENT '单号',
-  `StationID` varchar(50) NOT NULL COMMENT '所属服务站',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `State` int(2) NOT NULL COMMENT '1待支付,2已支付,3已取货,',
-  `IsActive` int(2) NOT NULL COMMENT '是否有效',
   `UserID` varchar(50) NOT NULL COMMENT '下单人',
   `UserName` varchar(50) NOT NULL COMMENT '下单人名称',
-  `Remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `PMoney` decimal(8,2) NOT NULL COMMENT '支付金额',
+  `Money` decimal(8,2) NOT NULL COMMENT '订单金额',
   `Amount` decimal(8,2) NOT NULL COMMENT '订单数量',
-  `Money` varchar(255) NOT NULL COMMENT '订单金额',
-  PRIMARY KEY (`ID`)
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `Remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `order_index` (`OrderNo`) USING HASH,
+  KEY `o_u_pk` (`UserID`),
+  CONSTRAINT `o_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单';
 
 -- ----------------------------
 -- Records of order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `orderdetail`
+-- ----------------------------
+DROP TABLE IF EXISTS `orderdetail`;
+CREATE TABLE `orderdetail` (
+  `ID` varchar(50) NOT NULL,
+  `OrderNo` varchar(50) NOT NULL,
+  `ProductID` varchar(50) NOT NULL,
+  `ProductName` varchar(50) NOT NULL,
+  `UnitID` varchar(50) NOT NULL,
+  `UnitName` varchar(50) NOT NULL,
+  `Amount` decimal(8,2) NOT NULL,
+  `Money` decimal(8,2) NOT NULL,
+  `PMoney` decimal(8,2) NOT NULL,
+  `Price` decimal(8,2) NOT NULL,
+  `PPrice` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `o_d_pk` (`OrderNo`),
+  CONSTRAINT `o_d_pk` FOREIGN KEY (`OrderNo`) REFERENCES `order` (`OrderNo`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of orderdetail
 -- ----------------------------
 
 -- ----------------------------
@@ -177,7 +241,7 @@ CREATE TABLE `product` (
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201909280408181429', '777', 'kg', '千克', '2019-10-02 21:37:47', '1', '/images/nopic.png', '', '', '销售数量', '0');
-INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201909280408181429', '777', 'kg', '千克', '2019-10-02 13:47:32', '1', '/upload/20191002/c15d8c6f-fbfb-4e4c-acfa-9cbe646b08ce.JPG', '', '', '销售数量', '0');
+INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201909280408181429', '777', 'kg', '千克', '2019-10-10 14:44:37', '1', '/upload/20191010/2f71d094-947f-4ba2-aae3-3fb41c34c996.JPG', '/upload/20191010/879c0a47-6bb2-4d76-bade-15f279edcbd6.JPG', '/upload/20191010/9bcac5f9-a762-4c34-bb43-9cdc944de897.JPG', '销售数量', '22');
 INSERT INTO `product` VALUES ('784561ef-511a-4d47-86d5-4898f10bed99', 'P201910020104403729', '55', 'T201909280408181429', '777', '500g', '斤', '2019-10-02 13:04:41', '1', '/upload/20191002/84f24739-6499-4a49-8d85-56d91c45e23d.JPG', '', '', '销售数量', '0');
 INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', '500g', '斤', '2019-07-12 17:01:41', '1', '/images/nopic.png', '', '', '销售数量', '0');
 
@@ -204,7 +268,7 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('0d3907a5-fd6f-46b6-8aa5-dab5c2fb19db', 'T201909280408181429', '777', '1', '2019-10-02 12:47:41', '2', '东风小区', '/upload/20191002/6eaa05e1-bf83-43f4-9247-1f6da7af14eb.JPG', '3', '调料');
+INSERT INTO `producttype` VALUES ('0d3907a5-fd6f-46b6-8aa5-dab5c2fb19db', 'T201909280408181429', '粉芡', '1', '2019-10-10 14:44:24', '2', '东风小区', '/upload/20191010/41807b08-c60e-49b1-9667-158f754d84da.JPG', '3', '调料');
 
 -- ----------------------------
 -- Table structure for `productunit`

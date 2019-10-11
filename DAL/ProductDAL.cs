@@ -101,12 +101,12 @@ namespace DAL
             var page = new ApiMessage<List<Goods>>();
             var list =
                 _db.Fetch<Goods>(
-                    @"SELECT  p.ID,p.`Name` title,p.ImgUrl image,'' image2,'' image3,0 sales,MIN(p1.Price) price,p.TypeCode 
+                    @"SELECT  p.ID,p.`Name` title,p.ImgUrl image,p.ImgUrl2 image2,p.ImgUrl3 image3,p.Sales sales,MIN(p1.Price) price,p.TypeCode 
                     FROM product p 
                     LEFT JOIN price p1 ON p.ID = p1.ProductID
                     LEFT JOIN producttype t on t.`Code`=p.TypeCode
                     WHERE p1.Price>0 AND p.IsActive=1  AND t.ID=@id
-                    GROUP BY p.ID LIMIT @m,@n",new
+                    GROUP BY p.ID LIMIT @m,@n", new
                     {
                         id=parm.Id,
                         m =parm.index*parm.rows-parm.rows,

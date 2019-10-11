@@ -70,11 +70,28 @@ namespace Portal.Controllers.Api
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
         {
             var res = _proBll.GetGoods(parm);
+            return res;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ApiMessage<Good> GetGood(string id)
+        {
+            var res = _proBll.GetGood(new BaseParm {Id = id});
             return res;
         }
 

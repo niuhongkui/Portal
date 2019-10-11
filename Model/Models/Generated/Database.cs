@@ -112,10 +112,30 @@ namespace Model
     public partial class cart : DB.Record<cart>  
     {
 		[Column] public string ID { get; set; }
+		[Column] public string UserID { get; set; }
 		[Column] public string ProductID { get; set; }
-		[Column] public string UserInfoID { get; set; }
-		[Column] public DateTime CreateDate { get; set; }
-		[Column] public int CartType { get; set; }
+		[Column] public string UnutID { get; set; }
+		[Column] public int Amount { get; set; }
+		[Column] public string UserName { get; set; }
+		[Column] public string ProductName { get; set; }
+		[Column] public string UnitName { get; set; }
+		[Column] public DateTime CreatDate { get; set; }
+	}
+    
+	[TableName("portal.favorite")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class favorite : DB.Record<favorite>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string UserID { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public string UnutID { get; set; }
+		[Column] public int Amount { get; set; }
+		[Column] public string UserName { get; set; }
+		[Column] public string ProductName { get; set; }
+		[Column] public string UnitName { get; set; }
+		[Column] public DateTime CreatDate { get; set; }
 	}
     
 	[TableName("portal.meal")]
