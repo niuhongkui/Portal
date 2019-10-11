@@ -193,15 +193,32 @@ namespace Model
     {
 		[Column] public string ID { get; set; }
 		[Column] public string OrderNo { get; set; }
-		[Column] public string StationID { get; set; }
-		[Column] public DateTime CreateDate { get; set; }
 		[Column] public int State { get; set; }
-		[Column] public int IsActive { get; set; }
 		[Column] public string UserID { get; set; }
 		[Column] public string UserName { get; set; }
-		[Column] public string Remark { get; set; }
+		[Column] public decimal PMoney { get; set; }
+		[Column] public decimal Money { get; set; }
 		[Column] public decimal Amount { get; set; }
-		[Column] public string Money { get; set; }
+		[Column] public DateTime CreateDate { get; set; }
+		[Column] public string Remark { get; set; }
+	}
+    
+	[TableName("portal.orderdetail")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class orderdetail : DB.Record<orderdetail>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string OrderNo { get; set; }
+		[Column] public string ProductID { get; set; }
+		[Column] public string ProductName { get; set; }
+		[Column] public string UnitID { get; set; }
+		[Column] public string UnitName { get; set; }
+		[Column] public decimal Amount { get; set; }
+		[Column] public decimal Money { get; set; }
+		[Column] public decimal PMoney { get; set; }
+		[Column] public decimal Price { get; set; }
+		[Column] public decimal PPrice { get; set; }
 	}
     
 	[TableName("portal.price")]
@@ -358,7 +375,6 @@ namespace Model
 		[Column] public int Index { get; set; }
 		[Column] public int IsActive { get; set; }
 		[Column] public DateTime CreateDate { get; set; }
-		[Column] public int ProductType { get; set; }
 	}
     
 	[TableName("portal.userinfo")]
