@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-10-11 17:16:14
+Date: 2019-10-11 17:31:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -413,7 +413,6 @@ CREATE TABLE `swiper` (
   `Index` int(2) NOT NULL DEFAULT '1' COMMENT '排序',
   `IsActive` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `ProductType` int(2) NOT NULL DEFAULT '1' COMMENT '1商品 2 促销 3 套餐',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图';
 
