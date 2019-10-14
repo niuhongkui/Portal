@@ -19,6 +19,7 @@ namespace Model.Entity
         public string TypeCode { set; get; }
         public string ProductID { set; get; }
         public DateTime CreateDate { set; get; }
+        public string UnitID { set; get; }
 
     }
 }

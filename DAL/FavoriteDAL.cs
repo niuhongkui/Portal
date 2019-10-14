@@ -15,8 +15,8 @@ namespace DAL
 
         public ApiMessage<bool> Exists(favorite parm)
         {
-            var msg = _db.Exists<favorite>(@"SELECT * FROM FAVORITE WHERE UserID=@UserID AND ProductID=@ProductID", parm);
-            var api = new ApiMessage<bool>() { Data = msg };
+            var msg = _db.Query< favorite > (@"SELECT * FROM FAVORITE WHERE UserID=@UserID AND ProductID=@ProductID", parm);
+            var api = new ApiMessage<bool>() { Data = msg.Any()  };
             return api;
         }
         /// <summary>
@@ -35,8 +35,8 @@ namespace DAL
                 {
                     var node = list.FirstOrDefault();
                     node.Amount = parm.Amount + node.Amount;
-                    parm.CreatDate = DateTime.Now;
-                    parm.Update();
+                    node.CreatDate = DateTime.Now;
+                    node.Update();
                 }
                 else
                 {
@@ -44,6 +44,7 @@ namespace DAL
                     parm.ID = Guid.NewGuid().ToString();
                     parm.Insert();
                 }
+                api.Data = true;
                 api.Msg = "收藏成功";
                 return api;
             }
@@ -59,6 +60,7 @@ namespace DAL
                     api.Msg = "移除失败";
                     api.Success = false;
                 }
+                api.Data = false;
                 return api;
             }
         }

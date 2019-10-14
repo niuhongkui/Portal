@@ -114,7 +114,7 @@ namespace Model
 		[Column] public string ID { get; set; }
 		[Column] public string UserID { get; set; }
 		[Column] public string ProductID { get; set; }
-		[Column] public string UnutID { get; set; }
+		[Column] public string UnitID { get; set; }
 		[Column] public int Amount { get; set; }
 		[Column] public string UserName { get; set; }
 		[Column] public string ProductName { get; set; }
@@ -130,7 +130,7 @@ namespace Model
 		[Column] public string ID { get; set; }
 		[Column] public string UserID { get; set; }
 		[Column] public string ProductID { get; set; }
-		[Column] public string UnutID { get; set; }
+		[Column] public string UnitID { get; set; }
 		[Column] public int Amount { get; set; }
 		[Column] public string UserName { get; set; }
 		[Column] public string ProductName { get; set; }

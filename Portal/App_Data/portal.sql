@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-10-14 09:45:04
+Date: 2019-10-14 17:24:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +23,7 @@ CREATE TABLE `cart` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `UserID` varchar(50) NOT NULL COMMENT '用户ID',
   `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
-  `UnutID` varchar(50) NOT NULL COMMENT '商品单位ID',
+  `UnitID` varchar(50) NOT NULL COMMENT '商品单位ID',
   `Amount` int(10) NOT NULL DEFAULT '0' COMMENT '数量',
   `UserName` varchar(50) NOT NULL,
   `ProductName` varchar(50) NOT NULL,
@@ -33,15 +33,16 @@ CREATE TABLE `cart` (
   UNIQUE KEY `favorite_index` (`ID`) USING HASH,
   KEY `c_u_pk` (`UserID`),
   KEY `c_p_pk` (`ProductID`),
-  KEY `c_p_u_pk` (`UnutID`),
+  KEY `c_p_u_pk` (`UnitID`),
   CONSTRAINT `c_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `c_p_u_pk` FOREIGN KEY (`UnutID`) REFERENCES `productunit` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `c_p_u_pk` FOREIGN KEY (`UnitID`) REFERENCES `productunit` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `c_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
 
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
+INSERT INTO `cart` VALUES ('b1611a15-ec7e-470a-bc1c-5d835d99a5b5', '9466019e-d7a0-41e4-9301-93bf16faea8e', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1', '3', '用户_538351', '土豆', '斤', '2019-10-14 17:20:49');
 
 -- ----------------------------
 -- Table structure for `favorite`
@@ -51,7 +52,7 @@ CREATE TABLE `favorite` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `UserID` varchar(50) NOT NULL COMMENT '用户ID',
   `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
-  `UnutID` varchar(50) NOT NULL COMMENT '商品单位ID',
+  `UnitID` varchar(50) NOT NULL COMMENT '商品单位ID',
   `Amount` int(10) NOT NULL DEFAULT '0' COMMENT '数量',
   `UserName` varchar(50) NOT NULL,
   `ProductName` varchar(50) NOT NULL,
@@ -59,17 +60,18 @@ CREATE TABLE `favorite` (
   `CreatDate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `favorite_index` (`ID`) USING HASH,
-  KEY `f_u_pk` (`UserID`),
   KEY `f_p_pk` (`ProductID`),
-  KEY `f_p_u_pk` (`UnutID`),
-  CONSTRAINT `f_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `f_p_u_pk` FOREIGN KEY (`UnutID`) REFERENCES `productunit` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `f_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `f_p_u_pk` (`UnitID`),
+  KEY `f_u_pk` (`UserID`),
+  CONSTRAINT `f_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`),
+  CONSTRAINT `f_p_u_pk` FOREIGN KEY (`UnitID`) REFERENCES `productunit` (`ID`),
+  CONSTRAINT `f_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='�ղ�';
 
 -- ----------------------------
 -- Records of favorite
 -- ----------------------------
+INSERT INTO `favorite` VALUES ('1b7e6c13-172d-4f43-80f8-dcfff420ef9d', '9466019e-d7a0-41e4-9301-93bf16faea8e', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1', '1', '用户_538351', '土豆', '斤', '2019-10-14 16:57:52');
 
 -- ----------------------------
 -- Table structure for `meal`
@@ -210,10 +212,10 @@ CREATE TABLE `price` (
 -- ----------------------------
 -- Records of price
 -- ----------------------------
-INSERT INTO `price` VALUES ('403da68b-f424-4646-b21b-9fe8deb504ed', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1.50', '0.00', '500g', '斤', 'admin', '东风小区', '2019-07-30 15:44:36');
+INSERT INTO `price` VALUES ('403da68b-f424-4646-b21b-9fe8deb504ed', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1.50', '1.00', '500g', '斤', 'admin', '东风小区', '0001-01-01 00:00:00');
 INSERT INTO `price` VALUES ('5227fab2-155a-4b4e-80af-ac6a6a07d200', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '6.00', '0.00', 'kg', '千克', 'admin', '东风小区', '2019-08-15 13:56:50');
 INSERT INTO `price` VALUES ('60972cf7-04b2-454d-bfe8-79e0038aa755', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '3.00', '0.00', '500g', '斤', 'admin', '东风小区', '2019-08-15 13:56:50');
-INSERT INTO `price` VALUES ('99038a4d-35bf-4d92-bb63-207b0e4f35ee', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '3.00', '0.00', 'kg', '千克', 'admin', '东风小区', '2019-07-30 15:44:36');
+INSERT INTO `price` VALUES ('99038a4d-35bf-4d92-bb63-207b0e4f35ee', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '3.00', '0.00', 'kg', '千克', 'admin', '东风小区', '0001-01-01 00:00:00');
 
 -- ----------------------------
 -- Table structure for `product`

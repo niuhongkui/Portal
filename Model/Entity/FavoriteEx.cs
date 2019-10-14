@@ -11,5 +11,7 @@ namespace Model.Entity
         
         public decimal Price { set; get; }
         public decimal MPrice { set; get; }
+
+        public int type { set; get; }
     }
 }

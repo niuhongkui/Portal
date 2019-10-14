@@ -37,13 +37,13 @@ namespace DAL
             var api = new ApiMessage<bool>();
             if (msgType == 1)
             {
-                var list = _db.Query<cart>(@"SELECT * FROM Cart WHERE UserID=@UserID AND ProductID=@ProductID", parm);
+                var list = _db.Query<cart>(@"SELECT * FROM Cart WHERE UserID=@UserID AND ProductID=@ProductID", parm).ToList();
                 if (list.Any())
                 {
                     var node = list.FirstOrDefault();
                     node.Amount = parm.Amount + node.Amount;
-                    parm.CreatDate = DateTime.Now;
-                    parm.Update();
+                    node.CreatDate = DateTime.Now;
+                    node.Update();
                 }
                 else
                 {

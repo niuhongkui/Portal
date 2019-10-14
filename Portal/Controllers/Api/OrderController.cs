@@ -13,11 +13,31 @@ namespace Portal.Controllers.Api
 {
     public class OrderController : BaseApiController
     {
-       
+        private FavoriteBLL fdal=new FavoriteBLL();
+
         [HttpGet]
-        public ApiMessage<string> IsFavorite(string id)
+        public ApiMessage<bool> IsFavorite(string id)
         {
-            return null;
+            var model=new favorite();
+            model.ProductID = id;
+            model.UserID = UserInfo.Id;
+            return fdal.Exists(model);
+        }
+
+        [HttpPost]
+        public ApiMessage<bool> AddOrDel(FavoriteEx parm)
+        {
+            parm.UserID = UserInfo.Id;
+            parm.UserName = UserInfo.UserName;
+            return fdal.AddOrDel(parm, parm.type);
+        }
+
+        [HttpPost]
+        public ApiMessage<bool> AddCart(cart parm)
+        {
+            parm.UserID = UserInfo.Id;
+            parm.UserName = UserInfo.UserName;
+            return fdal.CartAddOrDel(parm, 1);
         }
     }
 }

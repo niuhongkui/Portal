@@ -65,7 +65,7 @@ namespace BLL
             foreach (var ex in prices)
             {
                 var s =new Spec();
-                s.ID = ex.ID;
+                s.ID = ex.UnitID;
                 s.Name = ex.Name;
                 s.MPrice = ex.MemberPrice;
                 s.Price = ex.Price;
