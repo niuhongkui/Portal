@@ -8,16 +8,12 @@ using BLL;
 using Common;
 using Model;
 using Model.Entity;
+
 namespace Portal.Controllers.Api
 {
     public class OrderController : BaseApiController
     {
-        // GET: Order
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+       
         [HttpGet]
         public ApiMessage<string> IsFavorite(string id)
         {

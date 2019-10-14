@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BLL;
 using Model;
+using Common;
 
 namespace Portal.Controllers
 {
@@ -23,9 +24,9 @@ namespace Portal.Controllers
             return bll.Edit(model);
         }
 
-        public ApiMessage<swiper> List(swiper model)
+        public Page<swiper> List(BaseParm parm)
         {
-            return bll.List(model);
+            return bll.List(parm);
         }
     }
 }
