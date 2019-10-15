@@ -49,7 +49,8 @@ namespace Portal.Controllers.Api
                 currentUser.UserCode,
                 currentUser.ImageUrl,
                 currentUser.Id,
-                currentUser.Phone
+                currentUser.Phone,
+                currentUser.IsMember
             };
             CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
             return outData;
@@ -81,7 +82,8 @@ namespace Portal.Controllers.Api
                 currentUser.UserCode,
                 currentUser.ImageUrl,
                 currentUser.Id,
-                currentUser.Phone
+                currentUser.Phone,
+                currentUser.IsMember
             };
             CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
             return outData;

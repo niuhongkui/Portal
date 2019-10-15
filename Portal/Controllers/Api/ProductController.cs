@@ -91,7 +91,12 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<Good> GetGood(string id)
         {
+            
             var res = _proBll.GetGood(new BaseParm {Id = id});
+            if (UserInfo?.IsMember != 1)
+            {
+                res.Data.SpecList.ForEach(n => { n.MPrice = n.Price; });
+            }
             return res;
         }
 

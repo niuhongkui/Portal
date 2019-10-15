@@ -13,7 +13,8 @@ namespace Portal.Controllers.Api
 {
     public class OrderController : BaseApiController
     {
-        private FavoriteBLL fdal=new FavoriteBLL();
+        private FavoriteBLL fbll=new FavoriteBLL();
+        private OrderBLL obll=new OrderBLL();
 
         [HttpGet]
         public ApiMessage<bool> IsFavorite(string id)
@@ -21,7 +22,7 @@ namespace Portal.Controllers.Api
             var model=new favorite();
             model.ProductID = id;
             model.UserID = UserInfo.Id;
-            return fdal.Exists(model);
+            return fbll.Exists(model);
         }
 
         [HttpPost]
@@ -29,15 +30,69 @@ namespace Portal.Controllers.Api
         {
             parm.UserID = UserInfo.Id;
             parm.UserName = UserInfo.UserName;
-            return fdal.AddOrDel(parm, parm.type);
+            return fbll.AddOrDel(parm, parm.type);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiMessage<bool> AddCart(cart parm)
         {
             parm.UserID = UserInfo.Id;
             parm.UserName = UserInfo.UserName;
-            return fdal.CartAddOrDel(parm, 1);
+            return fbll.CartAdd(parm);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<List<CartEx>> CartList(string id)
+        {
+            id = UserInfo.Id;
+            var list= fbll.CartList(id);
+            if (UserInfo?.IsMember == 1)
+            {
+                list.Data.ForEach(n =>
+                {
+                    n.OPrice = n.Price;
+                    n.Price = n.MPrice;
+                });
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ApiMessage<bool> CartDel(string id)
+        {
+            var t = 0;
+            if (id == "all")
+            {
+                id = UserInfo.Id;
+                t = 1;
+            }
+            var api = fbll.CartDel(id, t);
+            return api;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<List<CartEx>> GetPrice(List<PriceEx> p)
+        {
+            return obll.GetPrice(p);
         }
     }
 }

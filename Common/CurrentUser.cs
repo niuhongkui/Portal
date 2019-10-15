@@ -25,6 +25,8 @@ namespace Common
 
         public string Message { set; get; }
 
+        public int IsMember { set; get; } = 0;
+
         //public List<Limit> Limits { set; get; } = new List<Limit>();
 
     }

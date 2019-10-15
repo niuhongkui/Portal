@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Model.Entity
 {
-    public class Order:order
+    public class OrderGood
     {
+        public string ProductName { set; get; }
+
     }
 }

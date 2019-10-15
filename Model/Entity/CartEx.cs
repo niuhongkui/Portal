@@ -6,9 +6,23 @@ using System.Threading.Tasks;
 
 namespace Model.Entity
 {
-    public class CartEx:cart
+    public class CartEx
     {
         public decimal Price { set; get; }
         public decimal MPrice { set; get; }
+        public decimal OPrice { set; get; }
+        public string ImgUrl { set; get; }
+       
+        public string ID { get; set; }
+       
+        public string ProductID { get; set; }
+       
+        public string UnitID { get; set; }
+       
+        public int Amount { get; set; }
+       
+        public string ProductName { get; set; }
+       
+        public string UnitName { get; set; }
     }
 }

@@ -29,14 +29,21 @@ namespace BLL
         {
             return _dal.List(parm);
         }
-        public ApiMessage<bool> CartAddOrDel(cart parm, int msgType)
+        public ApiMessage<bool> CartAdd(cart parm)
         {
-            return cartDAL.AddOrDel(parm, msgType);
+            return cartDAL.Add(parm);
         }
 
-        public Page<CartEx> CartList(BaseParm parm)
+        public ApiMessage<List<CartEx>> CartList(string userId)
         {
-            return cartDAL.List(parm);
+            return cartDAL.List(userId);
+        }
+
+        public ApiMessage<bool> CartDel(string id,int t=0)
+        {
+            var api=new ApiMessage<bool>();
+            api = t == 0 ? cartDAL.Delete(id) : cartDAL.DelAll(id);
+            return api;
         }
     }
 }

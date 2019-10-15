@@ -12,62 +12,61 @@ namespace DAL
     public class CartDAL
     {
         private DB _db = new DB();
-        public Page<CartEx> List(BaseParm parm)
-        {
-            var page = new Page<CartEx>(parm);
-            var strSql = new StringBuilder();
-            strSql.Append(@"SELECT f.*,p.Price,p.MemberPrice MPrice 
-                    FROM Cart f 
-                    LEFT JOIN price p ON p.ProductID=f.ProductID AND p.UnitName=f.UserName");
-            strSql.Append(" Where f.UserID=@Id");
-            page.rows = _db.Query<CartEx>(strSql.ToString(), parm)
-                .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
-                .ToList();
-            return page;
-        }
+      
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parm"></param>
         /// <param name="msgType">1 add 0 del</param>
         /// <returns></returns>
-        public ApiMessage<bool> AddOrDel(cart parm, int msgType)
+        public ApiMessage<bool> Add(cart parm)
         {
             var api = new ApiMessage<bool>();
-            if (msgType == 1)
+            var list = _db.Query<cart>(@"SELECT * FROM Cart WHERE UserID=@UserID AND ProductID=@ProductID", parm).ToList();
+            if (list.Any())
             {
-                var list = _db.Query<cart>(@"SELECT * FROM Cart WHERE UserID=@UserID AND ProductID=@ProductID", parm).ToList();
-                if (list.Any())
-                {
-                    var node = list.FirstOrDefault();
-                    node.Amount = parm.Amount + node.Amount;
-                    node.CreatDate = DateTime.Now;
-                    node.Update();
-                }
-                else
-                {
-                    parm.CreatDate = DateTime.Now;
-                    parm.ID = Guid.NewGuid().ToString();
-                    parm.Insert();
-                }
-                api.Msg = "添加成功";
-                return api;
+                var node = list.FirstOrDefault();
+                node.Amount = parm.Amount + node.Amount;
+                node.CreatDate = DateTime.Now;
+                node.Update();
             }
             else
             {
-                var rows = _db.Execute(@"DELETE FROM cart WHERE UserID=@UserID AND ProductID=@ProductID", parm);
-                if (rows > 0)
-                {
-                    api.Msg = "移除成功";
-                }
-                else
-                {
-                    api.Msg = "移除失败";
-                    api.Success = false;
-                }
-                return api;
+                parm.CreatDate = DateTime.Now;
+                parm.ID = Guid.NewGuid().ToString();
+                parm.Insert();
             }
+            api.Msg = "添加成功";
+            return api;
+        }
+
+        public ApiMessage<List<CartEx>> List(string userId)
+        {
+            var list=   _db.Query<CartEx>(
+                @"SELECT c.ProductID,c.UnitID,c.ID,c.UnitName,c.ProductName,c.Amount,p1.Price,p1.MemberPrice MPrice,p.ImgUrl FROM cart c 
+                    LEFT JOIN product p ON p.ID=c.ProductID
+                    LEFT JOIN price p1 ON p.ID = p1.ProductID AND c.UnitName=p1.UnitName
+                WHERE p.IsActive=1 AND c.UserID=@userId", new {userId}).ToList();
+            var api=new ApiMessage<List<CartEx>>();
+            api.Data = list;
+            return api;
+        }
+
+        public ApiMessage<bool> Delete(string id)
+        {
+            var api=new ApiMessage<bool>();
+            var rows = cart.Delete("where id=@0", id);
+            api.Data = rows > 0;
+            api.Msg = rows > 0 ? "" : "删除失败";
+            return api;
+        }
+        public ApiMessage<bool> DelAll(string id)
+        {
+            var api = new ApiMessage<bool>();
+            var rows = cart.Delete("where UserID=@0", id);
+            api.Data = rows > 0;
+            api.Msg = rows > 0?"":"删除失败";
+            return api;
         }
     }
 }

@@ -57,6 +57,7 @@ namespace Portal.Models
             user.UserType = "用户";
             user.Phone = admin.Phone;
             user.Id = admin.ID;
+            user.IsMember = admin.IsMember;
             return user;
         }
     }
