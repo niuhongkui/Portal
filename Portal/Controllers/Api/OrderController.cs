@@ -13,13 +13,13 @@ namespace Portal.Controllers.Api
 {
     public class OrderController : BaseApiController
     {
-        private FavoriteBLL fbll=new FavoriteBLL();
-        private OrderBLL obll=new OrderBLL();
+        private FavoriteBLL fbll = new FavoriteBLL();
+        private OrderBLL obll = new OrderBLL();
 
         [HttpGet]
         public ApiMessage<bool> IsFavorite(string id)
         {
-            var model=new favorite();
+            var model = new favorite();
             model.ProductID = id;
             model.UserID = UserInfo.Id;
             return fbll.Exists(model);
@@ -54,12 +54,12 @@ namespace Portal.Controllers.Api
         public ApiMessage<List<CartEx>> CartList(string id)
         {
             id = UserInfo.Id;
-            var list= fbll.CartList(id);
+            var list = fbll.CartList(id);
             if (UserInfo?.IsMember == 1)
             {
                 list.Data.ForEach(n =>
                 {
-                    n.OPrice = n.Price;
+                    n.OPrice = n.Price - n.MPrice;
                     n.Price = n.MPrice;
                 });
             }
@@ -87,12 +87,51 @@ namespace Portal.Controllers.Api
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="p"></param>
+        /// <param name="order"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiMessage<List<CartEx>> GetPrice(List<PriceEx> p)
+        public ApiMessage<List<CartEx>> GetPrice(Order order)
         {
-            return obll.GetPrice(p);
+            var list = obll.GetPrice(order.GoodsData);
+            if (UserInfo?.IsMember == 1)
+            {
+                list.Data.ForEach(n =>
+                {
+                    n.OPrice = n.Price - n.MPrice;
+                    n.Price = n.MPrice;
+                });
+            }
+            return list;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<object> Save(OrderData data)
+        {
+            data.UserName = UserInfo.UserName;
+            data.CreateDate = DateTime.Now;
+            data.UserID = UserInfo.Id;
+            data.State = "待付款";
+            data.ID = Guid.NewGuid().ToString();
+            data.OrderNo = CodeNo.Get(CodeType.Order);
+
+            return obll.Save(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Page<OrderData> GetOrders(BaseParm parm)
+        {
+            parm.Id = UserInfo.Id;
+            parm.rows = 10;
+            return obll.GetList(parm);
         }
     }
 }

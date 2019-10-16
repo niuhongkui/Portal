@@ -23,6 +23,9 @@ namespace Common
                 case CodeType.Unit:
                     code = "U";
                     break;
+                case CodeType.Order:
+                    code = "O";
+                    break;
                 default:
                     code = "X";
                     break;
@@ -45,5 +48,7 @@ namespace Common
         [Description("商品单位")]
         Unit,
 
+        [Description("订单")]
+        Order,
     }
 }

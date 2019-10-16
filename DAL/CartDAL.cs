@@ -52,10 +52,10 @@ namespace DAL
             return api;
         }
 
-        public ApiMessage<bool> Delete(string id)
+        public ApiMessage<bool> Delete(List<string> ids)
         {
             var api=new ApiMessage<bool>();
-            var rows = cart.Delete("where id=@0", id);
+            var rows = cart.Delete("where id in(@0)", ids);
             api.Data = rows > 0;
             api.Msg = rows > 0 ? "" : "删除失败";
             return api;

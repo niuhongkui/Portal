@@ -42,7 +42,7 @@ namespace BLL
         public ApiMessage<bool> CartDel(string id,int t=0)
         {
             var api=new ApiMessage<bool>();
-            api = t == 0 ? cartDAL.Delete(id) : cartDAL.DelAll(id);
+            api = t == 0 ? cartDAL.Delete(new List<string> {id}) : cartDAL.DelAll(id);
             return api;
         }
     }

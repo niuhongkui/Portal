@@ -193,7 +193,7 @@ namespace Model
     {
 		[Column] public string ID { get; set; }
 		[Column] public string OrderNo { get; set; }
-		[Column] public int State { get; set; }
+		[Column] public string State { get; set; }
 		[Column] public string UserID { get; set; }
 		[Column] public string UserName { get; set; }
 		[Column] public decimal PMoney { get; set; }
