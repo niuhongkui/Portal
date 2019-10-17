@@ -42,6 +42,12 @@ namespace BLL
         {
             return _dal.GetGoods(parm);
         }
+
+        public ApiMessage<List<Goods>> GetLikeGoods(string userId)
+        {
+            return _dal.GetLikeGoods(userId);
+        }
+
         public ApiMessage<Good> GetGood(BaseParm parm)
         {
             var res=new ApiMessage<Good>();

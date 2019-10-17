@@ -115,5 +115,23 @@ namespace DAL
             page.Data = list;
             return page;
         }
+
+        public ApiMessage<List<Goods>> GetLikeGoods(string userId)
+        {
+            var ids = _db.Query<string>(@"SELECT o.ProductID FROM  orderdetail o 
+                          LEFT JOIN `order` o1 ON o.OrderNo = o1.OrderNo 
+                          WHERE o1.UserID=@0
+                          GROUP BY o.ProductID ORDER BY SUM(o.Amount) DESC", userId);
+            var page = new ApiMessage<List<Goods>>();
+            var list =
+                _db.Fetch<Goods>(
+                    @"SELECT  p.ID,p.`Name` title,p.ImgUrl image,p.ImgUrl2 image2,p.ImgUrl3 image3,p.Sales sales,MIN(p1.Price) price 
+                    FROM product p 
+                    LEFT JOIN price p1 ON p.ID = p1.ProductID
+                    WHERE p1.Price>0 AND p.IsActive=1 AND p.ID IN (@0)
+                    GROUP BY p.ID LIMIT 0,10", ids);
+            page.Data = list;
+            return page;
+        }
     }
 }
