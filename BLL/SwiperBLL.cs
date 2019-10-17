@@ -14,6 +14,11 @@ namespace BLL
         private SwiperDAL dal = new SwiperDAL();
         public ApiMessage<bool> Edit(swiper model)
         {
+            if (string.IsNullOrEmpty(model.ProductID))
+            {
+                model.ProductID = "";
+                model.ProductName = "";
+            }
             if (string.IsNullOrEmpty(model.ID))
             {
                 model.ID = Guid.NewGuid().ToString();
@@ -39,7 +44,9 @@ namespace BLL
         }
         public ApiMessage<swiper> Get(string id)
         {
-            return dal.Get(id);
+            var api= dal.Get(id);
+            api.Success = !string.IsNullOrEmpty(api?.Data?.ID);
+            return api;
         }
     }
 }

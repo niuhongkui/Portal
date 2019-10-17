@@ -1,35 +1,38 @@
 ﻿
 <script>
     var vm = new Vue({
-        el: '#fmUser',
+        el: '#fmType',
         data: {
             id: '@ViewBag.Id',
-            form: {},
-            interval: null
+            form: {
+                ImgUrl:''
+            }
         },
         methods: {
             init: function () {
                 var that = this;
-                var url = "/userinfo/Get?id=" + (that.id ? that.id : "");
+                var url = "/swiper/Get?id=" + (that.id ? that.id : "");
                 $.get(url, function (json) {
                     if (json.Success) {
                         json.Data.IsActive = json.Data.IsActive == 1 ? true : false;
-                        json.Data.IsMember = json.Data.IsMember == 1 ? true : false;
                         that.form = json.Data;
                     }
                 });
             },
             save: function () {
                 var that = this;
-                var data = $.extend({}, that.form, {
-                    IsMember: that.form.IsMember ? 1 : 0,
-                    IsActive: that.form.IsActive ? 1 : 0,
-                    ImgUrl: that.form.ImgUrl ? that.form.ImgUrl : ""
-                });
-
+                if (!that.form.ImgUrl) {
+                    $.messager.alert('提示', "请添加图片！", 'info');
+                    return;
+                }
+                 if (!that.form.ProductID) {
+                     that.form.ProductName = '';
+                     that.form.ProductID = '';
+                 }
+                var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
                 $.ajax({
                     method: "post",
-                    url: "/userinfo/save/",
+                    url: "/swiper/save/",
                     data: data,
                     success: function (json) {
                         if (json.Success) {
@@ -67,52 +70,40 @@
         }
     })
 </script>
-<style>
-
-</style>
-<div id="fmUser" style="margin-top: 50px">
+<div id="fmType" style="margin-top: 50px">
     <form class="form-horizontal col-sm-10 ">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">名称</label>
-            <div class="col-sm-10">
-                <input type="text" v-model="form.UserName" class="form-control" placeholder="请输入名称">
-            </div>
+	    <div class="form-group">
+		    <label class="col-sm-2 control-label">关联商品</label>
+		    <div class="col-sm-10">
+			    <div class="input-group " style="max-width: 280px">
+			      <input type="text" v-model="form.ProductName" disabled="disabled" class="form-control" placeholder="请输入关联商品">
+            <span v-on:click="alert(1)" class="input-group-addon">添加</span>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"> 账号</label>
-            <div class="col-sm-10">
-                <input type="text" v-model="form.UserCode" class="form-control" placeholder="请输入账号">
+		    </div>
+	    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">排序</label>
+        <div class="col-sm-10">
+          <input type="number" v-model="form.Index" class="form-control" placeholder="请输入排序">
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">头像</label>
-            <div class="col-sm-10">
-                <el-upload class="avatar-uploader"
-                           action="/upload/img"
-                           show-file-list="false"
-                           on-success="handleAvatarSuccess"
-                           before-upload="beforeAvatarUpload">
-                    <img v-if="form.ImgUrl" src="form.ImgUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"> 密码</label>
-            <div class="col-sm-10">
-                <input type="password" v-model="form.PassWord" class="form-control" placeholder="请输入密码">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">是否会员</label>
-            <div class="col-sm-10">
-                <el-switch v-model="form.IsMember"></el-switch>
-            </div>
-        </div>
+      </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">是否启用</label>
             <div class="col-sm-10">
                 <el-switch v-model="form.IsActive"></el-switch>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">类别图片</label>
+            <div class="col-sm-10">
+                <el-upload class="avatar-uploader"
+                           action="/upload/img"
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                           :before-upload="beforeAvatarUpload">
+                    <img v-if="form.ImgUrl" :src="form.ImgUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
             </div>
         </div>
         <div class="form-group">

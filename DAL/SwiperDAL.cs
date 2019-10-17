@@ -31,6 +31,7 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND ProductName like @Name");
             }
+            strSql.Append(" order by CreateDate Desc");
             page.rows = swiper.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
                 .Skip(parm.index * parm.rows)

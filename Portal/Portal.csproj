@@ -2179,6 +2179,9 @@
     <Content Include="Views\ProductType\Edit.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\UserInfo\Edit.cshtml" />
+    <Content Include="Views\Swiper\Edit.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,7 +1,111 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<style>
+    #d_swiper .datagrid-row {
+        height: 60px;
+    }
 
-<h2>Index</h2>
+    #d_swiper .datagrid-cell {
+        height: auto;
+    }
+</style>
+<script>
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_swiper').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/swiper/list',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                {field: 'ck', checkbox: true},
+                {
+                    field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
+                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('"+value+"')>删除</a>";
+                        return span;
+                    }
+                },
+                { field: 'ProductName', title: '关联商品', width: 200 },
+                {
+                    field: 'ImgUrl', title: '图片', width: 180, formatter: function (value, row, index) {
+                        return "<img src='" + value + "' border='1'  style='height:60px;width:60px'  onerror=\"this.src='/images/nopic.png'\" />";
+                    }
+                },
+                { field: 'Index', title: '排序', width: 80 },
+                {
+                    field: 'CreateDate', title: '创建时间', width: 140, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                },
+                {
+                    field: 'IsActive', title: '是否启用', width: 80, formatter: function (value) {
+                        return value == "1" ? "启用" : "不启用";
+                    }
+                }
+            ]],
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+                    edit('');
+                }
+            }, '-', {
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    //确认只删除一条用户信息
+                    var row = $('#gd_swiper').datagrid("getChecked");
+                    if (row.length > 0) {
+                        del(row[0].ID);
+                    } else {
+                        $.messager.alert("警告", "请选择一行", "warning");
+                    }
+                }
+            }]
+        });
+    }
+    function edit(id) {
+        addTab("类别信息", "/swiper/edit?id=" + id, "icon-next", false);
+    }
+    function del(id) {
+        $.messager.confirm("删除", "确定删除吗？", function (r) {
+            if (r) {
+                $.get("/swiper/delete?id=" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_swiper').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+                });
+            }
+        });
+    }
+    function searchList() {
+        var value = $("#txt_Name").textbox("getValue");
+        Query({ Name: value });
+    }
+</script>
 
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div class="search-list">
+            <label class="search-lable" for="Name">类别名称:</label>
+            <input id="txt_Name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入类别名称'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+        </div>
+    </div>
+    <div id="d_swiper" region="center" border="false">
+        <table id="gd_swiper"></table>
+    </div>
+</div>

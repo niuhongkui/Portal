@@ -18,15 +18,29 @@ namespace Portal.Controllers
             return View();
         }
 
-        public ApiMessage<bool> Edit(swiper model)
+        public ActionResult Edit(string id)
         {
-            //var res=
-            return bll.Edit(model);
+            ViewBag.Id = id;
+            return View();
         }
 
-        public Page<swiper> List(BaseParm parm)
+        public JsonResult Save(swiper model)
         {
-            return bll.List(parm);
+            //var res=
+            return Json(bll.Edit(model));
+        }
+
+        public JsonResult List(BaseParm parm)
+        {
+            var list= bll.List(parm);
+            return Json(list);
+        }
+
+        public JsonResult Get(string id)
+        {
+            var res = bll.Get(id);
+
+            return Json(res,JsonRequestBehavior.AllowGet);
         }
     }
 }
