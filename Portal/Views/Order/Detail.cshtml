@@ -1,0 +1,61 @@
+﻿<script language="javascript">
+    $(function () {
+        Query({});
+    });
+    function Query(parm) {
+        $('#gd_orderDetal').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/order/getOrder/'+'@ViewBag.Id',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                {field: 'ck', checkbox: true},
+                { field: 'OrderNo', title: '订单号', width: 200 },
+                { field: 'ProductName', title: '商品名称', width: 120 },
+                { field: 'UnitName', title: '商品规格', width: 120 },
+                { field: 'Price', title: '成交价', width: 80 },
+                { field: 'Amount', title: '数量', width: 80},
+                { field: 'Money', title: '合计', width: 80 },
+                { field: 'PMoney', title: '优惠金额', width: 80 }
+            ]],
+            toolbar: [{
+                text: '取货',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //实现弹出添加用户信息的层
+                    pickUp('@ViewBag.Id');
+                }
+            }]
+        });
+    }
+    function pickUp(id) {
+        $.messager.confirm("提示", "确定取货吗？", function (r) {
+            if (r) {
+                $.get("/order/PickUp?id=" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_orderDetal').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+    </div>
+    <div id="d_orderDetal" region="center" border="false">
+        <table id="gd_orderDetal"></table>
+    </div>
+</div>

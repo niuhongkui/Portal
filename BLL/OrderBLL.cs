@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using DAL;
+using Model;
 using Model.Entity;
 using Newtonsoft.Json;
 
@@ -63,6 +64,20 @@ namespace BLL
         public Page<OrderData> GetList(BaseParm parm)
         {
             return dal.List(parm);
+        }
+        public Page<order> ListByPage(BaseParm parm)
+        {
+            return dal.ListByPage(parm);
+        }
+
+        public Page<orderdetail> GetOrder(string orderNo)
+        {
+            return dal.GetOrder(orderNo);
+        }
+
+        public ApiMessage<string> PickUp(string orderNo)
+        {
+            return dal.PickUp(orderNo);
         }
     }
 }

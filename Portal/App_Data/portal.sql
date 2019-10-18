@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2019-10-16 17:10:40
+Date: 2019-10-18 13:02:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -452,6 +452,8 @@ CREATE TABLE `swiper` (
 -- ----------------------------
 -- Records of swiper
 -- ----------------------------
+INSERT INTO `swiper` VALUES ('1', '2', '3', '/upload/20191017/e2c00219-c481-42fe-91ac-f9b0309608ad.JPG', '1', '1', '2019-10-17 13:08:08');
+INSERT INTO `swiper` VALUES ('1286f686-c88f-4254-a22e-ef64a783785e', '', '', '/upload/20191017/05b88e6f-33e9-4cae-87f2-e584514ae4f4.JPG', '2', '1', '2019-10-17 13:33:08');
 
 -- ----------------------------
 -- Table structure for `userinfo`

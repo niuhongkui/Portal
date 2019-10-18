@@ -1,7 +1,89 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
-}
+<script>
+    $(function () {
+        Query({Type:'待取货'});
+    });
+    function Query(parm) {
+        $('#gd_order').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/order/list',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ck', checkbox: true },
+                {
+                    field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
+                        var btn = "<a href='#' onclick=edit('" + row.OrderNo + "') class='easyui-splitbutton'>查看</a>";
+						            btn += " <a href='#' onclick=pickUp('" + row.OrderNo + "') class='easyui-splitbutton'>取货</a>";
+                        return btn;
+                    }
+                },
+                { field: 'OrderNo', title: '订单号', width: 180 },
+                { field: 'UserName', title: '下单人', width: 180 },
+                { field: 'Money', title: '支付金额', width: 180 },
+                { field: 'PMoney', title: '优惠金额', width: 180 },
+                {
+                    field: 'CreateDate', title: '下单时间', width: 180, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                },
+                { field: 'Remark', title: '备注', width: 200 }
+            ]]
+        });
+    }
+    function edit(id) {
+        addTab("订单明细", "/order/Detail?id=" + id, "icon-application-side-list", false);
+    }
+      function pickUp(id) {
+        $.messager.confirm("提示", "确定取货吗？", function (r) {
+            if (r) {
+                $.get("/order/pickup?id=" + id, function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_order').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+                });
+            }
+        });
+    }
+  
+    function searchList() {
+        var name = $("#p_name").textbox("getValue");
+		    var order=$("#p_order").textbox("getValue");
+		    var state=$("#p_state").combobox("getValue");
+        Query({ Name: name,Order:order,Type:state });
+    }
+</script>
 
-<h2>Index</h2>
-
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+	    <div class="search-list">
+		    <label class="search-lable" for="p_state">状态:</label>
+		    <select id="p_state" class="easyui-combobox form-control search-text" name="State">
+			    <option value="">全部</option>
+			    <option value="待付款">待付款</option>
+			    <option value="待取货" selected>待取货</option>
+				<option value="待付款">已关闭</option>
+		    </select>
+		    <label class="search-lable" for="p_name">用户名:</label>
+		    <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入用户名'"/>
+		    <label class="search-lable" for="p_order">订单号:</label>
+		    <input id="p_order" class="easyui-textbox form-control search-text" type="text" name="Order" data-options="prompt:'请输入订单号'"/>
+		    <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
+	    </div>
+    </div>
+    <div region="center" id="d_order" border="false">
+        <table id="gd_order"></table>
+    </div>
+</div>

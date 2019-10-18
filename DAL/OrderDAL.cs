@@ -75,5 +75,63 @@ namespace DAL
             page.rows = list;
             return page;
         }
+
+        public Page<order> ListByPage(BaseParm parm)
+        {
+            var page = new Page<order>(parm);
+            var strSql = new StringBuilder();
+            strSql.Append(" where 1=1");
+            if (!string.IsNullOrEmpty(parm.Name))
+            {
+                parm.Name = "%" + parm.Name + "%";
+                strSql.Append(" AND UserName like @Name");
+            }
+            if (!string.IsNullOrEmpty(parm.Type))
+            {
+                strSql.Append(" AND State = @Type");
+            }
+            if (!string.IsNullOrEmpty(parm.Code))
+            {
+                strSql.Append(" AND OrderNo = @Code");
+            }
+
+            page.rows = order.Fetch(strSql.ToString(), parm)
+                .Take(parm.rows)
+                .Skip(parm.index * parm.rows)
+                .ToList();
+            page.total =
+                _db.FirstOrDefault<int>("select count(1) from `order` " + strSql, parm);
+
+            return page;
+        }
+
+        public Page<orderdetail> GetOrder(string orderNo)
+        {
+            var list = orderdetail.Fetch(@"where orderNo=@0", orderNo).ToList();
+            var api = new Page<orderdetail>();
+            api.rows = list;
+            return api;
+        }
+
+        public ApiMessage<string> PickUp(string orderNo)
+        {
+            var api=new ApiMessage<string>();
+            var model= order.Query(" where orderNo=@0", orderNo).FirstOrDefault();
+            if (model?.State == "待取货")
+            {
+                model.State = "已关闭";
+                model.Update();
+                api.Success = true;
+                api.Msg = "取货成功";
+                return api;
+            }
+            else
+            {
+                api.Msg = "非待取货,不能取货";
+                api.Data = "非待取货,不能取货";
+                api.Success = false;
+                return api;
+            }
+        }
     }
 }

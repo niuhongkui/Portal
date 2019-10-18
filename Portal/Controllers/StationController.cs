@@ -13,5 +13,10 @@ namespace Portal.Controllers
         {
             return View();
         }
+
+        public ActionResult Addr()
+        {
+            return View();
+        }
     }
 }

@@ -17,6 +17,11 @@ namespace Common
         public string Type { set; get; }
 
         public string Code { set; get; }
+
+        public DateTime? State { set; get; }
+
+        public DateTime? End { set; get; }
+
         public int index { set; get; } = 0;
 
         public int rows { set; get; } = 15;

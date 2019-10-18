@@ -2183,6 +2183,9 @@
     <Content Include="Views\Swiper\Edit.cshtml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Station\Addr.cshtml" />
+    <Content Include="Views\Station\Detail.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
