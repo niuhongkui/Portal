@@ -48,5 +48,14 @@ namespace BLL
             api.Success = !string.IsNullOrEmpty(api?.Data?.ID);
             return api;
         }
+
+        public ApiMessage<List<swiper>> ListByActive()
+        {
+            var list = dal.ListByActive();
+            var api = new ApiMessage<List<swiper>>();
+            api.Success = list.Any();
+            api.Data = list;
+            return api;
+        }
     }
 }

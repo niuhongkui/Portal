@@ -39,7 +39,7 @@ namespace Portal.Controllers
         public JsonResult Get(string id)
         {
             var res = bll.Get(id);
-
+            
             return Json(res,JsonRequestBehavior.AllowGet);
         }
     }

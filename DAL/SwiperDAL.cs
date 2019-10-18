@@ -42,6 +42,11 @@ namespace DAL
             return page;
         }
 
+        public List<swiper> ListByActive()
+        {
+           return swiper.Query(" WHERE IsActive=1 ").OrderBy(n=>n.Index).ToList();
+        }
+
         public ApiMessage<swiper> Get(string id)
         {
             var api = new ApiMessage<swiper>();

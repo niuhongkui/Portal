@@ -82,7 +82,7 @@ namespace Portal.Controllers.Api
             var res = _proBll.GetGoods(parm);
             return res;
         }
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
         public ApiMessage<List<Goods>> GetLikeGoods(string id)
         {
