@@ -19,6 +19,8 @@ namespace Portal.Controllers.Api
             {
                 
                 var auth = Request.Headers.Authorization?.Parameter;
+                if (string.IsNullOrEmpty(auth))
+                    return null;
                 var user= (CurrentUser)CacheHelper.GetCache(auth);
                 return user;
             }

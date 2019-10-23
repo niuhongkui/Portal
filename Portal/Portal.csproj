@@ -2061,6 +2061,7 @@
     <Content Include="Content\ElementUI\fonts\element-icons.woff" />
     <Content Include="Content\ElementUI\fonts\element-icons.ttf" />
     <None Include="Properties\PublishProfiles\11.pubxml" />
+    <None Include="Properties\PublishProfiles\fb.pubxml" />
     <None Include="scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -2114,7 +2115,9 @@
     <Content Include="SwaggerUI\lib\underscore-min.js" />
     <Content Include="SwaggerUI\swagger-ui.js" />
     <Content Include="SwaggerUI\swagger-ui.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

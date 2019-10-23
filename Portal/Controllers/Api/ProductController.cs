@@ -86,7 +86,9 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<List<Goods>> GetLikeGoods(string id)
         {
-            var api=new ApiMessage<List<Goods>>();
+            var api = new ApiMessage<List<Goods>>() {
+                Data = new List<Goods>()
+            };
             if (string.IsNullOrEmpty(UserInfo?.Id))
                 return api;
             api = _proBll.GetLikeGoods(UserInfo?.Id);
