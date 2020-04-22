@@ -9,111 +9,97 @@
 <head>
     <title>商城管理平台</title>
     <link href="~/Content/themes/icon.css" rel="stylesheet" />
-    <link href="~/Content/themes/default/easyui.css" rel="stylesheet"/>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/images/favicon.ico" />
     <script src="~/scripts/jquery-1.11.3.min.js"></script>
     <script src="~/scripts/jquery.easyui-1.4.5.min.js"></script>
     <script src="~/scripts/locale/easyui-lang-zh_CN.js"></script>
-    <style type="text/css">
-        #imgCode {
-            cursor: pointer;
-        }
-    </style>
-
     <script type="text/javascript">
-
-        if (window.parent.window != window) {
-            window.top.location.href = "/Login/Index";
+        //提示错误信息
+        $(function () {
+            var msg =getQuery("msg");
+            if (msg) {
+                $.messager.alert('错误',msg,'error');
+            }
+        })
+        function getQuery(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]); return null;
         }
-        $(function() {
-            //实现用户的登录信息
-            //LoginUserInfo();
 
-            //单击重新改变验证码
-            //ClickRemoveChangeCode();
-        });
+        //防止iframe
+        if (window.parent.window != window) {
+            var href = window.top.location.href.toLowerCase();
+            if (href.indexOf("/login/index") < 0) {
+                window.top.location.href = "/login/index";
+            }
+        }
 
         //异步实现用户的登录
-        //function LoginUserInfo() {
-        //    $("#btnLogin").click(function() {
-        //        //验证用户必须输入必填项
-        //        var validate = $("#ff").form("validate");
-        //        if (validate == false) {
-        //            return false;
-        //        }
-        //        //获取传递前台的参数，UserName，PassWord，Code
-        //        var postData = {
-        //            UserName: $("#UserName").val(),
-        //            PassWord: $("#PassWord").val(),
-        //            //Code: $("#Code").val()
-        //        };
-
-        //        //异步实现登录功能
-        //        $.post("/api/LoginOn/LoginOn", postData, function (data) {
-        //            if (data == "OK") {
-        //                window.location.href = "/Home/Index";
-        //            } else {
-        //                window.location.href = "/Login/Index/";
-        //            }
-        //        });
-
-        //    });
-        //}
+        function LoginUserInfo() {
+            $('#ff').form('submit', {
+                onSubmit: function () {
+                    return $(this).form('enableValidation').form('validate');
+                }
+            });
+        }
 
         //单击重新改变验证码
         function ClickRemoveChangeCode() {
             var code = $("#imgCode").attr("src");
             $("#imgCode").attr("src", code + "1");
         }
-
     </script>
     <style>
-        table  td{
+        table td {
             padding-bottom: 15px;
         }
+
         table input {
-            height: 25px
+            height: 25px;
+        }
+
+        #imgCode {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-
-    @*-------------------设置用户登录信息的弹出层-------------------*@
-    <div id="AddUserDialog" class="easyui-dialog" style="width:350px;height:230px;padding:10px 20px"
+    <div id="AddUserDialog" class="easyui-dialog" style="width:300px;height:210px;padding:10px 20px"
          modal="true" closable="false" title="用户登录" buttons="#dlg-buttons" align="center">
         <form id="ff" method="post" action="@Url.Action("LoginOn","Login")" novalidate="novalidate">
             <table id="tblAdd">
                 <tr>
-                    <th colspan="2">用户登录信息</th>
+                    <th colspan="2" style="font-size:16px;">用户登录信息</th>
                 </tr>
                 <tr>
                     <td><label for="UserName">用户名：</label></td>
-                    <td><input class="easyui-validatebox" type="text" id="UserName" placeholder='请输入账号' name="UserCode" value="@ViewBag.UserName" data-options="required:true,validType:'length[1,32]'" /></td>
+                    <td><input class="easyui-textbox" type="text" id="UserName" placeholder='请输入账号' name="UserCode" value="@ViewBag.UserName" data-options="required:true,validType:'length[4,32]'" /></td>
                     <td>
                 </tr>
                 <tr>
                     <td><label for="PassWord">密  码：</label></td>
-                    <td><input class="easyui-validatebox" type="password" id="PassWord" name="PassWord" placeholder='请输入密码' data-options="required:true,validType:'length[1,32]'" /></td>
+                    <td><input class="easyui-textbox" type="password" id="PassWord" name="PassWord" placeholder='请输入密码' data-options="required:true,validType:'length[4,32]'" /></td>
                 </tr>
-                @* <tr>
-                    <td><label for="Code">验证码：</label></td>
-                          <td>
-                              <input class="easyui-validatebox" type="text" id="Code" name="Code" data-options="required:true,validType:'length[1,20]'" />
-                          </td>
+                @*<tr>
+                        <td><label for="Code">验证码：</label></td>
+                        <td>
+                            <input class="easyui-textbox" type="text" id="Code" name="Code" data-options="required:true,validType:'length[1,20]'" />
+                        </td>
                     </tr>
+                    <tr>
+                        <td>验证码：</td>
+                        <td>
+                            <img src="/Login/CheckCode?ID=1" id="imgCode" alt="单击可刷新" onclick="ClickRemoveChangeCode()" />
+                            <div style="float:right; margin-top: 5px;">
+                                <a href="javascript:void(0)" onclick="ClickRemoveChangeCode();return false;">看不清，换一张</a>
+                            </div>
+                        </td>
+                    </tr>*@
                 <tr>
-                    <td>验证码：</td>
-                <td>
-                        <img src="/Login/CheckCode?ID=1" id="imgCode" alt="单击可刷新" onclick="ClickRemoveChangeCode()" />
-                        <div style="float:right; margin-top: 5px;">
-                            <a href="javascript:void(0)" onclick="ClickRemoveChangeCode();return false;">看不清，换一张</a>
-                        </div>
-                    </td>
-                </tr>*@
-                <tr>
-                    <td colspan="2" style="text-align:center; padding-top:10px">
-                        <button class="easyui-linkbutton" iconcls="icon-man" type="submit">登 录</button>
-                        @*<a href="javascript:void(0)" class="easyui-linkbutton" id="btnLogin" iconcls="icon-ok"></a>*@
+                    <td colspan="2" style="text-align:center;">
+                        <button class="easyui-linkbutton" iconcls="icon-man" type="submit" onclick="LoginUserInfo()">登 录</button>
                     </td>
                 </tr>
             </table>

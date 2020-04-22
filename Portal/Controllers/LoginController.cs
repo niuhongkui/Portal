@@ -31,8 +31,9 @@ namespace Portal.Controllers
         /// view页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        public ActionResult Index(string msg)
         {
+            ViewBag.Msg = msg;
             return View();
         }
 
@@ -53,12 +54,12 @@ namespace Portal.Controllers
                 //页面session
                 Session["user"] = strUser;
                 //webapi登录验证用
-                CacheHelper.SetCache(Encrypt.MD5(currentUser.Id + "_"+currentUser.UserType), currentUser);
-                return Redirect("/home/index");
+                CacheHelper.SetCache(Encrypt.MD5(currentUser.Id + "_" + currentUser.UserType), currentUser);
+                return Redirect("/Home/Index");
             }
             else
             {
-                return Redirect("/login/index");
+                return Redirect("/Login/Index?msg=" + user.Msg);
             }
 
 
@@ -75,7 +76,7 @@ namespace Portal.Controllers
             return View("index");
         }
 
-        
+
     }
 
 
