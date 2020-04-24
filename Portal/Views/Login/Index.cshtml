@@ -17,6 +17,9 @@
     <script type="text/javascript">
         //提示错误信息
         $(function () {
+            var usercode = localStorage.getItem("_portal_usercode");
+            if(usercode)
+                $("#UserName").textbox("setValue",usercode)
             var msg =getQuery("msg");
             if (msg) {
                 $.messager.alert('错误',msg,'error');
@@ -38,6 +41,7 @@
 
         //异步实现用户的登录
         function LoginUserInfo() {
+            localStorage.setItem("_portal_usercode",$("#UserName").textbox("getValue"));
             $('#ff').form('submit', {
                 onSubmit: function () {
                     return $(this).form('enableValidation').form('validate');

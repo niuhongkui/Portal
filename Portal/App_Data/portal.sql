@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost_3306
-Source Server Version : 50714
+Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : portal
 
 Target Server Type    : MYSQL
-Target Server Version : 50714
+Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2019-10-18 13:02:32
+Date: 2020-04-24 14:03:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,16 +61,34 @@ CREATE TABLE `favorite` (
   UNIQUE KEY `favorite_index` (`ID`) USING HASH,
   KEY `f_p_pk` (`ProductID`),
   KEY `f_p_u_pk` (`UnitID`),
-  KEY `f_u_pk` (`UserID`),
-  CONSTRAINT `f_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`),
-  CONSTRAINT `f_p_u_pk` FOREIGN KEY (`UnitID`) REFERENCES `productunit` (`ID`),
-  CONSTRAINT `f_u_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`)
+  KEY `f_u_pk` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='�ղ�';
 
 -- ----------------------------
 -- Records of favorite
 -- ----------------------------
-INSERT INTO `favorite` VALUES ('1b7e6c13-172d-4f43-80f8-dcfff420ef9d', '9466019e-d7a0-41e4-9301-93bf16faea8e', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1', '1', '用户_538351', '土豆', '斤', '2019-10-14 16:57:52');
+
+-- ----------------------------
+-- Table structure for `instore`
+-- ----------------------------
+DROP TABLE IF EXISTS `instore`;
+CREATE TABLE `instore` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `ProductName` varchar(50) NOT NULL COMMENT '商品名称',
+  `UnitID` varchar(50) NOT NULL COMMENT '商品类型',
+  `UnitName` varchar(50) NOT NULL COMMENT '商品类型',
+  `Amount` decimal(10,2) NOT NULL COMMENT '数量',
+  `StaffID` varchar(50) NOT NULL COMMENT '操作人',
+  `StaffName` varchar(50) NOT NULL COMMENT '操作人',
+  `CreateDate` datetime NOT NULL COMMENT '入库时间',
+  `Remark` varchar(200) DEFAULT NULL COMMENT '注释',
+  `TypeName` varchar(50) NOT NULL DEFAULT '正常入库' COMMENT '入库类型'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of instore
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `meal`
@@ -123,23 +141,6 @@ CREATE TABLE `mealdetail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `oldprice`
--- ----------------------------
-DROP TABLE IF EXISTS `oldprice`;
-CREATE TABLE `oldprice` (
-  `ID` varchar(50) NOT NULL COMMENT '主键',
-  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
-  `Price` decimal(10,2) NOT NULL COMMENT '价格',
-  `StaffCode` varchar(50) NOT NULL COMMENT '创建人编码',
-  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='历史价格';
-
--- ----------------------------
--- Records of oldprice
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `order`
 -- ----------------------------
 DROP TABLE IF EXISTS `order`;
@@ -153,7 +154,12 @@ CREATE TABLE `order` (
   `Money` decimal(8,2) NOT NULL COMMENT '订单金额',
   `Amount` decimal(8,2) NOT NULL COMMENT '订单数量',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  `Remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `Remark` varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
+  `Address` varchar(200) NOT NULL DEFAULT '' COMMENT '收货地址',
+  `SendTime` datetime NOT NULL COMMENT '预计送达时间',
+  `Phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机号',
+  `SendType` varchar(50) NOT NULL DEFAULT '' COMMENT '送货or自取',
+  `SendMoney` decimal(10,0) NOT NULL DEFAULT '0' COMMENT '送货费',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `order_index` (`OrderNo`) USING HASH,
   KEY `o_u_pk` (`UserID`),
@@ -163,17 +169,6 @@ CREATE TABLE `order` (
 -- ----------------------------
 -- Records of order
 -- ----------------------------
-INSERT INTO `order` VALUES ('3070d4c9-00c0-4a6c-91f5-3f918611e0a0', 'O201910160231253914', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '0.50', '1.00', '1.00', '2019-10-16 14:31:26', '');
-INSERT INTO `order` VALUES ('3149f355-b696-4aef-9f2c-ae75793e12af', 'X201910160200516204', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:00:51', '');
-INSERT INTO `order` VALUES ('492fd541-e112-4c80-a89e-6fff1f771526', 'O201910160227162729', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:27:16', '');
-INSERT INTO `order` VALUES ('6d9f2e64-cfb1-46ca-96ec-07252c301b01', 'O201910160232031820', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '0.50', '1.00', '1.00', '2019-10-16 14:32:03', '');
-INSERT INTO `order` VALUES ('acb890b3-5420-4b0c-a8d3-031fd5471a03', 'O201910160230265576', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:30:26', '');
-INSERT INTO `order` VALUES ('bbf456c2-c9b8-43d4-9e99-6ff182235be2', 'X201910160201482994', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:01:49', '');
-INSERT INTO `order` VALUES ('d2287e91-1699-44d1-8bb5-5fc937bd6f00', 'X201910160200312619', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:00:31', '');
-INSERT INTO `order` VALUES ('e0e3fb17-e85d-4bdd-98d7-06b79c2f5794', 'O201910160228431681', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:28:43', '');
-INSERT INTO `order` VALUES ('e130a5f4-ad28-4721-ae1d-e85d0d3f211a', 'X201910160148185890', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 13:48:18', '');
-INSERT INTO `order` VALUES ('e35770ed-3e37-4bd5-8ae7-c6a834494b14', 'O201910160508066357', '待付款', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '1.00', '2.00', '1.00', '2019-10-16 17:08:06', '');
-INSERT INTO `order` VALUES ('e38d7d58-2655-43ae-bf2d-17e798c87d71', 'O201910160227283326', '待支付', '9466019e-d7a0-41e4-9301-93bf16faea8e', '用户_538351', '2.50', '5.00', '3.00', '2019-10-16 14:27:28', '');
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -181,16 +176,16 @@ INSERT INTO `order` VALUES ('e38d7d58-2655-43ae-bf2d-17e798c87d71', 'O2019101602
 DROP TABLE IF EXISTS `orderdetail`;
 CREATE TABLE `orderdetail` (
   `ID` varchar(50) NOT NULL,
-  `OrderNo` varchar(50) NOT NULL,
-  `ProductID` varchar(50) NOT NULL,
-  `ProductName` varchar(50) NOT NULL,
-  `UnitID` varchar(50) NOT NULL,
-  `UnitName` varchar(50) NOT NULL,
-  `Amount` decimal(8,2) NOT NULL,
-  `Money` decimal(8,2) NOT NULL,
-  `PMoney` decimal(8,2) NOT NULL,
-  `Price` decimal(8,2) NOT NULL,
-  `PPrice` decimal(8,2) NOT NULL,
+  `OrderNo` varchar(50) NOT NULL COMMENT '订单号',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `ProductName` varchar(50) NOT NULL COMMENT '商品名称',
+  `UnitID` varchar(50) NOT NULL COMMENT '单位',
+  `UnitName` varchar(50) NOT NULL COMMENT '单位',
+  `Amount` decimal(8,2) NOT NULL COMMENT '数量',
+  `Money` decimal(8,2) NOT NULL COMMENT '价格',
+  `PMoney` decimal(8,2) NOT NULL COMMENT '优惠金额',
+  `Price` decimal(8,2) NOT NULL COMMENT '单价',
+  `PPrice` decimal(8,2) NOT NULL COMMENT '优惠价了',
   PRIMARY KEY (`ID`),
   KEY `o_d_pk` (`OrderNo`),
   CONSTRAINT `o_d_pk` FOREIGN KEY (`OrderNo`) REFERENCES `order` (`OrderNo`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -199,54 +194,51 @@ CREATE TABLE `orderdetail` (
 -- ----------------------------
 -- Records of orderdetail
 -- ----------------------------
-INSERT INTO `orderdetail` VALUES ('02ed3c3a-f60c-4c26-b1f5-0a908507c614', 'X201910160201482994', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('2d1ce3c6-7a9c-402b-a8ad-170d7a26e199', 'X201910160200516204', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('4ba7f8ab-fe1f-4850-aea2-fcc523f47b3d', 'O201910160227162729', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('53a32fdd-a1ff-4bf8-8293-52caf2fa0ca5', 'O201910160508066357', '2', '西红柿', '1', '斤', '1.00', '2.00', '1.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('57587ce4-16be-4f4b-b169-611571dc5755', 'O201910160230265576', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('6aea2187-951b-4d61-884f-4be7be6d4741', 'X201910160200312619', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('735903cb-00d4-4bda-a2e9-efdfbf9ed378', 'O201910160227162729', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('87273206-bcce-4845-a7de-5f32804e152f', 'O201910160227283326', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('952683fc-9b2d-46ef-b20f-dd5e00e5766e', 'O201910160228431681', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('9648cd2e-0b92-4764-8528-bb286674ab4c', 'O201910160232031820', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('a6e9f3de-1ec5-4f0f-8ed2-0464ae362323', 'O201910160227283326', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('b3234ea2-c9f6-4e43-a32e-95925237e2c7', 'O201910160230265576', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('c66b3966-e660-43c2-9042-37015fbffce1', 'X201910160148185890', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('d273b81f-6ca4-4fba-a96b-5c47f250782a', 'X201910160201482994', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('d4982b79-3206-4d4d-96b7-6a66d03274f5', 'X201910160200312619', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('d870bfeb-d6d2-4506-bdcb-135b6c2fc59c', 'O201910160228431681', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
-INSERT INTO `orderdetail` VALUES ('ecaffc54-47a4-4c7e-9ec0-d6b565d3df39', 'O201910160231253914', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('f5d517ea-cd71-4678-bd93-2f1600c19fd7', 'X201910160200516204', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '土豆', '1', '斤', '1.00', '1.00', '0.50', '1.00', '0.50');
-INSERT INTO `orderdetail` VALUES ('fe41d643-72b1-4c16-9b78-715a8c210cb0', 'X201910160148185890', '2', '西红柿', '1', '斤', '2.00', '4.00', '2.00', '2.00', '1.00');
 
 -- ----------------------------
--- Table structure for `price`
+-- Table structure for `packing`
 -- ----------------------------
-DROP TABLE IF EXISTS `price`;
-CREATE TABLE `price` (
-  `ID` varchar(50) NOT NULL COMMENT '主键',
-  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
-  `Price` decimal(10,2) NOT NULL COMMENT '价格',
-  `MemberPrice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '会员价',
-  `UnitCode` varchar(50) NOT NULL COMMENT '商品单位Code',
-  `UnitName` varchar(50) NOT NULL COMMENT '商品单位Name',
-  `StaffCode` varchar(50) NOT NULL COMMENT '创建人编码',
-  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
-  `CreateDate` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`ID`),
-  KEY `p_price_pk` (`ProductID`),
-  CONSTRAINT `p_price_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品价格';
+DROP TABLE IF EXISTS `packing`;
+CREATE TABLE `packing` (
+  `ID` varchar(50) NOT NULL,
+  `OrderNo` varchar(50) NOT NULL COMMENT '订单号',
+  `OrderID` varchar(50) NOT NULL COMMENT '订单ID',
+  `State` varchar(50) NOT NULL COMMENT '拣货单状态',
+  `UserName` varchar(50) NOT NULL COMMENT '用户名称',
+  `UserPhone` varchar(50) NOT NULL COMMENT '用户手机号',
+  `OrderRemark` varchar(200) NOT NULL COMMENT '用户订单备注',
+  `Address` varchar(200) NOT NULL COMMENT '收货地址',
+  `CreateDate` datetime NOT NULL COMMENT '支付时间',
+  `SendTime` datetime NOT NULL COMMENT '要求送货时间',
+  `UpdateDate` datetime NOT NULL COMMENT '更新时间',
+  `StaffID` varchar(50) NOT NULL DEFAULT '''''' COMMENT '指定派送人',
+  `StaffName` varchar(50) NOT NULL DEFAULT '''''' COMMENT '指定派送人',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of price
+-- Records of packing
 -- ----------------------------
-INSERT INTO `price` VALUES ('403da68b-f424-4646-b21b-9fe8deb504ed', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '1.50', '1.00', '500g', '斤', 'admin', '东风小区', '0001-01-01 00:00:00');
-INSERT INTO `price` VALUES ('5227fab2-155a-4b4e-80af-ac6a6a07d200', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '6.00', '0.00', 'kg', '千克', 'admin', '东风小区', '2019-08-15 13:56:50');
-INSERT INTO `price` VALUES ('601c9298-daf2-4b45-aa50-84137900cdb8', '2', '8.00', '5.00', 'kg', '千克', 'admin', '东风小区', '0001-01-01 00:00:00');
-INSERT INTO `price` VALUES ('60972cf7-04b2-454d-bfe8-79e0038aa755', '9fc3f390-a005-4a35-ac95-51d957c11e3e', '3.00', '0.00', '500g', '斤', 'admin', '东风小区', '2019-08-15 13:56:50');
-INSERT INTO `price` VALUES ('99038a4d-35bf-4d92-bb63-207b0e4f35ee', '5714397e-4b5a-4407-bfc0-5b223e7571c0', '3.00', '2.00', 'kg', '千克', 'admin', '东风小区', '0001-01-01 00:00:00');
-INSERT INTO `price` VALUES ('f40c9204-6b0f-4e77-b963-000b7668ae30', '2', '3.00', '2.00', '500g', '斤', 'admin', '东风小区', '0001-01-01 00:00:00');
+
+-- ----------------------------
+-- Table structure for `packingdetail`
+-- ----------------------------
+DROP TABLE IF EXISTS `packingdetail`;
+CREATE TABLE `packingdetail` (
+  `ID` varchar(50) NOT NULL,
+  `PID` varchar(50) DEFAULT NULL,
+  `OrderDetailID` varchar(50) DEFAULT NULL,
+  `ProductID` varchar(50) DEFAULT NULL,
+  `ProductName` varchar(50) DEFAULT NULL,
+  `UnitID` varchar(50) DEFAULT NULL,
+  `UnitName` varchar(50) DEFAULT NULL,
+  `Amount` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of packingdetail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `product`
@@ -256,27 +248,62 @@ CREATE TABLE `product` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
   `Code` varchar(50) NOT NULL COMMENT '编码',
   `Name` varchar(50) NOT NULL COMMENT '名称',
-  `TypeCode` varchar(50) NOT NULL COMMENT '类别编码',
+  `TypeID` varchar(50) NOT NULL COMMENT '类别编码',
   `TypeName` varchar(50) NOT NULL COMMENT '类别名称',
-  `UnitCode` varchar(50) NOT NULL COMMENT '单位编码',
-  `UnitName` varchar(50) NOT NULL COMMENT '单位名称',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
-  `ImgUrl` varchar(255) NOT NULL COMMENT '图片',
-  `ImgUrl2` varchar(255) NOT NULL COMMENT '图片',
-  `ImgUrl3` varchar(255) NOT NULL COMMENT '图片',
-  `Detail` varchar(1000) DEFAULT '销售数量' COMMENT '显示明细',
-  `Sales` int(11) NOT NULL,
+  `StaffID` varchar(50) NOT NULL COMMENT '操作人',
+  `StaffName` varchar(50) NOT NULL COMMENT '操作人',
+  `Detail` varchar(500) NOT NULL DEFAULT '''''' COMMENT '说明',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('2', 'P1245689452', '西红柿', 'T201909280408181429', '777', 'kg', '千克', '2019-10-15 14:19:51', '1', '/upload/20191015/e23c7420-ec1b-461d-bc6f-10ceb5c21454.JPG', '/upload/20191015/da460967-4581-4b44-9802-88ee3b2b324a.JPEG', '/upload/20191015/c035267c-8f2e-4f70-8f21-76ce4eff5a22.JPG', '销售数量', '0');
-INSERT INTO `product` VALUES ('5714397e-4b5a-4407-bfc0-5b223e7571c0', 'P201907120451229056', '土豆', 'T201909280408181429', '777', 'kg', '千克', '2019-10-15 11:37:00', '1', '/upload/20191015/a240bc34-5351-4a62-8e50-313d47609ae5.JPG', '/upload/20191015/2d53d8f2-5d66-4b00-8cd6-6261812ef343.JPG', '/upload/20191015/802d595a-112f-413e-9e8d-6b714484b4ec.JPG', '销售数量', '22');
-INSERT INTO `product` VALUES ('784561ef-511a-4d47-86d5-4898f10bed99', 'P201910020104403729', '55', 'T201909280408181429', '777', '500g', '斤', '2019-10-02 13:04:41', '1', '/upload/20191002/84f24739-6499-4a49-8d85-56d91c45e23d.JPG', '', '', '销售数量', '0');
-INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P201907041037034385', '黄瓜', 'T201907020152143118', '蔬菜', '500g', '斤', '2019-07-12 17:01:41', '1', '/images/nopic.png', '', '', '销售数量', '0');
+
+-- ----------------------------
+-- Table structure for `productimg`
+-- ----------------------------
+DROP TABLE IF EXISTS `productimg`;
+CREATE TABLE `productimg` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL,
+  `Url` varchar(200) NOT NULL DEFAULT '' COMMENT '图片路径',
+  `RowNO` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`ID`),
+  KEY `img_p_pk` (`ProductID`),
+  CONSTRAINT `img_p_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of productimg
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `productprice`
+-- ----------------------------
+DROP TABLE IF EXISTS `productprice`;
+CREATE TABLE `productprice` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `Price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
+  `MemberPrice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '会员价',
+  `LimitNum` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '会员限购数量',
+  `UnitID` varchar(50) NOT NULL COMMENT '商品单位Code',
+  `UnitName` varchar(50) NOT NULL COMMENT '商品单位Name',
+  `StaffID` varchar(50) NOT NULL COMMENT '创建人编码',
+  `StaffName` varchar(50) NOT NULL COMMENT '创建人',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `only_pk` (`ProductID`,`UnitID`) USING BTREE,
+  KEY `p_price_pk` (`ProductID`),
+  CONSTRAINT `p_price_pk` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品价格';
+
+-- ----------------------------
+-- Records of productprice
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -284,15 +311,12 @@ INSERT INTO `product` VALUES ('9fc3f390-a005-4a35-ac95-51d957c11e3e', 'P20190704
 DROP TABLE IF EXISTS `producttype`;
 CREATE TABLE `producttype` (
   `ID` varchar(50) NOT NULL COMMENT '主键',
-  `Code` varchar(50) NOT NULL COMMENT '编码',
   `Name` varchar(50) NOT NULL COMMENT '类别名称',
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `StaffID` varchar(50) NOT NULL COMMENT '创建人名称',
   `StaffName` varchar(50) NOT NULL COMMENT '创建人名称',
   `ImgUrl` varchar(200) NOT NULL COMMENT '类型图片',
-  `TopCategoryID` varchar(50) NOT NULL COMMENT '一级大类型',
-  `TopCategoryName` varchar(50) NOT NULL COMMENT '一级大类型名称',
   PRIMARY KEY (`ID`),
   KEY `Staff_p_pk` (`StaffID`),
   CONSTRAINT `Staff_p_pk` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -301,7 +325,6 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('0d3907a5-fd6f-46b6-8aa5-dab5c2fb19db', 'T201909280408181429', '粉芡', '1', '2019-10-10 14:44:24', '2', '东风小区', '/upload/20191010/41807b08-c60e-49b1-9667-158f754d84da.JPG', '3', '调料');
 
 -- ----------------------------
 -- Table structure for `productunit`
@@ -322,7 +345,6 @@ CREATE TABLE `productunit` (
 -- Records of productunit
 -- ----------------------------
 INSERT INTO `productunit` VALUES ('1', '斤', '500g', '1', '2019-07-02 15:42:55', '1', '222');
-INSERT INTO `productunit` VALUES ('2', '千克', 'kg', '1', '2019-07-04 10:28:34', '1', '22');
 
 -- ----------------------------
 -- Table structure for `promot`
@@ -433,6 +455,32 @@ CREATE TABLE `station` (
 -- Records of station
 -- ----------------------------
 INSERT INTO `station` VALUES ('1', 'ST001', '东风小区店', '新华路东风小学', '0.000000', '0.000000', '1', '2019-06-24 13:32:53');
+
+-- ----------------------------
+-- Table structure for `store`
+-- ----------------------------
+DROP TABLE IF EXISTS `store`;
+CREATE TABLE `store` (
+  `ID` varchar(50) NOT NULL COMMENT '主键',
+  `ProductID` varchar(50) NOT NULL COMMENT '商品ID',
+  `ProductName` varchar(50) NOT NULL COMMENT '商品名称',
+  `UnitID` varchar(50) NOT NULL COMMENT '单位id',
+  `UnitName` varchar(50) NOT NULL COMMENT '单位名称',
+  `Amount` decimal(10,2) NOT NULL COMMENT '库存数量',
+  `OutAmount` decimal(10,2) NOT NULL COMMENT '出库数量',
+  `LuckAmount` decimal(10,2) NOT NULL COMMENT '锁定数量',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `UpdateDate` datetime NOT NULL COMMENT '最后更新时间',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `Only_store` (`ProductID`,`UnitID`) USING BTREE,
+  KEY `store_unit_pk` (`UnitID`),
+  CONSTRAINT `store_pro_PK` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ID`),
+  CONSTRAINT `store_unit_pk` FOREIGN KEY (`UnitID`) REFERENCES `productunit` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of store
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `swiper`
