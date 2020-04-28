@@ -29,7 +29,7 @@
                 { field: 'ck', checkbox: true },
                 {
                     field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
-                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        var span = "<a href='#' onclick=editType('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=delType('" + value + "')>删除</a>";
                         return span;
                     }
                 },
@@ -65,7 +65,7 @@
                     //实现弹出修改
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        edit(row[0].ID);
+                        editType(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -77,7 +77,7 @@
                     //确认只删除一条用户信息
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        del(row[0].ID);
+                        delType(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -85,10 +85,10 @@
             }]
         });
     }
-    function edit(id) {
+    function editType(id) {
         addTab("类别信息", "/producttype/edit?id=" + id, "icon-text-align-left", false);
     }
-    function del(id) {
+    function delType(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
                 $.get("/producttype/delete?id=" + id, function (data) {
