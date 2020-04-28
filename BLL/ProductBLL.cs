@@ -61,11 +61,11 @@ namespace BLL
             }
             good.ID = p.ID;
             good.Title = p.Name;
-            good.ImgList.Add(new Img() {Url = p.ImgUrl});
-            good.ImgList.Add(new Img() { Url = p.ImgUrl2 });
-            good.ImgList.Add(new Img() { Url = p.ImgUrl3 });
+            //good.ImgList.Add(new Img() {Url = p.ImgUrl});
+            //good.ImgList.Add(new Img() { Url = p.ImgUrl2 });
+            //good.ImgList.Add(new Img() { Url = p.ImgUrl3 });
             good.Detail = p.Detail;
-            good.Sales = p.Sales;
+            //good.Sales = p.Sales;
 
             var prices = _priceDal.List(parm).rows;
             foreach (var ex in prices)

@@ -22,17 +22,17 @@ namespace BLL
         public ApiMessage<string> Save(List<PriceEx> list,CurrentUser user)
         {
             var res=new ApiMessage<string>();
-            var prices=new List<price>();
+            var prices=new List<productprice>();
             list.ForEach(n =>
             {
-                var p=new price();
+                var p=new productprice();
                 p.ID = n.ID;
                 p.CreateDate=DateTime.Now;
                 p.Price = n.Price;
                 p.ProductID = n.ProductID;
-                p.UnitCode = n.Code;
+                p.UnitID = n.ID;
                 p.UnitName = n.Name;
-                p.StaffCode = user.UserCode;
+                p.StaffID = user.Id;
                 p.StaffName = user.UserName;
                 p.MemberPrice = n.MemberPrice;
                 p.CreateDate = n.CreateDate;

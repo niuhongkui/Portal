@@ -26,21 +26,19 @@
             singleSelect: true,
             queryParams: parm,    //参数为了多条件查询预留
             columns: [[
-                {field: 'ck', checkbox: true},
+                { field: 'ck', checkbox: true },
                 {
                     field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
-                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('"+value+"')>删除</a>";
+                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
                         return span;
                     }
                 },
-                { field: 'Code', title: '类型编码', width: 200 },
                 { field: 'Name', title: '类型名称', width: 200 },
                 {
                     field: 'ImgUrl', title: '类型图片', width: 180, formatter: function (value, row, index) {
                         return "<img src='" + value + "' border='1'  style='height:60px;width:60px'  onerror=\"this.src='/images/nopic.png'\" />";
                     }
                 },
-                { field: 'TopCategoryName', title: '大类名称', width: 200 },
                 {
                     field: 'CreateDate', title: '创建时间', width: 200, formatter: function (str) {
                         var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
@@ -105,20 +103,13 @@
         });
     }
     function searchList() {
-        var selId = $("#TopCategoryID").combobox("getValue");
         var value = $("#txt_Name").textbox("getValue");
-        Query({ Name: value, Type: selId });
+        Query({ Name: value});
     }
 </script>
-
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
         <div class="search-list">
-            <label class="search-lable" from="TopCategoryID">主类别:</label>
-            <select class="easyui-combobox form-control search-text" data-options="url:'/producttype/GetCategory',method:'get',
-					valueField:'id',
-					textField:'text',
-					panelHeight:'auto'" id="TopCategoryID" name="TopCategoryID"></select>
             <label class="search-lable" for="Name">类别名称:</label>
             <input id="txt_Name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入类别名称'" />
             <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>

@@ -25,7 +25,7 @@ namespace DAL
             return page;
         }
 
-        public bool Save(List<price> list)
+        public bool Save(List<productprice> list)
         {
             using (var scope = new PetaPoco.Transaction(_db))
             {

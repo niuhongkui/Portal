@@ -37,7 +37,7 @@ namespace Portal.Controllers.Api
             }
             foreach (var item in last)
             {
-                list.Add(new { id = item.ID, pid = item.TopCategoryID, name = item.Name, picture = item.ImgUrl });
+                //list.Add(new { id = item.ID, pid = item.TopCategoryID, name = item.Name, picture = item.ImgUrl });
             }
             var res = new ApiMessage<object>();
             res.Data = list;
@@ -57,11 +57,11 @@ namespace Portal.Controllers.Api
             foreach (var item in top)
             {
                 var node = new { id = item.EnumValue, name = item.EnumName, child = new List<object>() };
-                var temp = last.Where(n => n.TopCategoryID == item.EnumValue.ToString()).ToList();
-                foreach (var t in temp)
-                {
-                    node.child.Add(new { id = t.ID, pid = t.TopCategoryID, name = t.Name, picture = t.ImgUrl });
-                }
+                //var temp = last.Where(n => n.TopCategoryID == item.EnumValue.ToString()).ToList();
+                //foreach (var t in temp)
+                //{
+                //    node.child.Add(new { id = t.ID, pid = t.TopCategoryID, name = t.Name, picture = t.ImgUrl });
+                //}
                 list.Add(node);
             }
             var res = new ApiMessage<object>();

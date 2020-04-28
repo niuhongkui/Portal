@@ -24,10 +24,6 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND Name like @Name");
             }
-            if (!string.IsNullOrEmpty(parm.Type))
-            {
-                strSql.Append(" AND TypeCode like @Type");
-            }
             page.rows = product.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
                 .Skip(parm.index*parm.rows)
