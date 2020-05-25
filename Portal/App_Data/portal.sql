@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2020-04-24 14:03:40
+Date: 2020-05-25 22:01:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -254,13 +254,15 @@ CREATE TABLE `product` (
   `IsActive` int(2) NOT NULL COMMENT '是否有效',
   `StaffID` varchar(50) NOT NULL COMMENT '操作人',
   `StaffName` varchar(50) NOT NULL COMMENT '操作人',
-  `Detail` varchar(500) NOT NULL DEFAULT '''''' COMMENT '说明',
+  `Detail` varchar(500) NOT NULL DEFAULT '' COMMENT '说明',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
+INSERT INTO `product` VALUES ('563833d8-e469-4515-ab96-f631214429a6', 'P202004300955148701', '55544', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '2020-04-30 21:56:39', '1', '2', '东风小区', '5555');
+INSERT INTO `product` VALUES ('8611ed05-b483-46bf-9d52-b25862384dd4', 'P202004300953376402', '333', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '2020-04-30 21:53:33', '1', '2', '东风小区', '333');
 
 -- ----------------------------
 -- Table structure for `productimg`
@@ -304,6 +306,7 @@ CREATE TABLE `productprice` (
 -- ----------------------------
 -- Records of productprice
 -- ----------------------------
+INSERT INTO `productprice` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '0.00', '0.00', '0.00', '1', '1', '1', '1', '2020-04-30 22:30:42');
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -325,6 +328,7 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
+INSERT INTO `producttype` VALUES ('9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '1', '2020-04-24 20:41:07', '2', '东风小区', '/upload/20200424/a44d821d-4a28-46a8-8c87-c323a5ce760c.JPG');
 
 -- ----------------------------
 -- Table structure for `productunit`

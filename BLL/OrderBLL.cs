@@ -26,12 +26,12 @@ namespace BLL
             }
             else
             {
-                list.ForEach(n =>
-                {
-                    var firstOrDefault = p.FirstOrDefault(m => n.ProductID == m.ProductID && m.UnitID == n.UnitID);
-                    if (firstOrDefault != null)
-                        n.Amount = firstOrDefault.Amount;
-                });
+                //list.ForEach(n =>
+                //{
+                //    var firstOrDefault = p.FirstOrDefault(m => n.ProductID == m.ProductID && m.UnitID == n.UnitID);
+                //    if (firstOrDefault != null)
+                //        n.Amount = firstOrDefault.Amount;
+                //});
                 api.Success = true;
                 api.Data = list;
             }

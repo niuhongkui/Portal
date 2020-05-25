@@ -19,16 +19,14 @@
             columns: [[
                 { field: 'ck', checkbox: true },
                 {
-                    field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
-                        var btn = "<a href='#' onclick='javascript:lookPrice(\"" + value + "\")'  class='easyui-linkbutton'>价格</a>"
-                        btn += " <a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a>";
+                    field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value, row, index) {
+                        var btn = " <a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a>";
                         btn += " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
                         return btn;
                     }
                 },
                 { field: 'Name', title: '商品名称', width: 200 },
                 { field: 'TypeName', title: '类型名称', width: 200 },
-                { field: 'UnitName', title: '单位名称', width: 200 },
                 {
                     field: 'CreateDate', title: '创建时间', width: 200, formatter: function (str) {
                         var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
@@ -85,7 +83,7 @@
     function del(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
-                $.get("/producttype/delete?id=" + id, function (data) {
+                $.get("/product/delete?id=" + id, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
                         $('#gd_product').datagrid("reload");

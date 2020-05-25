@@ -1,12 +1,12 @@
 ﻿
 <script>
-    $(function() {
+    $(function () {
         Query({});
     });
-    var page_price = function() {
+    var page_price = function () {
         var ths = this;
         ths.editIndex = undefined;
-        ths.endEditing = function() {
+        ths.endEditing = function () {
             if (ths.editIndex == undefined) {
                 return true
             }
@@ -18,7 +18,7 @@
                 return false;
             }
         }
-        ths.onClickRow = function(index) {
+        ths.onClickRow = function (index) {
             if (ths.editIndex != index) {
                 if (ths.endEditing()) {
                     $('#gd_price').datagrid('selectRow', index)
@@ -34,7 +34,6 @@
 
     function Query(parm) {
         $('#gd_price').datagrid({
-            title: '商品价格',
             iconCls: 'icon-save',
             height: 500,
             nowrap: true,
@@ -44,26 +43,33 @@
             border: true,
             rownumbers: true,
             singleSelect: true,
-            onClickRow: function(index) {
+            onClickRow: function (index) {
                 obj_price.onClickRow(index);
             },
             queryParams: parm, //参数为了多条件查询预留
             columns: [
                 [
+
                     { field: 'ck', checkbox: true },
-                    { field: 'PCode', title: '商品编码', width: 180 },
-                    { field: 'PName', title: '商品名称', width: 100 },
-                    { field: 'TypeCode', title: '类型编码', width: 180 },
+                    {
+                        field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value, row, index) {
+                            var btn = " <a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a>";
+                            btn += " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                            return btn;
+                        }
+                    },
+                    { field: 'Name', title: '商品名称', width: 100 },
                     { field: 'TypeName', title: '类型名称', width: 100 },
-                    { field: 'Code', title: '单位编码', width: 180 },
-                    { field: 'Name', title: '单位名称', width: 100 },
+                    { field: 'UnitName', title: '单位名称', width: 100 },
                     { field: 'Price', title: '单价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
                     { field: 'MemberPrice', title: '会员价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
+                    { field: 'LimitNum', title: '会员限购', width: 100 },
+                    { field: 'StaffName', title: '操作人', width: 100 },
                     {
                         field: 'CreateDate',
                         title: '创建时间',
                         width: 180,
-                        formatter: function(str) {
+                        formatter: function (str) {
                             if (!str)
                                 return '';
                             if (str.length < 3)
@@ -78,9 +84,32 @@
                 {
                     text: '保存',
                     iconCls: 'icon-add',
-                    handler: function() {
-                        //实现弹出添加用户信息的层
+                    handler: function () {
                         save();
+                    }
+                }, '-', {
+                    text: '修改',
+                    iconCls: 'icon-cut',
+                    handler: function () {
+                        //实现弹出修改
+                        var row = $('#gd_product').datagrid("getChecked");
+                        if (row.length > 0) {
+                            edit(row[0].ID);
+                        } else {
+                            $.messager.alert("警告", "请选择一行", "warning");
+                        }
+                    }
+                }, '-', {
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+                        //确认只删除一条用户信息
+                        var row = $('#gd_product').datagrid("getChecked");
+                        if (row.length > 0) {
+                            del(row[0].ID);
+                        } else {
+                            $.messager.alert("警告", "请选择一行", "warning");
+                        }
                     }
                 }
             ]
@@ -102,7 +131,7 @@
             url: "/price/save/",
             contentType: "application/json;charset=utf-8",
             dataType: 'json',
-            data:JSON.stringify(list),
+            data: JSON.stringify(list),
             success: function (json) {
                 if (json.Success) {
                     $.messager.alert('提示', "保存成功！", 'info');
@@ -115,17 +144,22 @@
 
 </script>
 <style>
-      #d_price table td[field='Price'] span {
-            color: #3EAFE0;
-        }
-      #d_price table td[field='MemberPrice'] span {
-            color: #3EAFE0;
-        }
+    #d_price table td[field='Price'] span {
+        color: #3EAFE0;
+    }
+
+    #d_price table td[field='MemberPrice'] span {
+        color: #3EAFE0;
+    }
 </style>
 <div class="easyui-layout" fit="true">
-    <div region="north" border="false" style="height:20px">
-        <div style="padding-left:10px;margin-top:10px">
-
+    <div region="north" border="false" style="height:50px">
+        <div class="search-list">
+            <label class="search-lable" for="TypeName">类别名称:</label>
+            <input id="txt_TypeName" class="easyui-textbox form-control search-text" type="text" name="TypeName" data-options="prompt:'请输入类别名称'" />
+            <label class="search-lable" for="Name">商品名称:</label>
+            <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
     <div region="center" id="d_price" border="false">

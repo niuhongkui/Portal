@@ -17,10 +17,8 @@ namespace DAL
         {
             var page = new Page<PriceEx>(parm);
             var strSql = PetaPoco.Sql.Builder;
-            strSql.Append(@"SELECT p.Code,p.Name,p1.Name AS PName,p1.Code PCode,IFNULL(p2.Price,0) Price,IFNULL(p2.MemberPrice,0) MemberPrice,p1.TypeCode,p1.TypeName,p2.ID,p2.CreateDate,p1.ID ProductID ,p.ID UnitID FROM 
-              productunit p LEFT JOIN product p1 ON 1=1
-              LEFT JOIN price p2 ON p.Code=p2.UnitCode AND p1.ID=p2.ProductID");
-            strSql.Where(" p1.ID=@0", parm.Id);
+            strSql.Append(@"SELECT p.*,p1.`Code` ,p1.`Name` ,p1.TypeID,p1.TypeName  FROM productprice p INNER JOIN product p1 on p.ProductID =p1.ID WHERE p1.IsActive=1");
+            //strSql.Where(" p1.ID=@0", parm.Id);
             page.rows = _db.Fetch<PriceEx>(strSql);
             return page;
         }

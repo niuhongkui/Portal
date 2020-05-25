@@ -31,11 +31,10 @@ namespace Portal.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="parm"></param>
         /// <returns></returns>
-        public JsonResult List(string id)
+        public JsonResult List(BaseParm parm)
         {
-            var parm = new BaseParm {Id = id};
             var list = _bll.List(parm);
             return Json(list);
         }

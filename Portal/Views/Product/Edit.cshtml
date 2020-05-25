@@ -13,9 +13,6 @@
             selectType: function (e) {
                 this.form.TypeName = this.$refs["cbType"].selectedOptions[0].text;
             },
-            selectUnit: function (e) {
-                this.form.UnitName = this.$refs["cbUnit"].selectedOptions[0].text;
-            },
             init: function () {
                 var that = this;
                 var url = "/product/Get?id=" + (that.id ? that.id : "");
@@ -28,29 +25,10 @@
                 $.post("/productType/gettype", {}, function (json) {
                     that.typeData = json.rows;
                 });
-                $.get("/product/getunit", function (json) {
-                    that.unitData = json.rows;
-                });
-
-
             },
             save: function () {
                 var that = this;
-                if (!that.form.ImgUrl) {
-                    $.messager.alert('提示', "请添加图片！", 'info');
-                    return;
-                }
-                if (!that.form.ImgUrl2) {
-                    $.messager.alert('提示', "请添加图片！", 'info');
-                    return;
-                }
-                if (!that.form.ImgUrl3) {
-                    $.messager.alert('提示', "请添加图片！", 'info');
-                    return;
-                }
-                var that = this;
                 var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
-
                 $.ajax({
                     method: "post",
                     url: "/product/save/",
@@ -66,27 +44,11 @@
             },
             handleAvatarSuccess(res, file) {
                 //URL.createObjectURL(file.raw);
-                if(res.Success)
-                    this.form.ImgUrl = res.Data;
-                else {
-                    $.messager.alert('提示', res.Msg, 'error');
-                }
-            },
-            handleAvatarSuccess2(res, file) {
-                //URL.createObjectURL(file.raw);
-                if (res.Success)
-                    this.form.ImgUrl2 = res.Data;
-                else {
-                    $.messager.alert('提示', res.Msg, 'error');
-                }
-            },
-            handleAvatarSuccess3(res, file) {
-                //URL.createObjectURL(file.raw);
-                if (res.Success)
-                    this.form.ImgUrl3 = res.Data;
-                else {
-                    $.messager.alert('提示', res.Msg, 'error');
-                }
+                //if(res.Success)
+                //    this.form.ImgUrl = res.Data;
+                //else {
+                //    $.messager.alert('提示', res.Msg, 'error');
+                //}
             },
             beforeAvatarUpload(file) {
                 var isJPG = file.type === 'image/jpeg';
@@ -119,24 +81,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">商品编码</label>
-            <div class="col-sm-10">
-                <input type="text" v-model="form.Code" class="form-control" placeholder="请输入商品编码">
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-2 control-label">商品类型</label>
             <div class="col-sm-10">
-                <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeCode">
-                    <option v-for="option in typeData" :value="option.Code">{{option.Name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">商品单位</label>
-            <div class="col-sm-10">
-                <select ref="cbUnit" v-on:change="selectUnit()" class="form-control" v-model="form.UnitCode">
-                    <option v-for="option in unitData" :value="option.Code">{{option.Name}}</option>
+                <select ref="cbType" class="form-control" v-on:change="selectType()" v-model="form.TypeID">
+                    <option v-for="option in typeData" :value="option.ID">{{option.Name}}</option>
                 </select>
             </div>
         </div>
@@ -153,46 +101,12 @@
                 </el-upload>
             </div>
         </div>
-		<div class="form-group">
-            <label class="col-sm-2 control-label">商品图片</label>
-            <div class="col-sm-10">
-                <el-upload class="avatar-uploader"
-                           action="/upload/img"
-                           :show-file-list="false"
-                           :on-success="handleAvatarSuccess2"
-                           :before-upload="beforeAvatarUpload">
-                    <img v-if="form.ImgUrl2" :src="form.ImgUrl2" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-            </div>
-        </div>
-		<div class="form-group">
-            <label class="col-sm-2 control-label">商品图片</label>
-            <div class="col-sm-10">
-                <el-upload class="avatar-uploader"
-                           action="/upload/img"
-                           :show-file-list="false"
-                           :on-success="handleAvatarSuccess3"
-                           :before-upload="beforeAvatarUpload">
-                    <img v-if="form.ImgUrl3" :src="form.ImgUrl3" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-            </div>
-        </div>
-		
         <div class="form-group">
             <label class="col-sm-2 control-label">明细</label>
             <div class="col-sm-10">
                 <input type="text" v-model="form.Detail" class="form-control" placeholder="请输入商品明细">
             </div>
-        </div>
-		
-        <div class="form-group">
-            <label class="col-sm-2 control-label">销量</label>
-            <div class="col-sm-10">
-                <input type="number" v-model="form.Sales" class="form-control" placeholder="请输入商品销量">
-            </div>
-        </div>
+        </div>		
         <div class="form-group">
             <label class="col-sm-2 control-label">是否启用</label>
             <div class="col-sm-10">

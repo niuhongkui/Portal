@@ -75,8 +75,22 @@ namespace Portal.Controllers
         public JsonResult Save(product model)
         {
             model.CreateDate=DateTime.Now;
+            model.StaffID = UserInfo.Id;
+            model.StaffName = UserInfo.UserName;
+
             var json = _proBll.Edit(model);
             return Json(json);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonResult Delete(string id)
+        {
+            var json = _proBll.Delete(id);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }
