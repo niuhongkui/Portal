@@ -23,11 +23,11 @@ namespace BLL
         {
             return _dal.Delete(id);
         }
-        public ApiMessage<string> Edit(product parm)
+        public ApiMessage<string> Edit(ProductEx parm)
         {
             return _dal.Edit(parm);
         }
-        public ApiMessage<product> Get(string id)
+        public ApiMessage<ProductEx> Get(string id)
         {
             return _dal.Get(id);
         }

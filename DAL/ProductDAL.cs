@@ -26,7 +26,7 @@ namespace DAL
             }
             page.rows = product.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
-                .Skip(parm.index*parm.rows)
+                .Skip(parm.index * parm.rows)
                 .ToList();
             page.total =
                 _db.FirstOrDefault<int>("select count(1) from product " + strSql, parm);
@@ -36,48 +36,102 @@ namespace DAL
 
         public ApiMessage<string> Delete(string id)
         {
-            var rows = product.Delete(" where id=@0", id);
-            var msg = new ApiMessage<string>();
-            if (rows > 0)
+            using (var scope = new PetaPoco.Transaction(_db))
             {
-                msg.Msg = "删除成功";
-                msg.Success = true;
+                try
+                {
+                    var rows = product.Delete(" where id=@0", id);
+                    productimg.Delete("where productid=@0",id);
+                    var msg = new ApiMessage<string>();
+                    if (rows > 0)
+                    {
+                        msg.Msg = "删除成功";
+                        msg.Success = true;
 
+                    }
+                    else
+                    {
+                        msg.Msg = "删除失败";
+                        msg.Success = false;
+
+                    }
+                    scope.Complete();
+                    return msg;
+                }
+                catch (Exception e)
+                {
+                    scope.Dispose();
+                    throw e;
+                }
+                
             }
-            else
-            {
-                msg.Msg = "删除失败";
-                msg.Success = false;
-
-            }
-
-            return msg;
         }
 
-        public ApiMessage<string> Edit(product t)
+        public ApiMessage<string> Edit(ProductEx t)
         {
-            if (string.IsNullOrEmpty(t.ID))
+            using (var scope = new PetaPoco.Transaction(_db))
             {
-                t.ID = Guid.NewGuid().ToString();
-                t.Code = CodeNo.Get(CodeType.Product);
-                t.Insert();
+                try
+                {
+                    if (string.IsNullOrEmpty(t.ID))
+                    {
+                        t.ID = Guid.NewGuid().ToString();
+                        t.Code = CodeNo.Get(CodeType.Product);
+                        t.Insert();
+
+                        foreach (var item in t.Imgs)
+                        {
+                           var img=new productimg {
+                                ID=Guid.NewGuid().ToString(),
+                                ProductID=t.ID,
+                                RowNO=0,
+                                Url=item.url
+                            };
+                            img.Insert();
+                        }
+                    }
+                    else
+                    {
+                        t.Update();
+                        productimg.Delete("where ProductId=@0", t.ID);
+                        foreach (var item in t.Imgs)
+                        {
+                            var img = new productimg
+                            {
+                                ID = Guid.NewGuid().ToString(),
+                                ProductID = t.ID,
+                                RowNO = 0,
+                                Url = item.url
+                            };
+                            img.Insert();
+                        }
+                    }
+                    scope.Complete();
+                    return new ApiMessage<string>();
+                }
+                catch (Exception e)
+                {
+                    scope.Dispose();
+                    throw e;
+                }
+                
             }
-            else
-            {
-                t.Update();
-            }
-            return new ApiMessage<string>();
         }
 
-        public ApiMessage<product> Get(string id)
+        public ApiMessage<ProductEx> Get(string id)
         {
-            var json = new ApiMessage<product>();
-            var m = product.FirstOrDefault(" where id=@0", id);
+            var json = new ApiMessage<ProductEx>();
+            var m = _db.FirstOrDefault<ProductEx>(" where id=@0", id);
             if (m == null)
             {
                 json.Success = false;
                 json.Msg = "不存在";
                 return json;
+            }
+            var imgs = productimg.Query("where ProductID=@0", m.ID);
+            foreach (var item in imgs)
+            {
+                m.Imgs.Add(new ProImg { name = "", url = item.Url });
             }
             json.Data = m;
             return json;
@@ -104,9 +158,9 @@ namespace DAL
                     WHERE p1.Price>0 AND p.IsActive=1  AND t.ID=@id
                     GROUP BY p.ID LIMIT @m,@n", new
                     {
-                        id=parm.Id,
-                        m =parm.index*parm.rows-parm.rows,
-                        n =parm.rows
+                        id = parm.Id,
+                        m = parm.index * parm.rows - parm.rows,
+                        n = parm.rows
                     });
             page.Data = list;
             return page;

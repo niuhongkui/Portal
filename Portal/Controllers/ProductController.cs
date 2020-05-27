@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BLL;
 using Common;
 using Model;
+using Model.Entity;
 
 namespace Portal.Controllers
 {
@@ -72,7 +73,7 @@ namespace Portal.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public JsonResult Save(product model)
+        public JsonResult Save(ProductEx model)
         {
             model.CreateDate=DateTime.Now;
             model.StaffID = UserInfo.Id;

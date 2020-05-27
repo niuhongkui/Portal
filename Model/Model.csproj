@@ -56,6 +56,7 @@
     <Compile Include="Entity\Goods.cs" />
     <Compile Include="Entity\Order.cs" />
     <Compile Include="Entity\PriceEx.cs" />
+    <Compile Include="Entity\ProductEx.cs" />
     <Compile Include="Entity\UserInfoEx.cs" />
     <Compile Include="Models\Generated\Database.cs">
       <AutoGen>True</AutoGen>

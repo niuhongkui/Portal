@@ -21,6 +21,7 @@
                     if (json.Success) {
                         json.Data.IsActive = json.Data.IsActive == 1 ? true : false;
                         that.form = json.Data;
+                        that.fileList = that.form.Imgs;
                     }
                 });
                 $.post("/productType/gettype", {}, function (json) {
@@ -30,6 +31,7 @@
             save: function () {
                 var that = this;
                 var data = $.extend({}, that.form, { IsActive: that.form.IsActive ? 1 : 0 });
+                data.Imgs = that.fileList;
                 $.ajax({
                     method: "post",
                     url: "/product/save/",
