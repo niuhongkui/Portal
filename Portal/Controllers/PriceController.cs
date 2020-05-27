@@ -22,13 +22,13 @@ namespace Portal.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult Index(string id)
+        public ActionResult Index(string name)
         {
-            ViewBag.Id = id;
+            ViewBag.Name = name;
             return View();
         }
-
         /// <summary>
+
         /// 
         /// </summary>
         /// <param name="parm"></param>

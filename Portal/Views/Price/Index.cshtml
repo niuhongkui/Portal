@@ -1,7 +1,7 @@
 ﻿
 <script>
     $(function () {
-        priceQuery({});
+        priceQuery({ Name: "@ViewBag.Name" });
     });
     var page_price = function () {
         var ths = this;
@@ -39,7 +39,7 @@
             nowrap: true,
             autoRowHeight: false,
             striped: false,
-            url: '/price/list?id=@ViewBag.Id',
+            url: '/price/list?id=',
             border: true,
             rownumbers: true,
             singleSelect: true,
@@ -61,7 +61,7 @@
                     { field: 'UnitName', title: '单位名称', width: 100 },
                     { field: 'Price', title: '单价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
                     { field: 'MemberPrice', title: '会员价', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
-                    { field: 'LimitNum', title: '会员限购', width: 100 },
+                    { field: 'LimitNum', title: '会员限购', width: 80, editor: { type: 'numberbox', options: { precision: 1 } } },
                     { field: 'StaffName', title: '操作人', width: 100 },
                     {
                         field: 'CreateDate',
@@ -77,30 +77,13 @@
                         }
                     }
                 ]
-            ],
-            toolbar: [
-                {
-                    text: '保存',
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        priceSave();
-                    }
-                }, '-', {
-                    text: '删除',
-                    iconCls: 'icon-remove',
-                    handler: function () {
-                        var row = $('#gd_product').datagrid("getChecked");
-                        if (row.length > 0) {
-                            del(row[0].ID);
-                        } else {
-                            $.messager.alert("警告", "请选择一行", "warning");
-                        }
-                    }
-                }
             ]
         });
     }
-
+    function priceSearch() {
+        var value = $("#p_name").textbox("getValue");
+        priceQuery({ Name: value });
+    }
     function priceSave() {
         var rows = $('#gd_price').datagrid("getRows");
         var list = [];
@@ -136,6 +119,9 @@
     #d_price table td[field='MemberPrice'] span {
         color: #3EAFE0;
     }
+    #d_price table td[field='LimitNum'] span {
+        color: red;
+    }
 </style>
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
@@ -143,8 +129,8 @@
             <label class="search-lable" for="TypeName">类别名称:</label>
             <input id="txt_TypeName" class="easyui-textbox form-control search-text" type="text" name="TypeName" data-options="prompt:'请输入类别名称'" />
             <label class="search-lable" for="Name">商品名称:</label>
-            <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
-            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+            <input id="p_name" class="easyui-textbox form-control search-text" value="@ViewBag.Name" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: priceSearch();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
     <div region="center" id="d_price" border="false">

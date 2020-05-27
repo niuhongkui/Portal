@@ -22,7 +22,7 @@
                     field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
                         var btn = " <a href='#' onclick=editPro('" + value + "') class='easyui-splitbutton'>编辑</a>";
                         btn += " <a href='#'  class='easyui-splitbutton' onclick=delPro('" + value + "')>删除</a>";
-                        btn += " <a href='#'  class='easyui-splitbutton' onclick=lookPrice('" + value + "')>价格</a>";
+                        btn += " <a href='#'  class='easyui-splitbutton' onclick=lookPrice('" + row.Name + "')>价格</a>";
                         return btn;
                     }
                 },
@@ -77,8 +77,8 @@
     function editPro(id) {
         addTab("商品信息", "/product/edit?id=" + id, "icon-application", false);
     }
-    function lookPrice(id) {
-        addTab("价格管理", "/price/index?id=" + id, "icon-application-key", false);
+    function lookPrice(name) {
+        addTab("价格管理", "/price/index?name=" + name, "icon-application-key", false);
     }
 
     function delPro(id) {
@@ -95,7 +95,7 @@
             }
         });
     }
-    function searchList() {
+    function proSearch() {
         var value = $("#p_name").textbox("getValue");
         proQuery({ Name: value });
     }
@@ -106,7 +106,7 @@
         <div class="search-list">
             <label class="search-lable" for="Name">商品名称:</label>
             <input id="p_name"  class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
-            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: proSearch();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
     <div region="center" id="d_product" border="false">
