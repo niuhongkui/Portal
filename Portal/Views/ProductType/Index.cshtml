@@ -9,9 +9,9 @@
 </style>
 <script language="javascript">
     $(function () {
-        Query({});
+        proTypeQuery({});
     });
-    function Query(parm) {
+    function proTypeQuery(parm) {
         $('#gd_type').datagrid({
             title: '',
             iconCls: 'icon-save',
@@ -29,7 +29,7 @@
                 { field: 'ck', checkbox: true },
                 {
                     field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
-                        var span = "<a href='#' onclick=editType('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=delType('" + value + "')>删除</a>";
+                        var span = "<a href='#' onclick=editProType('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=delProType('" + value + "')>删除</a>";
                         return span;
                     }
                 },
@@ -56,7 +56,7 @@
                 iconCls: 'icon-add',
                 handler: function () {
                     //实现弹出添加用户信息的层
-                    edit(0);
+                    editProType(0);
                 }
             }, '-', {
                 text: '修改',
@@ -65,7 +65,7 @@
                     //实现弹出修改
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        editType(row[0].ID);
+                        editProType(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -77,7 +77,7 @@
                     //确认只删除一条用户信息
                     var row = $('#gd_type').datagrid("getChecked");
                     if (row.length > 0) {
-                        delType(row[0].ID);
+                        delProType(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -85,10 +85,10 @@
             }]
         });
     }
-    function editType(id) {
+    function editProType(id) {
         addTab("类别信息", "/producttype/edit?id=" + id, "icon-text-align-left", false);
     }
-    function delType(id) {
+    function delProType(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
                 $.get("/producttype/delete?id=" + id, function (data) {
@@ -104,7 +104,7 @@
     }
     function searchList() {
         var value = $("#txt_Name").textbox("getValue");
-        Query({ Name: value});
+        proTypeQuery({ Name: value});
     }
 </script>
 <div class="easyui-layout" fit="true">
