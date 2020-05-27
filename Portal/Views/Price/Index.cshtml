@@ -1,7 +1,7 @@
 ﻿
 <script>
     $(function () {
-        Query({});
+        priceQuery({});
     });
     var page_price = function () {
         var ths = this;
@@ -32,7 +32,7 @@
     }
     var obj_price = new page_price();
 
-    function Query(parm) {
+    function priceQuery(parm) {
         $('#gd_price').datagrid({
             iconCls: 'icon-save',
             height: 500,
@@ -49,12 +49,10 @@
             queryParams: parm, //参数为了多条件查询预留
             columns: [
                 [
-
                     { field: 'ck', checkbox: true },
                     {
-                        field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value, row, index) {
-                            var btn = " <a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a>";
-                            btn += " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        field: 'ID', title: '操作', width: 60, align: 'center', formatter: function (value, row, index) {
+                            var btn = " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
                             return btn;
                         }
                     },
@@ -85,25 +83,12 @@
                     text: '保存',
                     iconCls: 'icon-add',
                     handler: function () {
-                        save();
-                    }
-                }, '-', {
-                    text: '修改',
-                    iconCls: 'icon-cut',
-                    handler: function () {
-                        //实现弹出修改
-                        var row = $('#gd_product').datagrid("getChecked");
-                        if (row.length > 0) {
-                            edit(row[0].ID);
-                        } else {
-                            $.messager.alert("警告", "请选择一行", "warning");
-                        }
+                        priceSave();
                     }
                 }, '-', {
                     text: '删除',
                     iconCls: 'icon-remove',
                     handler: function () {
-                        //确认只删除一条用户信息
                         var row = $('#gd_product').datagrid("getChecked");
                         if (row.length > 0) {
                             del(row[0].ID);
@@ -116,7 +101,7 @@
         });
     }
 
-    function save() {
+    function priceSave() {
         var rows = $('#gd_price').datagrid("getRows");
         var list = [];
         for (var i = 0; i < rows.length; i++) {

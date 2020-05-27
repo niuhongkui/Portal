@@ -47,13 +47,11 @@ namespace DAL
                     {
                         msg.Msg = "删除成功";
                         msg.Success = true;
-
                     }
                     else
                     {
                         msg.Msg = "删除失败";
                         msg.Success = false;
-
                     }
                     scope.Complete();
                     return msg;
@@ -62,8 +60,7 @@ namespace DAL
                 {
                     scope.Dispose();
                     throw e;
-                }
-                
+                }                
             }
         }
 
