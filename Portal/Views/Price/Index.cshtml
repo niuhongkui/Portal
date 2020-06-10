@@ -43,16 +43,17 @@
             border: true,
             rownumbers: true,
             singleSelect: true,
-            onClickRow: function (index) {
-                obj_price.onClickRow(index);
-            },
+            //onClickRow: function (index) {
+            //    obj_price.onClickRow(index);
+            //},
             queryParams: parm, //参数为了多条件查询预留
             columns: [
                 [
                     { field: 'ck', checkbox: true },
                     {
-                        field: 'ID', title: '操作', width: 60, align: 'center', formatter: function (value, row, index) {
-                            var btn = " <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value, row, index) {
+                            var btn = " <a href='#'  class='easyui-splitbutton' onclick=delPrice('" + value + "')>删除</a>";                
+                            btn += " <a href='#' onclick=editPrice('" + value + "') class='easyui-splitbutton'>编辑</a>";
                             return btn;
                         }
                     },
@@ -81,8 +82,9 @@
         });
     }
     function priceSearch() {
-        var value = $("#p_name").textbox("getValue");
-        priceQuery({ Name: value });
+        var value = $("#txt_price_name").textbox("getValue");
+        var type=$("#txt_price_TypeName").textbox("getValue");
+        priceQuery({ Name: value ,Type:type});
     }
     function priceSave() {
         var rows = $('#gd_price').datagrid("getRows");
@@ -109,7 +111,12 @@
             }
         });
     }
+    function delPrice(id) {
 
+    }
+    function editPrice(id) {
+
+    }
 </script>
 <style>
     #d_price table td[field='Price'] span {
@@ -127,9 +134,9 @@
     <div region="north" border="false" style="height:50px">
         <div class="search-list">
             <label class="search-lable" for="TypeName">类别名称:</label>
-            <input id="txt_TypeName" class="easyui-textbox form-control search-text" type="text" name="TypeName" data-options="prompt:'请输入类别名称'" />
+            <input id="txt_price_TypeName" class="easyui-textbox form-control search-text" type="text" name="TypeName" data-options="prompt:'请输入类别名称'" />
             <label class="search-lable" for="Name">商品名称:</label>
-            <input id="p_name" class="easyui-textbox form-control search-text" value="@ViewBag.Name" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
+            <input id="txt_price_name" class="easyui-textbox form-control search-text" value="@ViewBag.Name" type="text" name="Name" data-options="prompt:'请输入商品名称'" />
             <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: priceSearch();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
