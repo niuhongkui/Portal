@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2020-05-25 22:01:03
+Date: 2020-06-11 17:23:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -141,6 +141,30 @@ CREATE TABLE `mealdetail` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `oldprice`
+-- ----------------------------
+DROP TABLE IF EXISTS `oldprice`;
+CREATE TABLE `oldprice` (
+  `ID` varchar(50) NOT NULL DEFAULT '',
+  `PriceID` varchar(50) DEFAULT NULL,
+  `ProductID` varchar(50) DEFAULT NULL,
+  `ProductName` varchar(50) DEFAULT NULL,
+  `Price` decimal(6,2) DEFAULT NULL,
+  `MemberPrice` decimal(6,2) DEFAULT NULL,
+  `LimitNum` decimal(4,0) DEFAULT NULL,
+  `CreatDate` datetime DEFAULT NULL,
+  `StaffName` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oldprice
+-- ----------------------------
+INSERT INTO `oldprice` VALUES ('496306c5-45f3-4f4e-bacf-b6ac4ecef1da', '1', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '0.00', '0.00', '0', '2020-06-11 14:09:28', '东风小区');
+INSERT INTO `oldprice` VALUES ('6e4d6798-1717-437f-828d-25ea0a51ce4e', 'a533ee7e-14ca-4a72-8b05-83ef2f23be1d', '563833d8-e469-4515-ab96-f631214429a6', '', '4.00', null, '10', '2020-06-11 17:17:20', '东风小区');
+INSERT INTO `oldprice` VALUES ('96e99d5c-9cac-4127-9520-978fb4620167', 'a533ee7e-14ca-4a72-8b05-83ef2f23be1d', '563833d8-e469-4515-ab96-f631214429a6', '', '7.00', null, '10', '2020-06-11 17:18:25', '东风小区');
+
+-- ----------------------------
 -- Table structure for `order`
 -- ----------------------------
 DROP TABLE IF EXISTS `order`;
@@ -261,8 +285,8 @@ CREATE TABLE `product` (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('563833d8-e469-4515-ab96-f631214429a6', 'P202004300955148701', '55544', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '2020-04-30 21:56:39', '1', '2', '东风小区', '5555');
-INSERT INTO `product` VALUES ('8611ed05-b483-46bf-9d52-b25862384dd4', 'P202004300953376402', '333', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '2020-04-30 21:53:33', '1', '2', '东风小区', '333');
+INSERT INTO `product` VALUES ('563833d8-e469-4515-ab96-f631214429a6', 'P202004300955148701', '香蕉', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '水果', '2020-05-27 16:38:09', '1', '2', '东风小区', '5555');
+INSERT INTO `product` VALUES ('8611ed05-b483-46bf-9d52-b25862384dd4', 'P202004300953376402', '333', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '水果', '2020-06-10 17:48:15', '1', '2', '东风小区', '333');
 
 -- ----------------------------
 -- Table structure for `productimg`
@@ -281,6 +305,8 @@ CREATE TABLE `productimg` (
 -- ----------------------------
 -- Records of productimg
 -- ----------------------------
+INSERT INTO `productimg` VALUES ('81e96a7c-916c-4077-bcbe-fda28ece5e27', '563833d8-e469-4515-ab96-f631214429a6', '/upload/20200527/ee971ec7-65f0-4fa7-b9bd-df842b36738e.PNG', '0');
+INSERT INTO `productimg` VALUES ('fa90f9e3-b239-454f-8332-dd07164b1a1b', '563833d8-e469-4515-ab96-f631214429a6', '/upload/20200527/36641e46-7106-4c88-acde-746b6c6fa505.JPG', '0');
 
 -- ----------------------------
 -- Table structure for `productprice`
@@ -306,7 +332,7 @@ CREATE TABLE `productprice` (
 -- ----------------------------
 -- Records of productprice
 -- ----------------------------
-INSERT INTO `productprice` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '0.00', '0.00', '0.00', '1', '1', '1', '1', '2020-04-30 22:30:42');
+INSERT INTO `productprice` VALUES ('a533ee7e-14ca-4a72-8b05-83ef2f23be1d', '563833d8-e469-4515-ab96-f631214429a6', '7.00', '2.00', '100.00', '500g', '500g', '2', '东风小区', '2020-06-11 17:18:25');
 
 -- ----------------------------
 -- Table structure for `producttype`
@@ -328,7 +354,8 @@ CREATE TABLE `producttype` (
 -- ----------------------------
 -- Records of producttype
 -- ----------------------------
-INSERT INTO `producttype` VALUES ('9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '777777777', '1', '2020-04-24 20:41:07', '2', '东风小区', '/upload/20200424/a44d821d-4a28-46a8-8c87-c323a5ce760c.JPG');
+INSERT INTO `producttype` VALUES ('9a55944e-9072-407e-b847-ec11f0d03f9a', '蔬菜', '1', '2020-05-27 14:29:31', '2', '东风小区', '/upload/20200527/4d2214ca-3f73-4ff2-8961-91acf41c18cb.JPG');
+INSERT INTO `producttype` VALUES ('9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '水果', '1', '2020-05-27 14:27:17', '2', '东风小区', '/upload/20200527/12013f2f-d4c1-4848-9e5e-353c0783ae46.JPG');
 
 -- ----------------------------
 -- Table structure for `productunit`
@@ -348,7 +375,7 @@ CREATE TABLE `productunit` (
 -- ----------------------------
 -- Records of productunit
 -- ----------------------------
-INSERT INTO `productunit` VALUES ('1', '斤', '500g', '1', '2019-07-02 15:42:55', '1', '222');
+INSERT INTO `productunit` VALUES ('1', '500g', '500g', '1', '2019-07-02 15:42:55', '1', '222');
 
 -- ----------------------------
 -- Table structure for `promot`

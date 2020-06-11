@@ -2189,6 +2189,7 @@
     <Content Include="Views\Station\Addr.cshtml" />
     <Content Include="Views\Station\Detail.cshtml" />
     <Content Include="Views\Order\Detail.cshtml" />
+    <Content Include="Views\Price\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

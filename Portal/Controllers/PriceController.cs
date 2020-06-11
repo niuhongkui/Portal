@@ -20,7 +20,7 @@ namespace Portal.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         public ActionResult Index(string name)
         {
@@ -28,7 +28,18 @@ namespace Portal.Controllers
             return View();
         }
         /// <summary>
-
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="proid"></param>
+        /// <returns></returns>
+        public ActionResult Detail(string id,string proid)
+        {
+            ViewBag.Id = id;
+            ViewBag.proId = proid;
+            return View();
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="parm"></param>
@@ -42,11 +53,36 @@ namespace Portal.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public JsonResult Save(List<PriceEx> list)
+        public JsonResult Save(PriceEx model)
         {
-            var res = _bll.Save(list,UserInfo);
+            var res = _bll.Save(model, UserInfo);
             return Json(res);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="px"></param>
+        /// <returns></returns>
+        public JsonResult Del(PriceEx px)
+        {
+            px.StaffID = UserInfo.Id;
+            px.StaffName = UserInfo.UserName;
+            var res = _bll.Del(px);
+            return Json(res);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="proid"></param>
+        /// <returns></returns>
+        public JsonResult Get(string id, string proid)
+        {
+            var res = _bll.Get(id,proid);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
     }
 }

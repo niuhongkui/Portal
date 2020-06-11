@@ -3,34 +3,6 @@
     $(function () {
         priceQuery({ Name: "@ViewBag.Name" });
     });
-    var page_price = function () {
-        var ths = this;
-        ths.editIndex = undefined;
-        ths.endEditing = function () {
-            if (ths.editIndex == undefined) {
-                return true
-            }
-            if ($('#gd_price').datagrid('validateRow', ths.editIndex)) {
-                $('#gd_price').datagrid('endEdit', ths.editIndex);
-                ths.editIndex = undefined;
-                return true;
-            } else {
-                return false;
-            }
-        }
-        ths.onClickRow = function (index) {
-            if (ths.editIndex != index) {
-                if (ths.endEditing()) {
-                    $('#gd_price').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
-                    ths.editIndex = index;
-                } else {
-                    $('#gd_price').datagrid('selectRow', ths.editIndex);
-                }
-            }
-        }
-    }
-    var obj_price = new page_price();
 
     function priceQuery(parm) {
         $('#gd_price').datagrid({
@@ -52,8 +24,8 @@
                     { field: 'ck', checkbox: true },
                     {
                         field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value, row, index) {
-                            var btn = " <a href='#'  class='easyui-splitbutton' onclick=delPrice('" + value + "')>删除</a>";                
-                            btn += " <a href='#' onclick=editPrice('" + value + "') class='easyui-splitbutton'>编辑</a>";
+                            var btn = " <a href='#' onclick=editPrice('" + value + "','" + row.ProductID + "') class='easyui-splitbutton'>编辑</a>";
+                            btn += " <a href='#'  class='easyui-splitbutton' onclick=delPrice('" + JSON.stringify(row) + "')>删除</a>";
                             return btn;
                         }
                     },
@@ -86,36 +58,27 @@
         var type=$("#txt_price_TypeName").textbox("getValue");
         priceQuery({ Name: value ,Type:type});
     }
-    function priceSave() {
-        var rows = $('#gd_price').datagrid("getRows");
-        var list = [];
-        for (var i = 0; i < rows.length; i++) {
-            if (rows[i].Price) {
-                if (rows[i].Price > 0) {
-                    list.push(rows[i]);
-                }
-            }
-        }
-        $.ajax({
-            method: "post",
-            url: "/price/save/",
-            contentType: "application/json;charset=utf-8",
-            dataType: 'json',
-            data: JSON.stringify(list),
-            success: function (json) {
-                if (json.Success) {
-                    $.messager.alert('提示', "保存成功！", 'info');
-                } else {
-                    $.messager.alert('提示', json.Msg, 'error');
-                }
+    
+    function delPrice(row) {
+         $.messager.confirm("删除", "确定删除吗？", function (r) {
+             if (r) {
+                 $.post("/price/del?id=", JSON.parse(row), function (data) {
+                    if (data.Success) {
+                        $.messager.alert("提示", data.Msg, "info");
+                        $('#gd_price').datagrid("reload");
+                    } else {
+                        $.messager.alert("警告", data.Msg, "error");
+                    }
+                });
             }
         });
     }
-    function delPrice(id) {
 
-    }
-    function editPrice(id) {
-
+    function editPrice(id,proId) {
+        if (id == "null" || !id) {
+            id = "";
+        }
+        addTab("价格明细", "/price/detail?id=" + id+"&proid="+proId, "icon-application-key", false);
     }
 </script>
 <style>
@@ -126,6 +89,7 @@
     #d_price table td[field='MemberPrice'] span {
         color: #3EAFE0;
     }
+
     #d_price table td[field='LimitNum'] span {
         color: red;
     }
