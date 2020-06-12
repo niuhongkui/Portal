@@ -55,6 +55,7 @@
     <Compile Include="ProductTypeBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffBLL.cs" />
+    <Compile Include="StoreBLL.cs" />
     <Compile Include="SwiperBLL.cs" />
     <Compile Include="UserInfoBLL.cs" />
   </ItemGroup>

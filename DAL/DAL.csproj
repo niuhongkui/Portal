@@ -56,6 +56,7 @@
     <Compile Include="ProductTypeDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffDAL.cs" />
+    <Compile Include="StoreDAL.cs" />
     <Compile Include="SwiperDAL.cs" />
     <Compile Include="UserInfoDAL.cs" />
   </ItemGroup>

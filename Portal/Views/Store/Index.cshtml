@@ -1,7 +1,52 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<script>
+    $(function () {
+        QueryStore({});
+    });
+    function QueryStore(parm) {
+        $('#gd_store').datagrid({
+            title: '',
+            iconCls: 'icon-save',
+            height: 500,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: false,
+            url: '/Store/list',
+            border: true,
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            queryParams: parm,    //参数为了多条件查询预留
+            columns: [[
+                { field: 'ProductName', title: '商品名称', width: 200 },
+                { field: 'UnitName', title: '单位名称', width: 200 },
+                { field: 'Amount', title: '库存数量', width: 120 },
+                { field: 'OutAmount', title: '销售数量', width: 120 },
+                { field: 'LuckAmount', title: '占用数量', width: 120 },
+                {
+                    field: 'UpdateDate', title: '更新时间', width: 200, formatter: function (str) {
+                        var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                        return d.format("yyyy-MM-dd hh:mm:ss");
+                    }
+                }
+            ]]
+        });
+    }
+   
+    function searchStoreList() {
+        var storeCode = $("#storeName").textbox("getValue");
+        QueryStore({ Name: storeCode });
+    }
+</script>
 
-<h2>Index</h2>
-
+<div class="easyui-layout" fit="true">
+    <div region="north" border="false" style="height:50px">
+        <div class="search-list">
+            <label class="search-lable" from="storeName">商品名称:</label>
+            <input class="easyui-textbox form-control search-text" data-options="prompt:'请输入名称'" id="storeName" name="storeName"/>
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchStoreList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+        </div>
+    </div>
+    <div id="d_store" region="center" border="false">
+        <table id="gd_store"></table>
+    </div>
+</div>
