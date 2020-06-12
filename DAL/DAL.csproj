@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CartDAL.cs" />
     <Compile Include="FavoriteDAL.cs" />
+    <Compile Include="InStoreDAL.cs" />
     <Compile Include="OrderDAL.cs" />
     <Compile Include="PriceDAL.cs" />
     <Compile Include="ProductDAL.cs" />

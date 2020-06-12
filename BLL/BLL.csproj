@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FavoriteBLL.cs" />
+    <Compile Include="InStoreBLL.cs" />
     <Compile Include="OrderBLL.cs" />
     <Compile Include="PriceBLL.cs" />
     <Compile Include="ProductBLL.cs" />
