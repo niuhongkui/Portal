@@ -75,7 +75,7 @@ namespace DAL
             if (!string.IsNullOrEmpty(parm.Code))
             {
                 parm.Code = "%" + parm.Code + "%";
-                strSql.Append(" AND UserName like @Code");
+                strSql.Append(" AND UserCode like @Code");
             }
             page.rows = userinfo.Fetch(strSql.ToString(), parm)
                     .Take(parm.rows)

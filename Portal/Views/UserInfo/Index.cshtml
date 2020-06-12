@@ -1,8 +1,8 @@
 ﻿<script>
     $(function () {
-        Query({});
+        QueryUser({});
     });
-    function Query(parm) {
+    function QueryUser(parm) {
         $('#gd_user').datagrid({
             title: '',
             iconCls: 'icon-save',
@@ -20,7 +20,7 @@
                 { field: 'ck', checkbox: true },
                 {
                     field: 'ID', title: '操作', width: 80, align: 'center', formatter: function (value) {
-                        var span = "<a href='#' onclick=edit('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=del('" + value + "')>删除</a>";
+                        var span = "<a href='#' onclick=editUser('" + value + "') class='easyui-splitbutton'>编辑</a> <a href='#'  class='easyui-splitbutton' onclick=delUser('" + value + "')>删除</a>";
                         return span;
                     }
                 },
@@ -61,7 +61,7 @@
                 iconCls: 'icon-add',
                 handler: function () {
                     //实现弹出添加用户信息的层
-                    edit("");
+                    editUser("");
                 }
             }, '-', {
                 text: '修改',
@@ -70,7 +70,7 @@
                     //实现弹出修改
                     var row = $('#gd_user').datagrid("getChecked");
                     if (row.length > 0) {
-                        edit(row[0].ID);
+                        editUser(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -82,7 +82,7 @@
                     //确认只删除一条用户信息
                     var row = $('#gd_user').datagrid("getChecked");
                     if (row.length > 0) {
-                        del(row[0].ID);
+                        delUser(row[0].ID);
                     } else {
                         $.messager.alert("警告", "请选择一行", "warning");
                     }
@@ -90,10 +90,10 @@
             }]
         });
     }
-    function edit(id) {
+    function editUser(id) {
         addTab("用户详情", "/userinfo/edit?id=" + id, "icon-user", false);
     }
-    function del(id) {
+    function delUser(id) {
         $.messager.confirm("删除", "确定删除吗？", function (r) {
             if (r) {
                 $.get("/userinfo/delete?id=" + id, function (data) {
@@ -107,10 +107,10 @@
             }
         });
     }
-    function searchList() {
+    function searchUserList() {
         var userCode = $("#userCode").textbox("getValue");
         var value = $("#userName").textbox("getValue");
-        Query({ Name: value, Code: userCode });
+        QueryUser({ Name: value, Code: userCode });
     }
 </script>
 
@@ -120,8 +120,8 @@
             <label class="search-lable" from="userName">名称:</label>
             <select class="easyui-textbox form-control search-text" data-options="prompt:'请输入名称'"   id="userName" name="UserName"></select>
             <label class="search-lable" for="userCode">账号:</label>
-            <input id="userCode" class="easyui-textbox form-control search-text" type="text" name="UserCode" data-options="prompt:'请输入类别名称'" />
-            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+            <input id="userCode" class="easyui-textbox form-control search-text" type="text" name="UserCode" data-options="prompt:'请输入账号'" />
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchUserList();" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
         </div>
     </div>
     <div id="d_user" region="center" border="false">

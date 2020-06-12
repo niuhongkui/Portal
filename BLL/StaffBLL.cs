@@ -18,11 +18,51 @@ namespace BLL
         /// 
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="userType">1系统管理员，2银行人员，3押运人员</param>
+        /// <param name="userType">1系统管理员</param>
         /// <returns></returns>
         public ApiMessage<staff> LoginOn(staff user)
         {
             return _dal.LoginOn(user);
+        }
+
+        public Page<staff> List(BaseParm parm)
+        {
+            return _dal.List(parm);
+        }
+        public ApiMessage<staff> Get(string id)
+        {
+            var api = new ApiMessage<staff>();
+            var model= _dal.Get(id);
+            if (model == null) {
+                api.Success = false;
+                api.Msg = "该账户不存在";
+            }
+            else
+            {
+                api.Data = model;
+            }
+
+            return api;
+        }
+
+        public ApiMessage<string>Save(staff user)
+        {
+            if (string.IsNullOrEmpty(user.ID))
+            {
+                user.ID = Guid.NewGuid().ToString();
+                user.CreateDate = DateTime.Now;
+                user.Phone = "";
+                user.PassWord = Encrypt.MD5(user.PassWord);
+                return _dal.Add(user);
+            }
+            else
+            {
+                if (user.PassWord.Split('-').Length < 5)
+                {
+                    user.PassWord = Encrypt.MD5(user.PassWord);
+                }
+                return _dal.Edit(user);
+            }
         }
     }
 }

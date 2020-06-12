@@ -49,7 +49,7 @@
                 }
             },
             beforeAvatarUpload(file) {
-                var isJPG = file.type === 'image/jpeg';
+                var isJPG = file.type.indexOf("image") >-1;
                 var isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isJPG) {
@@ -89,10 +89,10 @@
             <div class="col-sm-10">
                 <el-upload class="avatar-uploader"
                            action="/upload/img"
-                           show-file-list="false"
-                           on-success="handleAvatarSuccess"
-                           before-upload="beforeAvatarUpload">
-                    <img v-if="form.ImgUrl" src="form.ImgUrl" class="avatar">
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                           :before-upload="beforeAvatarUpload">
+                    <img v-if="form.ImgUrl" :src="form.ImgUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </div>

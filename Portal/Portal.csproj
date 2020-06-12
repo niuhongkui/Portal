@@ -2135,10 +2135,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\LoginOnController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MealController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PriceController.cs" />
+    <Compile Include="Controllers\InStoreController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\PromotController.cs" />
     <Compile Include="Controllers\ReturnOrderController.cs" />
@@ -2190,6 +2192,10 @@
     <Content Include="Views\Station\Detail.cshtml" />
     <Content Include="Views\Order\Detail.cshtml" />
     <Content Include="Views\Price\Detail.cshtml" />
+    <Content Include="Views\InStore\Index.cshtml" />
+    <Content Include="Views\InStore\Detail.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Store\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

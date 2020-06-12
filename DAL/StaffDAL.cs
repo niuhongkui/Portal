@@ -26,7 +26,57 @@ namespace DAL
             }
             return new ApiMessage<staff> { Data = loginUser };
         }
+
+        public Page<staff> List(BaseParm parm)
+        {
+            var page = new Page<staff>(parm);
+            var strSql = new StringBuilder();
+            strSql.Append(" where 1=1");
+            if (!string.IsNullOrEmpty(parm.Name))
+            {
+                parm.Name = "%" + parm.Name + "%";
+                strSql.Append(" AND UserName like @Name");
+            }
+            if (!string.IsNullOrEmpty(parm.Code))
+            {
+                parm.Code = "%" + parm.Code + "%";
+                strSql.Append(" AND UserCode like @Code");
+            }
+            page.rows = staff.Fetch(strSql.ToString(), parm)
+                    .Take(parm.rows)
+                    .Skip(parm.index * parm.rows)
+                    .ToList();
+            page.total =
+                _db.FirstOrDefault<int>("select count(1) from staff " + strSql, parm);
+
+            return page;
+
+            return null;
+        }
+
+        public staff Get(string id)
+        {
+            return staff.FirstOrDefault("where id=@0", id);
+        }
+
+        public ApiMessage<string> Add(staff user) {
+            user.Insert();
+            return new ApiMessage<string>();
+
+        }
+
+        public ApiMessage<string> Edit(staff user)
+        {
+            var sign = user.Update();
+            var api = new ApiMessage<string>();
+            if (sign == 0) {
+                api.Success = false;
+                api.Msg = "操作失败";
+            }
+            return api;
+        }
     }
+
 
 
 }
