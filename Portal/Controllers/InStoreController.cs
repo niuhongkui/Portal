@@ -29,11 +29,9 @@ namespace Portal.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult Detail(string id)
+        public ActionResult Detail()
         {
-            ViewBag.Id = id;
             return View();
         }
 
@@ -48,8 +46,17 @@ namespace Portal.Controllers
             var json = _proBll.List(parm);
             return Json(json);
         }
-        
 
+        public JsonResult Save(instore model)
+        {
+            model.StaffID = UserInfo.Id;
+            model.StaffName = UserInfo.UserName;
+            model.CreateDate = DateTime.Now;
+
+            var res = _proBll.Save(model);
+            return Json(res);
+
+        }
 
         
 

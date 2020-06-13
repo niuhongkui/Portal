@@ -16,5 +16,10 @@ namespace BLL
         {
             return _dal.List(parm);
         }
+
+        public ApiMessage<string> Save(instore model) {
+
+            return _dal.Save(model);
+        }
     }
 }

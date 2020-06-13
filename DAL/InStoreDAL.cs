@@ -31,6 +31,40 @@ namespace DAL
                 _db.FirstOrDefault<int>("select count(1) from instore " + strSql, parm);
             return page;
         }
-    
+
+        public ApiMessage<string> Save(instore model)
+        {
+            var api = new ApiMessage<string>();
+            model.UnitName = model.UnitID;
+            model.ID = Guid.NewGuid().ToString();
+            using (var scope = new PetaPoco.Transaction(_db))
+            {
+                var sModel = _db.FirstOrDefault<store>("where ProductID=@ProductID AND UnitID=@UnitID", model);
+                if (sModel == null)
+                {
+                    sModel = new store();
+                    sModel.Amount = model.Amount;
+                    sModel.ProductID = model.ProductID;
+                    sModel.ProductName = model.ProductName;
+                    sModel.UnitID = model.UnitID;
+                    sModel.UnitName = model.UnitID;
+                    sModel.UpdateDate = DateTime.Now;
+                    sModel.CreateDate = DateTime.Now;
+                    sModel.ID = Guid.NewGuid().ToString();
+                    sModel.OutAmount = 0;
+                    sModel.OutAmount = 0;
+                    _db.Insert(sModel);
+                }
+                else
+                {
+                    sModel.Amount = sModel.Amount + model.Amount;
+                    _db.Update(sModel);
+                }
+                _db.Insert(model);
+                scope.Complete();
+            }
+            return api;
+        }
+
     }
 }
