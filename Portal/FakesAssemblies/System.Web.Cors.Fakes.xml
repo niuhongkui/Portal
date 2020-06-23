@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Web.Cors.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsConstants">
+            <summary>System.Web.Cors.CorsConstants 的填充码类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsConstants.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsConstants.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsConstants.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsConstants.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsConstants.StaticConstructor">
+            <summary>设置 CorsConstants.CorsConstants() 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsEngine">
+            <summary>System.Web.Cors.CorsEngine 的填充码类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsEngine.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsEngine.#ctor(System.Web.Cors.CorsEngine)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.AddHeaderValuesIListOfStringIEnumerableOfString">
+            <summary>设置 CorsEngine.AddHeaderValues(IList`1&lt;String&gt; target, IEnumerable`1&lt;String&gt; headerValues) 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsEngine.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.AllInstances.EvaluatePolicyCorsRequestContextCorsPolicy">
+            <summary>设置 CorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.AllInstances.TryValidateHeadersCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateHeaders(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.AllInstances.TryValidateMethodCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateMethod(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.AllInstances.TryValidateOriginCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateOrigin(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsEngine.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsEngine.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsEngine.Bind(System.Web.Cors.ICorsEngine)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.Constructor">
+            <summary>设置 CorsEngine.CorsEngine() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.EvaluatePolicyCorsRequestContextCorsPolicy">
+            <summary>设置 CorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.TryValidateHeadersCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateHeaders(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.TryValidateMethodCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateMethod(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsEngine.TryValidateOriginCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateOrigin(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsPolicy">
+            <summary>System.Web.Cors.CorsPolicy 的填充码类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsPolicy.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsPolicy.#ctor(System.Web.Cors.CorsPolicy)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyHeaderGet">
+            <summary>设置 CorsPolicy.get_AllowAnyHeader() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyHeaderSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyHeader(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyMethodGet">
+            <summary>设置 CorsPolicy.get_AllowAnyMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyMethodSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyMethod(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyOriginGet">
+            <summary>设置 CorsPolicy.get_AllowAnyOrigin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.AllowAnyOriginSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyOrigin(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.ExposedHeadersGet">
+            <summary>设置 CorsPolicy.get_ExposedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.ExposedHeadersSetIListOfString">
+            <summary>设置 CorsPolicy.set_ExposedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.HeadersGet">
+            <summary>设置 CorsPolicy.get_Headers() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.HeadersSetIListOfString">
+            <summary>设置 CorsPolicy.set_Headers(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.MethodsGet">
+            <summary>设置 CorsPolicy.get_Methods() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.MethodsSetIListOfString">
+            <summary>设置 CorsPolicy.set_Methods(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.OriginsGet">
+            <summary>设置 CorsPolicy.get_Origins() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.OriginsSetIListOfString">
+            <summary>设置 CorsPolicy.set_Origins(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.PreflightMaxAgeGet">
+            <summary>设置 CorsPolicy.get_PreflightMaxAge() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.PreflightMaxAgeSetNullableOfInt64">
+            <summary>设置 CorsPolicy.set_PreflightMaxAge(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.SupportsCredentialsGet">
+            <summary>设置 CorsPolicy.get_SupportsCredentials() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.SupportsCredentialsSetBoolean">
+            <summary>设置 CorsPolicy.set_SupportsCredentials(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllInstances.ToString01">
+            <summary>设置 CorsPolicy.ToString() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyHeaderGet">
+            <summary>设置 CorsPolicy.get_AllowAnyHeader() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyHeaderSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyHeader(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyMethodGet">
+            <summary>设置 CorsPolicy.get_AllowAnyMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyMethodSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyMethod(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyOriginGet">
+            <summary>设置 CorsPolicy.get_AllowAnyOrigin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.AllowAnyOriginSetBoolean">
+            <summary>设置 CorsPolicy.set_AllowAnyOrigin(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsPolicy.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsPolicy.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.Constructor">
+            <summary>设置 CorsPolicy.CorsPolicy() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.ExposedHeadersGet">
+            <summary>设置 CorsPolicy.get_ExposedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.ExposedHeadersSetIListOfString">
+            <summary>设置 CorsPolicy.set_ExposedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.HeadersGet">
+            <summary>设置 CorsPolicy.get_Headers() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.HeadersSetIListOfString">
+            <summary>设置 CorsPolicy.set_Headers(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.MethodsGet">
+            <summary>设置 CorsPolicy.get_Methods() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.MethodsSetIListOfString">
+            <summary>设置 CorsPolicy.set_Methods(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.OriginsGet">
+            <summary>设置 CorsPolicy.get_Origins() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.OriginsSetIListOfString">
+            <summary>设置 CorsPolicy.set_Origins(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.PreflightMaxAgeGet">
+            <summary>设置 CorsPolicy.get_PreflightMaxAge() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.PreflightMaxAgeSetNullableOfInt64">
+            <summary>设置 CorsPolicy.set_PreflightMaxAge(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.SupportsCredentialsGet">
+            <summary>设置 CorsPolicy.get_SupportsCredentials() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.SupportsCredentialsSetBoolean">
+            <summary>设置 CorsPolicy.set_SupportsCredentials(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsPolicy.ToString">
+            <summary>设置 CorsPolicy.ToString() 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsRequestContext">
+            <summary>System.Web.Cors.CorsRequestContext 的填充码类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsRequestContext.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsRequestContext.#ctor(System.Web.Cors.CorsRequestContext)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AccessControlRequestHeadersGet">
+            <summary>设置 CorsRequestContext.get_AccessControlRequestHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AccessControlRequestHeadersSetISetOfString">
+            <summary>设置 CorsRequestContext.set_AccessControlRequestHeaders(ISet`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AccessControlRequestMethodGet">
+            <summary>设置 CorsRequestContext.get_AccessControlRequestMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AccessControlRequestMethodSetString">
+            <summary>设置 CorsRequestContext.set_AccessControlRequestMethod(String value) 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.AccessControlRequestHeadersGet">
+            <summary>设置 CorsRequestContext.get_AccessControlRequestHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.AccessControlRequestHeadersSetISetOfString">
+            <summary>设置 CorsRequestContext.set_AccessControlRequestHeaders(ISet`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.AccessControlRequestMethodGet">
+            <summary>设置 CorsRequestContext.get_AccessControlRequestMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.AccessControlRequestMethodSetString">
+            <summary>设置 CorsRequestContext.set_AccessControlRequestMethod(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.HostGet">
+            <summary>设置 CorsRequestContext.get_Host() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.HostSetString">
+            <summary>设置 CorsRequestContext.set_Host(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.HttpMethodGet">
+            <summary>设置 CorsRequestContext.get_HttpMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.HttpMethodSetString">
+            <summary>设置 CorsRequestContext.set_HttpMethod(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.IsPreflightGet">
+            <summary>设置 CorsRequestContext.get_IsPreflight() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.OriginGet">
+            <summary>设置 CorsRequestContext.get_Origin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.OriginSetString">
+            <summary>设置 CorsRequestContext.set_Origin(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.PropertiesGet">
+            <summary>设置 CorsRequestContext.get_Properties() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.PropertiesSetIDictionaryOfStringObject">
+            <summary>设置 CorsRequestContext.set_Properties(IDictionary`2&lt;String,Object&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.RequestUriGet">
+            <summary>设置 CorsRequestContext.get_RequestUri() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.RequestUriSetUri">
+            <summary>设置 CorsRequestContext.set_RequestUri(Uri value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.AllInstances.ToString01">
+            <summary>设置 CorsRequestContext.ToString() 的 填充码</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsRequestContext.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsRequestContext.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.Constructor">
+            <summary>设置 CorsRequestContext.CorsRequestContext() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.HostGet">
+            <summary>设置 CorsRequestContext.get_Host() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.HostSetString">
+            <summary>设置 CorsRequestContext.set_Host(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.HttpMethodGet">
+            <summary>设置 CorsRequestContext.get_HttpMethod() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.HttpMethodSetString">
+            <summary>设置 CorsRequestContext.set_HttpMethod(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.IsPreflightGet">
+            <summary>设置 CorsRequestContext.get_IsPreflight() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.OriginGet">
+            <summary>设置 CorsRequestContext.get_Origin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.OriginSetString">
+            <summary>设置 CorsRequestContext.set_Origin(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.PropertiesGet">
+            <summary>设置 CorsRequestContext.get_Properties() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.PropertiesSetIDictionaryOfStringObject">
+            <summary>设置 CorsRequestContext.set_Properties(IDictionary`2&lt;String,Object&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.RequestUriGet">
+            <summary>设置 CorsRequestContext.get_RequestUri() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.RequestUriSetUri">
+            <summary>设置 CorsRequestContext.set_RequestUri(Uri value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsRequestContext.ToString">
+            <summary>设置 CorsRequestContext.ToString() 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsResult">
+            <summary>System.Web.Cors.CorsResult 的填充码类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsResult.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsResult.#ctor(System.Web.Cors.CorsResult)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AddHeaderIDictionaryOfStringStringStringIEnumerableOfString">
+            <summary>设置 CorsResult.AddHeader(IDictionary`2&lt;String,String&gt; headers, String headerName, IEnumerable`1&lt;String&gt; headerValues) 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.ShimCorsResult.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedExposedHeadersGet">
+            <summary>设置 CorsResult.get_AllowedExposedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedExposedHeadersSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedExposedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedHeadersGet">
+            <summary>设置 CorsResult.get_AllowedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedHeadersSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedMethodsGet">
+            <summary>设置 CorsResult.get_AllowedMethods() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedMethodsSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedMethods(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedOriginGet">
+            <summary>设置 CorsResult.get_AllowedOrigin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.AllowedOriginSetString">
+            <summary>设置 CorsResult.set_AllowedOrigin(String value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.ErrorMessagesGet">
+            <summary>设置 CorsResult.get_ErrorMessages() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.ErrorMessagesSetIListOfString">
+            <summary>设置 CorsResult.set_ErrorMessages(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.IsValidGet">
+            <summary>设置 CorsResult.get_IsValid() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.PreflightMaxAgeGet">
+            <summary>设置 CorsResult.get_PreflightMaxAge() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.PreflightMaxAgeSetNullableOfInt64">
+            <summary>设置 CorsResult.set_PreflightMaxAge(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.SupportsCredentialsGet">
+            <summary>设置 CorsResult.get_SupportsCredentials() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.SupportsCredentialsSetBoolean">
+            <summary>设置 CorsResult.set_SupportsCredentials(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.ToResponseHeaders">
+            <summary>设置 CorsResult.ToResponseHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllInstances.ToString01">
+            <summary>设置 CorsResult.ToString() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedExposedHeadersGet">
+            <summary>设置 CorsResult.get_AllowedExposedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedExposedHeadersSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedExposedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedHeadersGet">
+            <summary>设置 CorsResult.get_AllowedHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedHeadersSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedHeaders(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedMethodsGet">
+            <summary>设置 CorsResult.get_AllowedMethods() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedMethodsSetIListOfString">
+            <summary>设置 CorsResult.set_AllowedMethods(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedOriginGet">
+            <summary>设置 CorsResult.get_AllowedOrigin() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.AllowedOriginSetString">
+            <summary>设置 CorsResult.set_AllowedOrigin(String value) 的 填充码</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsResult.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.ShimCorsResult.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.Constructor">
+            <summary>设置 CorsResult.CorsResult() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.ErrorMessagesGet">
+            <summary>设置 CorsResult.get_ErrorMessages() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.ErrorMessagesSetIListOfString">
+            <summary>设置 CorsResult.set_ErrorMessages(IList`1&lt;String&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.IsValidGet">
+            <summary>设置 CorsResult.get_IsValid() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.PreflightMaxAgeGet">
+            <summary>设置 CorsResult.get_PreflightMaxAge() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.PreflightMaxAgeSetNullableOfInt64">
+            <summary>设置 CorsResult.set_PreflightMaxAge(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.SupportsCredentialsGet">
+            <summary>设置 CorsResult.get_SupportsCredentials() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.SupportsCredentialsSetBoolean">
+            <summary>设置 CorsResult.set_SupportsCredentials(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.ToResponseHeaders">
+            <summary>设置 CorsResult.ToResponseHeaders() 的 填充码</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.ShimCorsResult.ToString">
+            <summary>设置 CorsResult.ToString() 的 填充码</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.StubCorsEngine">
+            <summary>System.Web.Cors.CorsEngine 的存根类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsEngine.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.EvaluatePolicy(System.Web.Cors.CorsRequestContext,System.Web.Cors.CorsPolicy)">
+            <summary>设置 CorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsEngine.EvaluatePolicyCorsRequestContextCorsPolicy">
+            <summary>设置 CorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 stub</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.InitializeStub">
+            <summary>初始化 type StubCorsEngine 的新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsEngine.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsEngine.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.TryValidateHeaders(System.Web.Cors.CorsRequestContext,System.Web.Cors.CorsPolicy,System.Web.Cors.CorsResult)">
+            <summary>设置 CorsEngine.TryValidateHeaders(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsEngine.TryValidateHeadersCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateHeaders(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 stub</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.TryValidateMethod(System.Web.Cors.CorsRequestContext,System.Web.Cors.CorsPolicy,System.Web.Cors.CorsResult)">
+            <summary>设置 CorsEngine.TryValidateMethod(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsEngine.TryValidateMethodCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateMethod(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 stub</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsEngine.TryValidateOrigin(System.Web.Cors.CorsRequestContext,System.Web.Cors.CorsPolicy,System.Web.Cors.CorsResult)">
+            <summary>设置 CorsEngine.TryValidateOrigin(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsEngine.TryValidateOriginCorsRequestContextCorsPolicyCorsResult">
+            <summary>设置 CorsEngine.TryValidateOrigin(CorsRequestContext requestContext, CorsPolicy policy, CorsResult result) 的 stub</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.StubCorsPolicy">
+            <summary>System.Web.Cors.CorsPolicy 的存根类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsPolicy.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsPolicy.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsPolicy.InitializeStub">
+            <summary>初始化 type StubCorsPolicy 的新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsPolicy.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsPolicy.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsPolicy.ToString">
+            <summary>设置 CorsPolicy.ToString() 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsPolicy.ToString01">
+            <summary>设置 CorsPolicy.ToString() 的 stub</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.StubCorsRequestContext">
+            <summary>System.Web.Cors.CorsRequestContext 的存根类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsRequestContext.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsRequestContext.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsRequestContext.InitializeStub">
+            <summary>初始化 type StubCorsRequestContext 的新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsRequestContext.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsRequestContext.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsRequestContext.ToString">
+            <summary>设置 CorsRequestContext.ToString() 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsRequestContext.ToString01">
+            <summary>设置 CorsRequestContext.ToString() 的 stub</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.StubCorsResult">
+            <summary>System.Web.Cors.CorsResult 的存根类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsResult.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsResult.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsResult.InitializeStub">
+            <summary>初始化 type StubCorsResult 的新实例</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsResult.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:System.Web.Cors.Fakes.StubCorsResult.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsResult.ToResponseHeaders">
+            <summary>设置 CorsResult.ToResponseHeaders() 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsResult.ToResponseHeaders01">
+            <summary>设置 CorsResult.ToResponseHeaders() 的 stub</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubCorsResult.ToString">
+            <summary>设置 CorsResult.ToString() 的 存根</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubCorsResult.ToString01">
+            <summary>设置 CorsResult.ToString() 的 stub</summary>
+        </member>
+        <member name="T:System.Web.Cors.Fakes.StubICorsEngine">
+            <summary>System.Web.Cors.ICorsEngine 的存根类型</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubICorsEngine.#ctor">
+            <summary>初始化 type StubICorsEngine 的新实例</summary>
+        </member>
+        <member name="F:System.Web.Cors.Fakes.StubICorsEngine.EvaluatePolicyCorsRequestContextCorsPolicy">
+            <summary>设置 ICorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 stub</summary>
+        </member>
+        <member name="M:System.Web.Cors.Fakes.StubICorsEngine.System#Web#Cors#ICorsEngine#EvaluatePolicy(System.Web.Cors.CorsRequestContext,System.Web.Cors.CorsPolicy)">
+            <summary>设置 ICorsEngine.EvaluatePolicy(CorsRequestContext requestContext, CorsPolicy policy) 的 存根</summary>
+        </member>
+    </members>
+</doc>
