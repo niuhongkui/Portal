@@ -29,15 +29,14 @@ namespace Portal.Controllers.Api
         public ApiMessage<object> GetCate()
         {
             var list = new List<object>();
-            var top = _typeBll.GetCategory().rows;
             var last = _typeBll.List(new BaseParm()).rows;
-            foreach (var item in top)
+            foreach (var item in last)
             {
-                list.Add(new { id = item.EnumValue, name = item.EnumName });
+                list.Add(new { id = item.ID, name = item.Name });
             }
             foreach (var item in last)
             {
-                //list.Add(new { id = item.ID, pid = item.TopCategoryID, name = item.Name, picture = item.ImgUrl });
+                list.Add(new { id = item.ID, pid = item.ID, name = item.Name, picture = item.ImgUrl });
             }
             var res = new ApiMessage<object>();
             res.Data = list;

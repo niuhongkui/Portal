@@ -1,5 +1,5 @@
-G:\niuhk\self\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.CorsConstants 生成存根: 类型已密封。
-G:\niuhk\self\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.Properties.SRResources 生成存根: 类型对 exported or assembly(System.Web.Cors.Fakes) 不可见。
-G:\niuhk\self\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.ICorsEngine 生成填充码: 类型是一个接口。
-G:\niuhk\self\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.CorsResult+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-G:\niuhk\self\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.Properties.SRResources 生成填充码: 类型对 exported or assembly(System.Web.Cors.Fakes) 不可见。
+F:\Work\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.CorsConstants 生成存根: 类型已密封。
+F:\Work\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.Properties.SRResources 生成存根: 类型对 exported or assembly(System.Web.Cors.Fakes) 不可见。
+F:\Work\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.ICorsEngine 生成填充码: 类型是一个接口。
+F:\Work\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.CorsResult+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\Work\Portal\Portal\Fakes\System.Web.Cors.fakes : warning : 无法为 System.Web.Cors.Properties.SRResources 生成填充码: 类型对 exported or assembly(System.Web.Cors.Fakes) 不可见。
