@@ -57,11 +57,11 @@ namespace BLL
             {
                 var random = new Random().Next(100000, 999999);
                 CacheHelper.SetCache("VCode_" + strPhone, random.ToString(), new TimeSpan(0, 10, 0));
-                Message.Send(strPhone, random.ToString());
+                SendMsg.Send(strPhone, random.ToString());
             }
             else
             {
-                Message.Send(strPhone, gCode.ToString());
+                SendMsg.Send(strPhone, gCode.ToString());
             }
             CacheHelper.SetCache("GCode_" + strPhone, strPhone, DateTime.Now.AddMinutes(3));
             return api;
