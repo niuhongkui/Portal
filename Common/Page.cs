@@ -14,7 +14,7 @@ namespace Common
         }
         public Page(BaseParm parm)
         {
-            PageIndex = parm.index;
+            PageIndex = parm.page;
             PageSize = parm.rows;
             rows = new List<T>();
         }

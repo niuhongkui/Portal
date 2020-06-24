@@ -13,7 +13,7 @@ namespace BLL
     public class ProductBLL
     {
         private readonly ProductDAL _dal = new ProductDAL();
-        private  readonly  PriceDAL _priceDal=new PriceDAL();
+        private readonly PriceDAL _priceDal = new PriceDAL();
 
         public Page<product> List(BaseParm parm)
         {
@@ -32,7 +32,7 @@ namespace BLL
             return _dal.Get(id);
         }
 
-        
+
         public Page<productunit> GetUnit()
         {
             return _dal.GetUnit();
@@ -50,9 +50,9 @@ namespace BLL
 
         public ApiMessage<Good> GetGood(BaseParm parm)
         {
-            var res=new ApiMessage<Good>();
-            var good=new Good();
-            var p= _dal.Get(parm.Id).Data;
+            var res = new ApiMessage<Good>();
+            var good = new Good();
+            var p = _dal.Get(parm.Id).Data;
             if (string.IsNullOrEmpty(p?.ID))
             {
                 res.Success = false;
@@ -70,7 +70,7 @@ namespace BLL
             var prices = _priceDal.List(parm).rows;
             foreach (var ex in prices)
             {
-                var s =new Spec();
+                var s = new Spec();
                 s.ID = ex.UnitID;
                 s.Name = ex.Name;
                 s.MPrice = ex.MemberPrice;
@@ -80,6 +80,14 @@ namespace BLL
             res.Data = good;
 
             return res;
+        }
+        /// <summary>
+        /// 指定商铺下的所有商品
+        /// </summary>
+        /// <returns></returns>
+        public ApiMessage<List<StoreGood>> GetAllGood()
+        {
+            return _dal.GetAllGood();
         }
     }
 }

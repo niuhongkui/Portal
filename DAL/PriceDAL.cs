@@ -32,12 +32,9 @@ namespace DAL
                 strSql.Append(" AND p1.TypeName like @Type");
                 strSqlCount.Append(" AND p1.TypeName like @Type");
             }
-            page.rows = _db.Fetch<PriceEx>(strSql.ToString(), parm)
-               .Take(parm.rows)
-               .Skip(parm.index * parm.rows)
-               .ToList();
-            page.total =
-                _db.FirstOrDefault<int>(strSqlCount.ToString(), parm);
+            var list = _db.Page<PriceEx>(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
             return page;
         }
 

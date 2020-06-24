@@ -34,7 +34,7 @@ namespace DAL
             strSql.Append(" order by CreateDate Desc");
             page.rows = swiper.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
+                .Skip((parm.page-1) * parm.rows)
                 .ToList();
             page.total =
                 _db.FirstOrDefault<int>("select count(1) from Swiper " + strSql, parm);

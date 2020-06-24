@@ -77,12 +77,9 @@ namespace DAL
                 parm.Code = "%" + parm.Code + "%";
                 strSql.Append(" AND UserCode like @Code");
             }
-            page.rows = userinfo.Fetch(strSql.ToString(), parm)
-                    .Take(parm.rows)
-                    .Skip(parm.index * parm.rows)
-                    .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from userinfo " + strSql, parm);
+            var list = userinfo.Page(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total =(int)list.TotalItems;
 
             return page;
         }

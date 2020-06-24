@@ -24,7 +24,7 @@
                         that.fileList = that.form.Imgs;
                     }
                 });
-                $.post("/productType/gettype", {}, function (json) {
+                $.post("/productType/gettype", {page:1,rows:1000}, function (json) {
                     that.typeData = json.rows;
                 });
             },

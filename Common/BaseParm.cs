@@ -21,8 +21,9 @@ namespace Common
         public DateTime? State { set; get; }
 
         public DateTime? End { set; get; }
-
-        public int index { set; get; } = 0;
+        
+        //public int index { set; get; } = 0;
+        public int page { set; get; } = 0;
 
         public int rows { set; get; } = 15;
     }

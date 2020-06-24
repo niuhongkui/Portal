@@ -73,10 +73,9 @@ namespace DAL
                     FROM FAVORITE f 
                     LEFT JOIN price p ON p.ProductID=f.ProductID AND p.UnitName=f.UserName");
             strSql.Append(" Where f.UserID=@Id");
-            page.rows = _db.Query<FavoriteEx>(strSql.ToString(), parm)
-                .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
-                .ToList();
+            var list = _db.Page<FavoriteEx>(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
             return page;
         }
 

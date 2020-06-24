@@ -29,14 +29,10 @@ namespace Portal.Controllers.Api
         public ApiMessage<object> GetCate()
         {
             var list = new List<object>();
-            var last = _typeBll.List(new BaseParm()).rows;
+            var last = _typeBll.List(new BaseParm { rows = 1000, page = 1 }).rows.OrderBy(n => n.CreateDate);
             foreach (var item in last)
             {
                 list.Add(new { id = item.ID, name = item.Name });
-            }
-            foreach (var item in last)
-            {
-                list.Add(new { id = item.ID, pid = item.ID, name = item.Name, picture = item.ImgUrl });
             }
             var res = new ApiMessage<object>();
             res.Data = list;
@@ -85,7 +81,8 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<List<Goods>> GetLikeGoods(string id)
         {
-            var api = new ApiMessage<List<Goods>>() {
+            var api = new ApiMessage<List<Goods>>()
+            {
                 Data = new List<Goods>()
             };
             if (string.IsNullOrEmpty(UserInfo?.Id))
@@ -103,13 +100,23 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<Good> GetGood(string id)
         {
-            
-            var res = _proBll.GetGood(new BaseParm {Id = id});
+
+            var res = _proBll.GetGood(new BaseParm { Id = id });
             if (UserInfo?.IsMember != 1)
             {
                 res.Data.SpecList.ForEach(n => { n.MPrice = n.Price; });
             }
             return res;
+        }
+        /// <summary>
+        /// 指定商铺下的所有商品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public ApiMessage<List<StoreGood>> GetAllGood()
+        {
+            return _proBll.GetAllGood();
         }
 
     }

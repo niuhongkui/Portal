@@ -59,7 +59,7 @@ namespace DAL
             strSql.Append(" ORDER BY CreateDate DESC");
             var list = _db.Query<OrderData>(strSql.ToString(), parm)
                 .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
+                .Skip((parm.page-1) * parm.rows)
                 .ToList();
             if (list.Any())
             {
@@ -97,7 +97,7 @@ namespace DAL
 
             page.rows = order.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
+                .Skip((parm.page-1) * parm.rows)
                 .ToList();
             page.total =
                 _db.FirstOrDefault<int>("select count(1) from `order` " + strSql, parm);

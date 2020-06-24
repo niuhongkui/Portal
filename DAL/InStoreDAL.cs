@@ -23,12 +23,9 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND ProductName like @Name");
             }
-            page.rows = instore.Fetch(strSql.ToString(), parm)
-                    .Take(parm.rows)
-                    .Skip(parm.index * parm.rows)
-                    .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from instore " + strSql, parm);
+            var list = instore.Page(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
             return page;
         }
 

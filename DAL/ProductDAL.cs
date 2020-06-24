@@ -24,12 +24,9 @@ namespace DAL
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND Name like @Name");
             }
-            page.rows = product.Fetch(strSql.ToString(), parm)
-                .Take(parm.rows)
-                .Skip(parm.index * parm.rows)
-                .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from product " + strSql, parm);
+            var list = product.Page(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
 
             return page;
         }
@@ -41,7 +38,7 @@ namespace DAL
                 try
                 {
                     var rows = product.Delete(" where id=@0", id);
-                    productimg.Delete("where productid=@0",id);
+                    productimg.Delete("where productid=@0", id);
                     var msg = new ApiMessage<string>();
                     if (rows > 0)
                     {
@@ -60,7 +57,7 @@ namespace DAL
                 {
                     scope.Dispose();
                     throw e;
-                }                
+                }
             }
         }
 
@@ -76,13 +73,15 @@ namespace DAL
                         t.Code = CodeNo.Get(CodeType.Product);
                         t.Insert();
 
-                        foreach (var item in t.Imgs)
+                        for (int i = 0; i < t.Imgs.Count; i++)
                         {
-                           var img=new productimg {
-                                ID=Guid.NewGuid().ToString(),
-                                ProductID=t.ID,
-                                RowNO=0,
-                                Url=item.url
+                            var item = t.Imgs[i];
+                            var img = new productimg
+                            {
+                                ID = Guid.NewGuid().ToString(),
+                                ProductID = t.ID,
+                                RowNO = i,
+                                Url = item.url
                             };
                             img.Insert();
                         }
@@ -91,13 +90,14 @@ namespace DAL
                     {
                         t.Update();
                         productimg.Delete("where ProductId=@0", t.ID);
-                        foreach (var item in t.Imgs)
+                        for (int i = 0; i < t.Imgs.Count; i++)
                         {
+                            var item = t.Imgs[i];
                             var img = new productimg
                             {
                                 ID = Guid.NewGuid().ToString(),
                                 ProductID = t.ID,
-                                RowNO = 0,
+                                RowNO = i,
                                 Url = item.url
                             };
                             img.Insert();
@@ -111,7 +111,7 @@ namespace DAL
                     scope.Dispose();
                     throw e;
                 }
-                
+
             }
         }
 
@@ -156,7 +156,7 @@ namespace DAL
                     GROUP BY p.ID LIMIT @m,@n", new
                     {
                         id = parm.Id,
-                        m = parm.index * parm.rows - parm.rows,
+                        m = (parm.page - 1) * parm.rows,
                         n = parm.rows
                     });
             page.Data = list;
@@ -179,6 +179,26 @@ namespace DAL
                     GROUP BY p.ID LIMIT 0,10", ids);
             page.Data = list;
             return page;
+        }
+        
+        /// <summary>
+        /// 指定商铺下的所有商品
+        /// </summary>
+        /// <returns></returns>
+        public ApiMessage<List<StoreGood>> GetAllGood()
+        {
+            var api = new ApiMessage<List<StoreGood>>();
+            var strSql = new StringBuilder();
+            strSql.Append(@"SELECT p.ID,p.Name,p.TypeID,p1.Url,p2.Price,p2.MemberPrice,p2.LimitNum,p2.UnitName,p2.UnitID,s.Amount 
+                  FROM product p
+                  LEFT JOIN(SELECT * FROM productimg n WHERE n.RowNO = 0)  p1 ON p.ID = p1.ProductID
+                  LEFT JOIN productprice p2 ON p.ID = p2.ProductID
+                  INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
+                  WHERE p.IsActive = 1
+                ");
+            api.Data = _db.Fetch<StoreGood>(strSql.ToString()).ToList();
+
+            return api;
         }
     }
 }

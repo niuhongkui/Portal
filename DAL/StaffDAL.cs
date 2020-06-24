@@ -42,16 +42,12 @@ namespace DAL
                 parm.Code = "%" + parm.Code + "%";
                 strSql.Append(" AND UserCode like @Code");
             }
-            page.rows = staff.Fetch(strSql.ToString(), parm)
-                    .Take(parm.rows)
-                    .Skip(parm.index * parm.rows)
-                    .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from staff " + strSql, parm);
+            var list = staff.Page(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
 
             return page;
 
-            return null;
         }
 
         public staff Get(string id)
@@ -59,7 +55,8 @@ namespace DAL
             return staff.FirstOrDefault("where id=@0", id);
         }
 
-        public ApiMessage<string> Add(staff user) {
+        public ApiMessage<string> Add(staff user)
+        {
             user.Insert();
             return new ApiMessage<string>();
 
@@ -69,7 +66,8 @@ namespace DAL
         {
             var sign = user.Update();
             var api = new ApiMessage<string>();
-            if (sign == 0) {
+            if (sign == 0)
+            {
                 api.Success = false;
                 api.Msg = "操作失败";
             }

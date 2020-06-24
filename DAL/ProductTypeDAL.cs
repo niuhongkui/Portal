@@ -12,22 +12,18 @@ namespace DAL
     {
         private DB _db = new DB();
         public Page<producttype> List(BaseParm parm)
-        { 
+        {
             var page = new Page<producttype>(parm);
-            var strSql =new StringBuilder();
+            var strSql = new StringBuilder();
             strSql.Append(" where 1=1");
             if (!string.IsNullOrEmpty(parm.Name))
             {
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND Name like @Name");
             }
-            
-            page.rows= producttype.Fetch(strSql.ToString(), parm)
-                    .Take(parm.rows)
-                    .Skip(parm.index*parm.rows)
-                    .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from producttype "+ strSql, parm);
+            var list = producttype.Page(parm.page, parm.rows, strSql.ToString(), parm);
+            page.rows =list.Items;
+            page.total = (int)list.TotalItems;
 
             return page;
         }
@@ -35,7 +31,7 @@ namespace DAL
         public ApiMessage<string> Delete(string id)
         {
             var rows = producttype.Delete(" where id=@0", id);
-            var msg=new ApiMessage<string>();
+            var msg = new ApiMessage<string>();
             if (rows > 0)
             {
                 msg.Msg = "删除成功";
@@ -63,11 +59,11 @@ namespace DAL
             {
                 t.Update();
             }
-            return new ApiMessage<string>() ;
+            return new ApiMessage<string>();
         }
         public ApiMessage<producttype> Get(string id)
         {
-            var json=new ApiMessage<producttype>();
+            var json = new ApiMessage<producttype>();
             var m = producttype.FirstOrDefault(" where id=@0", id);
             if (m == null)
             {
