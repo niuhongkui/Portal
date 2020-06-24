@@ -37,7 +37,7 @@
                 if (query !== '') {
                     this.loading = true;
                     $.post("/product/list",
-                        { Name: query, rows: 10, index: 0 },
+                        { Name: query, rows: 10, page: 1 },
                         function (json) {
                             ths.options = json.rows;
                         });

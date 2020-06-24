@@ -18,19 +18,15 @@ namespace DAL
             var page = new Page<PriceEx>(parm);
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT p.*,p1.ID ProductID ,p1.`Name` ,p1.TypeID,p1.TypeName  FROM product p1  LEFT JOIN  productprice p on p.ProductID =p1.ID ");
-            var strSqlCount = new StringBuilder();
-            strSqlCount.Append("SELECT count(1)  FROM product p1  LEFT JOIN  productprice p on p.ProductID =p1.ID  WHERE p1.IsActive=1");
             strSql.Append(" WHERE p1.IsActive=1");
             if (!string.IsNullOrEmpty(parm.Name))
             {
                 parm.Name = "%" + parm.Name + "%";
                 strSql.Append(" AND p1.Name like @Name");
-                strSqlCount.Append(" AND p1.Name like @Name");
             }
             if (!string.IsNullOrEmpty(parm.Type))
             {
                 strSql.Append(" AND p1.TypeName like @Type");
-                strSqlCount.Append(" AND p1.TypeName like @Type");
             }
             var list = _db.Page<PriceEx>(parm.page, parm.rows, strSql.ToString(), parm);
             page.rows = list.Items;
