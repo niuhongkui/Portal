@@ -51,5 +51,7 @@ namespace Model.Entity
         /// 商品单位名称
         /// </summary>
         public string UnitName { set; get; }
+
+        public int SelectAmount { set; get; }
     }
 }
