@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddrBLL.cs" />
     <Compile Include="FavoriteBLL.cs" />
     <Compile Include="InStoreBLL.cs" />
     <Compile Include="OrderBLL.cs" />

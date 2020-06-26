@@ -10,10 +10,35 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2020-06-24 16:39:25
+Date: 2020-06-25 23:56:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `address`
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address` (
+  `ID` varchar(50) NOT NULL DEFAULT '',
+  `UserID` varchar(50) NOT NULL,
+  `Province` varchar(50) NOT NULL,
+  `City` varchar(50) NOT NULL,
+  `County` varchar(50) NOT NULL,
+  `Mobile` varchar(11) NOT NULL,
+  `Addressee` varchar(50) NOT NULL,
+  `DetailAddr` varchar(300) NOT NULL,
+  `IsDefault` int(2) NOT NULL DEFAULT '0',
+  `CreateDate` datetime NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `u_adde_pk` (`UserID`),
+  CONSTRAINT `u_adde_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of address
+-- ----------------------------
+INSERT INTO `address` VALUES ('1', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北', '石家庄', '桥西', '15613888888', '牛先生', '华浦原2-2-1', '1', '2020-06-25 14:11:04');
 
 -- ----------------------------
 -- Table structure for `cart`
@@ -190,7 +215,7 @@ CREATE TABLE `order` (
   `CreateDate` datetime NOT NULL COMMENT '创建时间',
   `Remark` varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
   `Address` varchar(200) NOT NULL DEFAULT '' COMMENT '收货地址',
-  `SendTime` datetime NOT NULL COMMENT '预计送达时间',
+  `SendTime` varchar(50) NOT NULL COMMENT '预计送达时间',
   `Phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机号',
   `SendType` varchar(50) NOT NULL DEFAULT '' COMMENT '送货or自取',
   `SendMoney` decimal(10,0) NOT NULL DEFAULT '0' COMMENT '送货费',
@@ -203,6 +228,10 @@ CREATE TABLE `order` (
 -- ----------------------------
 -- Records of order
 -- ----------------------------
+INSERT INTO `order` VALUES ('13faae75-60a2-421d-b8b6-50a7d894dbb1', 'O202006251148466232', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '11.00', '1.00', '2020-06-25 23:48:47', '', '河北石家庄桥西华浦原2-2-1牛先生', '今天-10点', '15613888888', '送货', '5');
+INSERT INTO `order` VALUES ('bef0b9bb-be10-4944-be30-f0277ac449fa', 'O202006251028232574', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '18.00', '2.00', '2020-06-25 22:28:24', '', '河北石家庄桥西华浦原2-2-1牛先生', '1999-02-02 00:00:00', '15613888888', '送货', '5');
+INSERT INTO `order` VALUES ('c8434d19-6533-4b80-a561-59a84182a92b', 'O202006250401005014', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '0.00', '20.00', '3.00', '2020-06-25 16:01:00', '', '河北石家庄桥西华浦原2-2-1牛先生', '1999-02-02 00:00:00', '15613888888', '送货', '5');
+INSERT INTO `order` VALUES ('df20661d-9a90-44b9-8262-b2aec95b3da5', 'O202006250420538158', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '25.00', '3.00', '2020-06-25 16:20:53', '', '河北石家庄桥西华浦原2-2-1牛先生', '明天-10点', '15613888888', '送货', '5');
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -228,6 +257,13 @@ CREATE TABLE `orderdetail` (
 -- ----------------------------
 -- Records of orderdetail
 -- ----------------------------
+INSERT INTO `orderdetail` VALUES ('0d6dbf87-f3e6-4424-90e2-a70c99e027a4', 'O202006250420538158', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('38b1c141-e84e-47dd-bb96-a13458f7949e', 'O202006250420538158', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '2.00', '14.00', '0.00', '7.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('4186d7a2-cf20-4b3c-96d9-4e819e4b0da2', 'O202006250401005014', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '2.00', '14.00', '0.00', '7.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('49c43303-11e7-4457-944a-7370a6963faf', 'O202006250401005014', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('4d8b327e-c1bd-4039-9894-6bb792ffda45', 'O202006251028232574', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('b9e335aa-57c8-466c-8fd6-196bb816a97a', 'O202006251028232574', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '1.00', '7.00', '0.00', '7.00', '0.00');
+INSERT INTO `orderdetail` VALUES ('c25e281b-d097-400c-92dd-3dbb36fd3e3e', 'O202006251148466232', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
 
 -- ----------------------------
 -- Table structure for `packing`
@@ -295,8 +331,8 @@ CREATE TABLE `product` (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('563833d8-e469-4515-ab96-f631214429a6', 'P202004300955148701', '香蕉', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '水果', '2020-06-24 10:58:59', '1', '2', '华普元', '5555');
-INSERT INTO `product` VALUES ('8611ed05-b483-46bf-9d52-b25862384dd4', 'P202004300953376402', '馒头', 'fe36d786-df60-4d09-87f0-50c69e5b0243', '主食', '2020-06-24 12:00:39', '1', '2', '华普元', '333');
+INSERT INTO `product` VALUES ('563833d8-e469-4515-ab96-f631214429a6', 'P202004300955148701', '香蕉', '9e4001f8-7bd0-45fa-acc4-ef00d2889a6f', '水果', '2020-06-25 09:15:09', '1', '2', '华普元', '5555');
+INSERT INTO `product` VALUES ('8611ed05-b483-46bf-9d52-b25862384dd4', 'P202004300953376402', '馒头', 'fe36d786-df60-4d09-87f0-50c69e5b0243', '主食', '2020-06-25 09:06:30', '1', '2', '华普元', '333');
 
 -- ----------------------------
 -- Table structure for `productimg`
@@ -315,8 +351,8 @@ CREATE TABLE `productimg` (
 -- ----------------------------
 -- Records of productimg
 -- ----------------------------
-INSERT INTO `productimg` VALUES ('0a3f97d9-c71a-4bdc-b4ca-7a4041eec3f5', '563833d8-e469-4515-ab96-f631214429a6', '/upload/20200527/ee971ec7-65f0-4fa7-b9bd-df842b36738e.PNG', '0');
-INSERT INTO `productimg` VALUES ('c52039c4-4e87-4399-b57f-8be586749c22', '563833d8-e469-4515-ab96-f631214429a6', '/upload/20200527/36641e46-7106-4c88-acde-746b6c6fa505.JPG', '1');
+INSERT INTO `productimg` VALUES ('00d4693e-213f-42f2-b49a-7fc50dacfcea', '563833d8-e469-4515-ab96-f631214429a6', '/upload/20200625/ac0e6221-05f2-4752-af6e-1d511be92621.JPG', '0');
+INSERT INTO `productimg` VALUES ('13b4d4e9-34c2-4291-8ecc-c45ae0188573', '8611ed05-b483-46bf-9d52-b25862384dd4', '/upload/20200625/50ab0c99-4fea-4d19-ba38-5e43f6bef3fe.JPG', '0');
 
 -- ----------------------------
 -- Table structure for `productprice`
@@ -537,8 +573,8 @@ CREATE TABLE `store` (
 -- ----------------------------
 -- Records of store
 -- ----------------------------
-INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '22.00', '33.00', '11.00', '2020-06-12 15:28:57', '2020-06-12 15:29:01');
-INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '250.00', '0.00', '0.00', '2020-06-15 09:18:27', '2020-06-15 09:18:27');
+INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '21.00', '33.00', '12.00', '2020-06-12 15:28:57', '2020-06-25 22:28:24');
+INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '248.00', '0.00', '2.00', '2020-06-15 09:18:27', '2020-06-25 23:48:47');
 
 -- ----------------------------
 -- Table structure for `swiper`
@@ -583,4 +619,4 @@ CREATE TABLE `userinfo` (
 -- Records of userinfo
 -- ----------------------------
 INSERT INTO `userinfo` VALUES ('0d860f4e-8048-48a8-a582-a703f6c85ff7', '用户_558316', '13191885668', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '1', '1', '0001-01-01 00:00:00', '13191885668', '', '2019-10-03 14:23:39');
-INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '15614385666', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2019-07-29 11:02:09', '15614385666', '', '2019-10-03 14:23:36');
+INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '15614385666', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2019-07-29 11:02:09', '15614385666', '/images/15614385666/90486a99-56ef-4b0a-b985-01e9c943acc4.PNG', '2019-10-03 14:23:36');

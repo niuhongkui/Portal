@@ -17,9 +17,11 @@ namespace DAL
         public List<CartEx> GetPrice(List<PriceEx> p)
         {
             var list = _db.Query<CartEx>(
-                @"SELECT p1.ProductID,p1.Price,p1.MemberPrice MPrice,p1.UnitName,p2.ID UnitID,p.Name ProductName,0 Amount,p.ImgUrl  FROM product p
-                      LEFT JOIN price p1 ON p.ID=p1.ProductID
-                      LEFT JOIN productunit p2 ON p1.UnitCode = p2.Code
+                @"SELECT p1.ProductID,p1.Price,p1.MemberPrice MPrice,p1.UnitName,p2.ID UnitID,p.Name ProductName,0 Amount,p3.Url  
+                  FROM product p
+                  LEFT JOIN productprice  p1 ON p.ID=p1.ProductID
+                  LEFT JOIN (SELECT * FROM productimg n WHERE n.RowNO=0) p3 ON p3.ProductID=p.ID
+                  LEFT JOIN productunit p2 ON p1.UnitID = p2.ID
                       WHERE p.ID in (@0) AND p2.ID in (@1) AND p.IsActive=1", p.Select(n => n.ProductID), p.Select(n => n.UnitID)).ToList();
             return list;
         }
@@ -35,9 +37,49 @@ namespace DAL
 
                 foreach (var od in model.Detail)
                 {
+                    //验证价格
+                    var priceModel = productprice.FirstOrDefault("where ProductID=@0 and  UnitID=@1", od.ProductID, od.UnitID);
+                    if (model.IsMember == 0)
+                    {
+                        if (priceModel.Price != od.Price)
+                        {
+                            api.Success = false;
+                            api.Msg = "价格有误，请重新下单";
+                            tran.Dispose();
+                            return api;
+                        }
+                    }
+                    else
+                    {
+                        if (priceModel.MemberPrice != od.Price)
+                        {
+                            api.Success = false;
+                            api.Msg = "价格有误，请重新下单";
+                            tran.Dispose();
+                            return api;
+                        }
+                    }
+                    //订单从表
                     var node = JsonConvert.DeserializeObject<orderdetail>(JsonConvert.SerializeObject(od));
                     node.Insert();
+                    //清购物车
+                    cart.Delete("where productid=@0 and UserID=@1", od.ProductID, model.UserID);
+                    //锁库存
+                    var stoModel = store.FirstOrDefault("where ProductID=@0 and  UnitID=@1", od.ProductID, od.UnitID);
+                    if (stoModel.Amount < node.Amount)
+                    {
+                        api.Success = false;
+                        api.Msg = "库存不足，请重新下单";
+                        tran.Dispose();
+                        return api;
+                    }
+                    stoModel.Amount = stoModel.Amount - node.Amount;
+                    stoModel.LuckAmount = stoModel.LuckAmount + node.Amount;
+                    stoModel.UpdateDate = DateTime.Now;
+                    stoModel.Update();
+
                 }
+
                 tran.Complete();
                 api.Success = true;
                 api.Data = new { om.OrderNo, om.Money };
@@ -57,14 +99,12 @@ namespace DAL
                 strSql.Append(" AND State = @Type");
             }
             strSql.Append(" ORDER BY CreateDate DESC");
-            var list = _db.Query<OrderData>(strSql.ToString(), parm)
-                .Take(parm.rows)
-                .Skip((parm.page-1) * parm.rows)
-                .ToList();
+            var list = _db.SkipTake<OrderData>(parm.page * parm.rows, parm.rows, strSql.ToString(), parm);
             if (list.Any())
             {
-                var details = _db.Query<OrderDetail>(@"select o.*,p.ImgUrl from orderdetail o 
+                var details = _db.Query<OrderDetail>(@"select o.*,p1.Url from orderdetail o 
                                 LEFT JOIN product p ON p.ID=o.ProductID
+                              LEFT JOIN (SELECT * FROM productimg n WHERE n.RowNO=0) p1 ON p1.ProductID=p.ID
                                 where o.orderno in (@0)", list.Select(n => n.OrderNo)).ToList();
                 list.ForEach(n =>
                 {
@@ -97,7 +137,7 @@ namespace DAL
 
             page.rows = order.Fetch(strSql.ToString(), parm)
                 .Take(parm.rows)
-                .Skip((parm.page-1) * parm.rows)
+                .Skip((parm.page - 1) * parm.rows)
                 .ToList();
             page.total =
                 _db.FirstOrDefault<int>("select count(1) from `order` " + strSql, parm);
@@ -115,8 +155,8 @@ namespace DAL
 
         public ApiMessage<string> PickUp(string orderNo)
         {
-            var api=new ApiMessage<string>();
-            var model= order.Query(" where orderNo=@0", orderNo).FirstOrDefault();
+            var api = new ApiMessage<string>();
+            var model = order.Query(" where orderNo=@0", orderNo).FirstOrDefault();
             if (model?.State == "待取货")
             {
                 model.State = "已关闭";

@@ -116,7 +116,8 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public ApiMessage<List<StoreGood>> GetAllGood()
         {
-            return _proBll.GetAllGood();
+            var userId = UserInfo?.Id;
+            return _proBll.GetAllGood(userId);
         }
 
     }

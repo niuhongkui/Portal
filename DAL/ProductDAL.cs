@@ -125,11 +125,8 @@ namespace DAL
                 json.Msg = "不存在";
                 return json;
             }
-            var imgs = productimg.Query("where ProductID=@0", m.ID);
-            foreach (var item in imgs)
-            {
-                m.Imgs.Add(new ProImg { name = "", url = item.Url });
-            }
+            var imgs = productimg.Fetch("where ProductID=@0", m.ID).ToList();
+            m.Imgs = imgs?.Select(n => new ProImg { url = n.Url })?.ToList();
             json.Data = m;
             return json;
         }
@@ -185,7 +182,7 @@ namespace DAL
         /// 指定商铺下的所有商品
         /// </summary>
         /// <returns></returns>
-        public ApiMessage<List<StoreGood>> GetAllGood()
+        public ApiMessage<List<StoreGood>> GetAllGood(string userId)
         {
             var api = new ApiMessage<List<StoreGood>>();
             var strSql = new StringBuilder();
@@ -194,7 +191,8 @@ namespace DAL
                   LEFT JOIN(SELECT * FROM productimg n WHERE n.RowNO = 0)  p1 ON p.ID = p1.ProductID
                   LEFT JOIN productprice p2 ON p.ID = p2.ProductID
                   INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
-                  WHERE p.IsActive = 1
+                  LEFT JOIN producttype  p3 ON p.TypeID=p3.ID
+                  WHERE p.IsActive = 1  ORDER BY p3.CreateDate
                 ");
             api.Data = _db.Fetch<StoreGood>(strSql.ToString()).ToList();
 

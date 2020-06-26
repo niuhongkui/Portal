@@ -117,7 +117,7 @@ namespace Portal.Controllers.Api
             data.State = "待付款";
             data.ID = Guid.NewGuid().ToString();
             data.OrderNo = CodeNo.Get(CodeType.Order);
-
+            data.IsMember = UserInfo.IsMember;
             return obll.Save(data);
         }
 
@@ -130,7 +130,6 @@ namespace Portal.Controllers.Api
         public Page<OrderData> GetOrders(BaseParm parm)
         {
             parm.Id = UserInfo.Id;
-            parm.rows = 10;
             return obll.GetList(parm);
         }
     }

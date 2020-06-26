@@ -15,12 +15,13 @@ namespace Model.Entity
 
     public class OrderData:order
     {
+        public int IsMember { set; get; }
         public List<OrderDetail> Detail { set; get; }=new List<OrderDetail>();
     }
 
     public class OrderDetail
     {
-        public string ImgUrl { set; get; }
+        public string Url { set; get; }
         
         public string ID { get; set; }
         

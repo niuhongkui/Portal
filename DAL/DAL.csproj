@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddrDAL.cs" />
     <Compile Include="CartDAL.cs" />
     <Compile Include="FavoriteDAL.cs" />
     <Compile Include="InStoreDAL.cs" />

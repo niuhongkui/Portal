@@ -12,7 +12,7 @@ namespace DAL
     public class CartDAL
     {
         private DB _db = new DB();
-      
+
         /// <summary>
         /// 
         /// </summary>
@@ -26,9 +26,17 @@ namespace DAL
             if (list.Any())
             {
                 var node = list.FirstOrDefault();
-                node.Amount = parm.Amount + node.Amount;
-                node.CreatDate = DateTime.Now;
-                node.Update();
+                if (parm.Amount == 0)
+                {
+                    node.Delete();
+                }
+                else
+                {
+                    node.Amount = parm.Amount;
+                    node.CreatDate = DateTime.Now;
+                    node.Update();
+                }
+
             }
             else
             {
@@ -42,30 +50,33 @@ namespace DAL
 
         public ApiMessage<List<CartEx>> List(string userId)
         {
-            var list=   _db.Query<CartEx>(
-                @"SELECT c.ProductID,c.UnitID,c.ID,c.UnitName,c.ProductName,c.Amount,p1.Price,p1.MemberPrice MPrice,p.ImgUrl FROM cart c 
-                    LEFT JOIN product p ON p.ID=c.ProductID
-                    LEFT JOIN price p1 ON p.ID = p1.ProductID AND c.UnitName=p1.UnitName
-                WHERE p.IsActive=1 AND c.UserID=@userId", new {userId}).ToList();
-            var api=new ApiMessage<List<CartEx>>();
+            var list = _db.Query<CartEx>(
+                @"SELECT c.ProductID,c.UnitID,c.ID,c.UnitName,c.ProductName,c.Amount,p1.Price,p1.MemberPrice MPrice,p2.Url ,p1.LimitNum,s.Amount StoreAmount
+                  FROM cart c 
+                  LEFT JOIN product p ON p.ID=c.ProductID
+                  LEFT JOIN (SELECT * FROM productimg n WHERE n.RowNO=0) p2 on p2.ProductID=p.ID
+                  LEFT JOIN productprice p1 ON p.ID = p1.ProductID AND c.UnitName=p1.UnitName
+                  LEFT JOIN store s ON s.ProductID=p.ID AND s.UnitID=p1.UnitID
+                  WHERE p.IsActive=1 AND c.UserID=@userId", new { userId }).ToList();
+            var api = new ApiMessage<List<CartEx>>();
             api.Data = list;
             return api;
         }
 
         public ApiMessage<bool> Delete(List<string> ids)
         {
-            var api=new ApiMessage<bool>();
+            var api = new ApiMessage<bool>();
             var rows = cart.Delete("where id in(@0)", ids);
             api.Data = rows > 0;
             api.Msg = rows > 0 ? "" : "删除失败";
             return api;
         }
-        public ApiMessage<bool> DelAll(string id)
+        public ApiMessage<bool> DelAll(string id,List<string> ids=null)
         {
             var api = new ApiMessage<bool>();
             var rows = cart.Delete("where UserID=@0", id);
             api.Data = rows > 0;
-            api.Msg = rows > 0?"":"删除失败";
+            api.Msg = rows > 0 ? "" : "删除失败";
             return api;
         }
     }

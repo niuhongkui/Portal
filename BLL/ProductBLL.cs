@@ -60,13 +60,11 @@ namespace BLL
                 return res;
             }
             good.ID = p.ID;
-            good.Title = p.Name;
-            //good.ImgList.Add(new Img() {Url = p.ImgUrl});
-            //good.ImgList.Add(new Img() { Url = p.ImgUrl2 });
-            //good.ImgList.Add(new Img() { Url = p.ImgUrl3 });
+            good.Name = p.Name;
+            good.ImgList = p.Imgs.Select(n=>new Img { Url=n.url}).ToList();
             good.Detail = p.Detail;
-            //good.Sales = p.Sales;
-
+            parm.page = 1;
+            parm.rows = 1000;
             var prices = _priceDal.List(parm).rows;
             foreach (var ex in prices)
             {
@@ -75,6 +73,7 @@ namespace BLL
                 s.Name = ex.Name;
                 s.MPrice = ex.MemberPrice;
                 s.Price = ex.Price;
+                s.StoreAmount = ex.Amount;
                 good.SpecList.Add(s);
             }
             res.Data = good;
@@ -85,9 +84,23 @@ namespace BLL
         /// 指定商铺下的所有商品
         /// </summary>
         /// <returns></returns>
-        public ApiMessage<List<StoreGood>> GetAllGood()
+        public ApiMessage<List<StoreGood>> GetAllGood(string userId)
         {
-            return _dal.GetAllGood();
+            var res= _dal.GetAllGood(userId);
+            if (!string.IsNullOrEmpty(userId)) {
+                var cartList = new CartDAL().List(userId);
+                res.Data.ForEach(n =>
+                {
+                    var node = cartList.Data.FirstOrDefault(m => n.ID == m.ProductID);
+                    if (node != null)
+                    {
+
+                        n.SelectAmount = node.Amount;
+                    }
+                });
+
+            }
+            return res;
         }
     }
 }

@@ -17,8 +17,15 @@ namespace DAL
         {
             var page = new Page<PriceEx>(parm);
             var strSql = new StringBuilder();
-            strSql.Append(@"SELECT p.*,p1.ID ProductID ,p1.`Name` ,p1.TypeID,p1.TypeName  FROM product p1  LEFT JOIN  productprice p on p.ProductID =p1.ID ");
+            strSql.Append(@"SELECT p.*,p1.ID ProductID ,p1.`Name` ,p1.TypeID,p1.TypeName ,s.Amount
+                  FROM product p1  
+                  LEFT JOIN  productprice p on p.ProductID =p1.ID
+                  LEFT JOIN store s ON s.ProductID=p1.ID AND p.UnitID=s.UnitID ");
             strSql.Append(" WHERE p1.IsActive=1");
+            if (!string.IsNullOrEmpty(parm.Id))
+            {
+                strSql.Append(" AND p1.ID = @Id");
+            }
             if (!string.IsNullOrEmpty(parm.Name))
             {
                 parm.Name = "%" + parm.Name + "%";

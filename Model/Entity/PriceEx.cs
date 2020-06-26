@@ -23,5 +23,7 @@ namespace Model.Entity
         public string StaffID { get; set; }
         public string StaffName { get; set; }
 
+        public int Amount { get; set; }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Model.Entity
         public decimal Price { set; get; }
         public decimal MPrice { set; get; }
         public decimal OPrice { set; get; }
-        public string ImgUrl { set; get; }
+        public string Url { set; get; }
        
         public string ID { get; set; }
        
@@ -24,5 +24,8 @@ namespace Model.Entity
         public string ProductName { get; set; }
        
         public string UnitName { get; set; }
+
+        public int LimitNum { get; set; }
+        public int StoreAmount { get; set; }
     }
 }

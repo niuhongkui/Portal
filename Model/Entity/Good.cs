@@ -19,11 +19,11 @@ namespace Model.Entity
         /// <summary>
         /// 销量
         /// </summary>
-        public int Sales { set; get; }
+        public int StoreAmount { set; get; }
         /// <summary>
         /// 名称
         /// </summary>
-        public string Title { set; get; }
+        public string Name { set; get; }
         /// <summary>
         /// 规格
         /// </summary>
@@ -38,6 +38,7 @@ namespace Model.Entity
         public string Name { set; get; }
         public decimal Price { set; get; }
         public decimal MPrice { set; get; }
+        public int StoreAmount { set; get; }
     }
 
     public class Img

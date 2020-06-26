@@ -26,12 +26,12 @@ namespace BLL
             }
             else
             {
-                //list.ForEach(n =>
-                //{
-                //    var firstOrDefault = p.FirstOrDefault(m => n.ProductID == m.ProductID && m.UnitID == n.UnitID);
-                //    if (firstOrDefault != null)
-                //        n.Amount = firstOrDefault.Amount;
-                //});
+                list.ForEach(n =>
+                {
+                    var firstOrDefault = p.FirstOrDefault(m => n.ProductID == m.ProductID && m.UnitID == n.UnitID);
+                    if (firstOrDefault != null)
+                        n.Amount = firstOrDefault.Amount;
+                });
                 api.Success = true;
                 api.Data = list;
             }
@@ -40,8 +40,6 @@ namespace BLL
 
         public ApiMessage<object> Save(OrderData data)
         {
-            var cartIds = data.Detail.Select(n => n.ID).ToList();
-            cartIds = JsonConvert.DeserializeObject<List<string>>(JsonConvert.SerializeObject(cartIds));
             data.Detail.ForEach(n =>
             {
                 n.ID = Guid.NewGuid().ToString();
@@ -50,14 +48,9 @@ namespace BLL
                 n.Money = n.Price * n.Amount;
             });
             data.Amount = data.Detail.Sum(n => n.Amount);
-            data.Money = data.Detail.Sum(n => n.Money);
-            data.PMoney = data.Detail.Sum(n => n.PMoney);
-            var res= dal.Save(data);
-            if (res.Success&&cartIds.Any(n=>!string.IsNullOrEmpty(n)))
-            {
-                var cDal=new CartDAL();
-                cDal.Delete(cartIds);
-            }
+            data.Money = data.Detail.Sum(n => n.Money)+data.SendMoney;
+            data.PMoney = data.Detail.Sum(n => n.PMoney) + data.SendMoney;
+            var res= dal.Save(data);            
             return res;
         }
 
