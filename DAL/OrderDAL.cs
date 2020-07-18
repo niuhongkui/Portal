@@ -135,13 +135,10 @@ namespace DAL
                 strSql.Append(" AND OrderNo = @Code");
             }
 
-            page.rows = order.Fetch(strSql.ToString(), parm)
-                .Take(parm.rows)
-                .Skip((parm.page - 1) * parm.rows)
-                .ToList();
-            page.total =
-                _db.FirstOrDefault<int>("select count(1) from `order` " + strSql, parm);
+            var list = _db.Page<order>(parm.page,parm.rows,strSql.ToString(), parm);
 
+            page.rows = list.Items;
+            page.total = (int)list.TotalItems;
             return page;
         }
 
@@ -160,6 +157,7 @@ namespace DAL
             if (model?.State == "待取货")
             {
                 model.State = "已关闭";
+
                 model.Update();
                 api.Success = true;
                 api.Msg = "取货成功";

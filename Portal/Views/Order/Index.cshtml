@@ -1,9 +1,9 @@
 ﻿
 <script>
     $(function () {
-        Query({Type:'待取货'});
+        QueryOrder({Type:'待取货'});
     });
-    function Query(parm) {
+    function QueryOrder(parm) {
         $('#gd_order').datagrid({
             title: '',
             iconCls: 'icon-save',
@@ -58,11 +58,11 @@
         });
     }
   
-    function searchList() {
+    function searchOrderList() {
         var name = $("#p_name").textbox("getValue");
 		    var order=$("#p_order").textbox("getValue");
 		    var state=$("#p_state").combobox("getValue");
-        Query({ Name: name,Order:order,Type:state });
+        QueryOrder({ Name: name,Order:order,Type:state });
     }
 </script>
 
@@ -74,13 +74,13 @@
 			    <option value="">全部</option>
 			    <option value="待付款">待付款</option>
 			    <option value="待取货" selected>待取货</option>
-				<option value="待付款">已关闭</option>
+				<option value="已关闭">已关闭</option>
 		    </select>
 		    <label class="search-lable" for="p_name">用户名:</label>
 		    <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入用户名'"/>
 		    <label class="search-lable" for="p_order">订单号:</label>
 		    <input id="p_order" class="easyui-textbox form-control search-text" type="text" name="Order" data-options="prompt:'请输入订单号'"/>
-		    <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
+		    <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchOrderList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
 	    </div>
     </div>
     <div region="center" id="d_order" border="false">
