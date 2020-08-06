@@ -55,7 +55,7 @@ namespace Portal.Controllers.Api
         {
             id = UserInfo.Id;
             var list = fbll.CartList(id);
-            if (UserInfo?.IsMember == 1)
+            if (UserInfo?.IsMember >0)
             {
                 list.Data.ForEach(n =>
                 {
@@ -93,7 +93,7 @@ namespace Portal.Controllers.Api
         public ApiMessage<List<CartEx>> GetPrice(Order order)
         {
             var list = obll.GetPrice(order.GoodsData);
-            if (UserInfo?.IsMember == 1)
+            if (UserInfo?.IsMember >0)
             {
                 list.Data.ForEach(n =>
                 {

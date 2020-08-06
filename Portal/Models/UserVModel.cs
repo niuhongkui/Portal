@@ -50,6 +50,7 @@ namespace Portal.Models
         public static CurrentUser FormatUser(userinfo admin)
         {
             TimeSpan sp = admin.MemberDate.Value.Subtract(DateTime.Now);
+            var days = sp.Days;
             CurrentUser user = new CurrentUser();
             user.PassWord = admin.PassWord;
             user.UserName = admin.UserName;
@@ -58,7 +59,7 @@ namespace Portal.Models
             user.UserType = "用户";
             user.Phone = admin.Phone;
             user.Id = admin.ID;
-            user.IsMember =sp.Days;
+            user.IsMember = days > 0? days :0;
             user.PointAmount = admin.PointAmount.Value;
             return user;
         }

@@ -102,7 +102,7 @@ namespace Portal.Controllers.Api
         {
 
             var res = _proBll.GetGood(new BaseParm { Id = id });
-            if (UserInfo?.IsMember != 1)
+            if (UserInfo?.IsMember == 0)
             {
                 res.Data.SpecList.ForEach(n => { n.MPrice = n.Price; });
             }
