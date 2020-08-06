@@ -179,7 +179,7 @@ namespace DAL
             api.Success = false;
             using (var tran = new PetaPoco.Transaction(_db))
             {
-                var model= order.FirstOrDefault("where orderNo =@0", orderNo);
+                var model = order.FirstOrDefault("where orderNo =@0", orderNo);
                 if (model.State != "已关闭")
                     return api;
                 orderdetail.Delete("where orderNo =@0", orderNo);
@@ -189,6 +189,24 @@ namespace DAL
             api.Msg = "删除成功";
             api.Success = true;
             return api;
+        }
+        public ApiMessage<bool> CloseOrder(string orderNo)
+        {
+            var api = new ApiMessage<bool>();
+            api.Msg = "数据有误";
+            api.Success = false;
+            var model= order.FirstOrDefault("where OrderNo =@0", orderNo);
+            if (model.State != "待付款")
+                return api;
+            model.State = "已关闭";
+            var sign= model.Update();
+            if (sign > 0) {
+                return new ApiMessage<bool>();
+            }
+            else
+            {
+                return api;
+            }
         }
     }
 }

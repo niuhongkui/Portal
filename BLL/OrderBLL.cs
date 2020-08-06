@@ -76,5 +76,9 @@ namespace BLL
         {
             return dal.DelOrder(orderNo);
         }
+        public ApiMessage<bool> CloseOrder(string orderNo)
+        {
+            return dal.CloseOrder(orderNo);
+        }
     }
 }

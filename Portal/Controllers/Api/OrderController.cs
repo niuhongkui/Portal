@@ -142,5 +142,17 @@ namespace Portal.Controllers.Api
         {
             return obll.DelOrder(id);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<bool> CloseOrder(string id)
+        {
+            return obll.CloseOrder(id);
+        }
+
     }
 }
