@@ -300,6 +300,18 @@ namespace Model
 		[Column] public decimal? Amount { get; set; }
 	}
     
+	[TableName("portal.points")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class point : DB.Record<point>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string OrderNo { get; set; }
+		[Column] public string UserID { get; set; }
+		[Column] public decimal Money { get; set; }
+		[Column] public int Amount { get; set; }
+	}
+    
 	[TableName("portal.product")]
 	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
@@ -493,5 +505,6 @@ namespace Model
 		[Column] public string Phone { get; set; }
 		[Column] public string ImgUrl { get; set; }
 		[Column] public DateTime? MemberDate { get; set; }
+		[Column] public int? PointAmount { get; set; }
 	}
 }
