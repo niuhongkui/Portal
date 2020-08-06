@@ -11,6 +11,7 @@ namespace Common
         public ApiMessage() {
             Success = true;
             MsgCode = "200";
+            Msg = "操作成功";
         }
         /// <summary>
         /// 返回数据

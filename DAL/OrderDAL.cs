@@ -135,7 +135,7 @@ namespace DAL
                 strSql.Append(" AND OrderNo = @Code");
             }
 
-            var list = _db.Page<order>(parm.page,parm.rows,strSql.ToString(), parm);
+            var list = _db.Page<order>(parm.page, parm.rows, strSql.ToString(), parm);
 
             page.rows = list.Items;
             page.total = (int)list.TotalItems;
@@ -168,6 +168,43 @@ namespace DAL
                 api.Msg = "非待取货,不能取货";
                 api.Data = "非待取货,不能取货";
                 api.Success = false;
+                return api;
+            }
+        }
+
+        public ApiMessage<bool> DelOrder(string orderNo)
+        {
+            var api = new ApiMessage<bool>();
+            api.Msg = "数据有误";
+            api.Success = false;
+            using (var tran = new PetaPoco.Transaction(_db))
+            {
+                var model = order.FirstOrDefault("where orderNo =@0", orderNo);
+                if (model.State != "已关闭")
+                    return api;
+                orderdetail.Delete("where orderNo =@0", orderNo);
+                order.Delete("where orderNo =@0", orderNo);
+                tran.Complete();
+            }
+            api.Msg = "删除成功";
+            api.Success = true;
+            return api;
+        }
+        public ApiMessage<bool> CloseOrder(string orderNo)
+        {
+            var api = new ApiMessage<bool>();
+            api.Msg = "数据有误";
+            api.Success = false;
+            var model= order.FirstOrDefault("where OrderNo =@0", orderNo);
+            if (model.State != "待付款")
+                return api;
+            model.State = "已关闭";
+            var sign= model.Update();
+            if (sign > 0) {
+                return new ApiMessage<bool>();
+            }
+            else
+            {
                 return api;
             }
         }

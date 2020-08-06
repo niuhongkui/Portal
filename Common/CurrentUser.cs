@@ -27,6 +27,8 @@ namespace Common
 
         public int IsMember { set; get; } = 0;
 
+        public int PointAmount { set; get; }
+
         //public List<Limit> Limits { set; get; } = new List<Limit>();
 
     }

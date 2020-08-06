@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2020-06-25 23:56:46
+Date: 2020-08-06 17:55:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,7 +38,10 @@ CREATE TABLE `address` (
 -- ----------------------------
 -- Records of address
 -- ----------------------------
-INSERT INTO `address` VALUES ('1', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北', '石家庄', '桥西', '15613888888', '牛先生', '华浦原2-2-1', '1', '2020-06-25 14:11:04');
+INSERT INTO `address` VALUES ('1e8539aa-741b-49e1-a358-b232d4009ff8', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北省', '石家庄市', '长安区', '13191885668', '13191885668', '13191885668', '1', '2020-08-06 09:53:12');
+INSERT INTO `address` VALUES ('4878dabc-9e49-4ab8-93af-169242f4d9fd', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北省', '石家庄市', '长安区', '13191885668', '13191885668', '13191885668', '0', '2020-08-06 09:28:39');
+INSERT INTO `address` VALUES ('55f42030-c44b-4934-abe9-54454a02eb62', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北省', '石家庄市', '长安区', '13191888568', 'niu', '33333', '0', '2020-08-06 09:23:11');
+INSERT INTO `address` VALUES ('6374c64d-f678-49fc-927d-a585489ceda5', '93e59c14-4e11-49ea-aa0f-42224c45542d', '河北省', '石家庄市', '长安区', '13191885668', '13191885668', '333', '0', '2020-08-06 09:28:28');
 
 -- ----------------------------
 -- Table structure for `cart`
@@ -67,6 +70,8 @@ CREATE TABLE `cart` (
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
+INSERT INTO `cart` VALUES ('22718f7e-50e5-4eda-8add-7d90ca5168e8', '93e59c14-4e11-49ea-aa0f-42224c45542d', '563833d8-e469-4515-ab96-f631214429a6', '500g', '1', '用户_452588', '香蕉', '500g', '2020-08-06 15:53:25');
+INSERT INTO `cart` VALUES ('e5240a32-fb43-4f2b-ba9c-4cddcc4e292c', '93e59c14-4e11-49ea-aa0f-42224c45542d', '8611ed05-b483-46bf-9d52-b25862384dd4', '500g', '1', '用户_452588', '馒头', '500g', '2020-08-06 15:53:25');
 
 -- ----------------------------
 -- Table structure for `favorite`
@@ -176,6 +181,26 @@ CREATE TABLE `mealdetail` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `member`
+-- ----------------------------
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE `member` (
+  `ID` varchar(50) NOT NULL DEFAULT '',
+  `UserID` varchar(50) NOT NULL,
+  `ProID` varchar(50) NOT NULL,
+  `ProName` varchar(50) NOT NULL,
+  `Money` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `PMoney` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `State` varchar(50) NOT NULL,
+  `CreateDate` datetime NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of member
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `oldprice`
 -- ----------------------------
 DROP TABLE IF EXISTS `oldprice`;
@@ -228,10 +253,6 @@ CREATE TABLE `order` (
 -- ----------------------------
 -- Records of order
 -- ----------------------------
-INSERT INTO `order` VALUES ('13faae75-60a2-421d-b8b6-50a7d894dbb1', 'O202006251148466232', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '11.00', '1.00', '2020-06-25 23:48:47', '', '河北石家庄桥西华浦原2-2-1牛先生', '今天-10点', '15613888888', '送货', '5');
-INSERT INTO `order` VALUES ('bef0b9bb-be10-4944-be30-f0277ac449fa', 'O202006251028232574', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '18.00', '2.00', '2020-06-25 22:28:24', '', '河北石家庄桥西华浦原2-2-1牛先生', '1999-02-02 00:00:00', '15613888888', '送货', '5');
-INSERT INTO `order` VALUES ('c8434d19-6533-4b80-a561-59a84182a92b', 'O202006250401005014', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '0.00', '20.00', '3.00', '2020-06-25 16:01:00', '', '河北石家庄桥西华浦原2-2-1牛先生', '1999-02-02 00:00:00', '15613888888', '送货', '5');
-INSERT INTO `order` VALUES ('df20661d-9a90-44b9-8262-b2aec95b3da5', 'O202006250420538158', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '5.00', '25.00', '3.00', '2020-06-25 16:20:53', '', '河北石家庄桥西华浦原2-2-1牛先生', '明天-10点', '15613888888', '送货', '5');
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -257,13 +278,19 @@ CREATE TABLE `orderdetail` (
 -- ----------------------------
 -- Records of orderdetail
 -- ----------------------------
-INSERT INTO `orderdetail` VALUES ('0d6dbf87-f3e6-4424-90e2-a70c99e027a4', 'O202006250420538158', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('38b1c141-e84e-47dd-bb96-a13458f7949e', 'O202006250420538158', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '2.00', '14.00', '0.00', '7.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('4186d7a2-cf20-4b3c-96d9-4e819e4b0da2', 'O202006250401005014', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '2.00', '14.00', '0.00', '7.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('49c43303-11e7-4457-944a-7370a6963faf', 'O202006250401005014', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('4d8b327e-c1bd-4039-9894-6bb792ffda45', 'O202006251028232574', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('b9e335aa-57c8-466c-8fd6-196bb816a97a', 'O202006251028232574', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '1.00', '7.00', '0.00', '7.00', '0.00');
-INSERT INTO `orderdetail` VALUES ('c25e281b-d097-400c-92dd-3dbb36fd3e3e', 'O202006251148466232', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '1.00', '6.00', '0.00', '6.00', '0.00');
+
+-- ----------------------------
+-- Table structure for `ordereval`
+-- ----------------------------
+DROP TABLE IF EXISTS `ordereval`;
+CREATE TABLE `ordereval` (
+  `ID` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ordereval
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `packing`
@@ -308,6 +335,25 @@ CREATE TABLE `packingdetail` (
 
 -- ----------------------------
 -- Records of packingdetail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `points`
+-- ----------------------------
+DROP TABLE IF EXISTS `points`;
+CREATE TABLE `points` (
+  `ID` varchar(50) NOT NULL,
+  `OrderNo` varchar(50) NOT NULL,
+  `UserID` varchar(50) NOT NULL,
+  `Money` decimal(10,2) NOT NULL,
+  `Amount` int(4) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `u_p_pk` (`UserID`),
+  CONSTRAINT `u_p_pk` FOREIGN KEY (`UserID`) REFERENCES `userinfo` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of points
 -- ----------------------------
 
 -- ----------------------------
@@ -573,8 +619,8 @@ CREATE TABLE `store` (
 -- ----------------------------
 -- Records of store
 -- ----------------------------
-INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '21.00', '33.00', '12.00', '2020-06-12 15:28:57', '2020-06-25 22:28:24');
-INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '248.00', '0.00', '2.00', '2020-06-15 09:18:27', '2020-06-25 23:48:47');
+INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '18.00', '33.00', '15.00', '2020-06-12 15:28:57', '2020-08-06 14:42:27');
+INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '245.00', '0.00', '5.00', '2020-06-15 09:18:27', '2020-08-06 14:42:27');
 
 -- ----------------------------
 -- Table structure for `swiper`
@@ -598,6 +644,25 @@ INSERT INTO `swiper` VALUES ('1', '2', '3', '/upload/20191017/e2c00219-c481-42fe
 INSERT INTO `swiper` VALUES ('1286f686-c88f-4254-a22e-ef64a783785e', '', '', '/upload/20191017/05b88e6f-33e9-4cae-87f2-e584514ae4f4.JPG', '2', '1', '2019-10-17 13:33:08');
 
 -- ----------------------------
+-- Table structure for `sysoption`
+-- ----------------------------
+DROP TABLE IF EXISTS `sysoption`;
+CREATE TABLE `sysoption` (
+  `ID` varchar(50) NOT NULL,
+  `OptionNo` varchar(50) NOT NULL,
+  `OptionValue1` varchar(50) DEFAULT NULL,
+  `OptionValue2` varchar(50) DEFAULT NULL,
+  `OptionValue3` varchar(50) DEFAULT NULL,
+  `OptionType` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sysoption
+-- ----------------------------
+INSERT INTO `sysoption` VALUES ('1', ' ', ' ', ' ', ' ', '3');
+
+-- ----------------------------
 -- Table structure for `userinfo`
 -- ----------------------------
 DROP TABLE IF EXISTS `userinfo`;
@@ -612,11 +677,31 @@ CREATE TABLE `userinfo` (
   `Phone` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
   `ImgUrl` varchar(200) NOT NULL COMMENT '头像',
   `MemberDate` datetime DEFAULT NULL COMMENT '会员到期时间',
+  `PointAmount` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of userinfo
 -- ----------------------------
-INSERT INTO `userinfo` VALUES ('0d860f4e-8048-48a8-a582-a703f6c85ff7', '用户_558316', '13191885668', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '1', '1', '0001-01-01 00:00:00', '13191885668', '', '2019-10-03 14:23:39');
-INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '15614385666', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2019-07-29 11:02:09', '15614385666', '/images/15614385666/90486a99-56ef-4b0a-b985-01e9c943acc4.PNG', '2019-10-03 14:23:36');
+INSERT INTO `userinfo` VALUES ('0d860f4e-8048-48a8-a582-a703f6c85ff7', '用户_558316', '13191885668', 'C3-33-67-70-15-11-B4-F6-02-0E-C6-1D-ED-35-20-59', '0', '1', '0001-01-01 00:00:00', '13191885668', '', '2020-10-03 14:23:39', '22');
+INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '15614385666', 'E1-0A-DC-39-49-BA-59-AB-BE-56-E0-57-F2-0F-88-3E', '0', '1', '2020-11-27 11:02:09', '15614385666', '/images/15614385666/90486a99-56ef-4b0a-b985-01e9c943acc4.PNG', '2020-11-03 14:23:36', '222');
+
+-- ----------------------------
+-- Event structure for `closeorder`
+-- ----------------------------
+DROP EVENT IF EXISTS `closeorder`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` EVENT `closeorder` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-01-01 10:01:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `order` o SET o.State='已关闭'
+WHERE o.State='待付款' AND  now() >ADDDATE(o.CreateDate,interval 15 minute)
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Event structure for `updateVip`
+-- ----------------------------
+DROP EVENT IF EXISTS `updateVip`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` EVENT `updateVip` ON SCHEDULE EVERY 1 DAY STARTS '2020-05-02 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE userinfo SET IsMember=0 WHERE MemberDate<NOW()
+;;
+DELIMITER ;
