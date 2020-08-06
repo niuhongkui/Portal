@@ -132,5 +132,15 @@ namespace Portal.Controllers.Api
             parm.Id = UserInfo.Id;
             return obll.GetList(parm);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<bool> DelOrder(string id)
+        {
+            return obll.DelOrder(id);
+        }
     }
 }

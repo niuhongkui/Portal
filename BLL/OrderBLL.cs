@@ -13,11 +13,11 @@ namespace BLL
 {
     public class OrderBLL
     {
-        private OrderDAL dal=new OrderDAL();
+        private OrderDAL dal = new OrderDAL();
 
         public ApiMessage<List<CartEx>> GetPrice(List<PriceEx> p)
         {
-            var api=new ApiMessage<List<CartEx>>() {Data = new List<CartEx>()};
+            var api = new ApiMessage<List<CartEx>>() { Data = new List<CartEx>() };
             var list = dal.GetPrice(p);
             if (list.Count != p.Count)
             {
@@ -48,9 +48,9 @@ namespace BLL
                 n.Money = n.Price * n.Amount;
             });
             data.Amount = data.Detail.Sum(n => n.Amount);
-            data.Money = data.Detail.Sum(n => n.Money)+data.SendMoney;
+            data.Money = data.Detail.Sum(n => n.Money) + data.SendMoney;
             data.PMoney = data.Detail.Sum(n => n.PMoney) + data.SendMoney;
-            var res= dal.Save(data);            
+            var res = dal.Save(data);
             return res;
         }
 
@@ -71,6 +71,10 @@ namespace BLL
         public ApiMessage<string> PickUp(string orderNo)
         {
             return dal.PickUp(orderNo);
+        }
+        public ApiMessage<bool> DelOrder(string orderNo)
+        {
+            return dal.DelOrder(orderNo);
         }
     }
 }

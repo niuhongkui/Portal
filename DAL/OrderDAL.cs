@@ -135,7 +135,7 @@ namespace DAL
                 strSql.Append(" AND OrderNo = @Code");
             }
 
-            var list = _db.Page<order>(parm.page,parm.rows,strSql.ToString(), parm);
+            var list = _db.Page<order>(parm.page, parm.rows, strSql.ToString(), parm);
 
             page.rows = list.Items;
             page.total = (int)list.TotalItems;
@@ -170,6 +170,25 @@ namespace DAL
                 api.Success = false;
                 return api;
             }
+        }
+
+        public ApiMessage<bool> DelOrder(string orderNo)
+        {
+            var api = new ApiMessage<bool>();
+            api.Msg = "数据有误";
+            api.Success = false;
+            using (var tran = new PetaPoco.Transaction(_db))
+            {
+                var model= order.FirstOrDefault("where orderNo =@0", orderNo);
+                if (model.State != "已关闭")
+                    return api;
+                orderdetail.Delete("where orderNo =@0", orderNo);
+                order.Delete("where orderNo =@0", orderNo);
+                tran.Complete();
+            }
+            api.Msg = "删除成功";
+            api.Success = true;
+            return api;
         }
     }
 }
