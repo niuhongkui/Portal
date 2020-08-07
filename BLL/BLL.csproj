@@ -50,7 +50,9 @@
     <Compile Include="AddrBLL.cs" />
     <Compile Include="FavoriteBLL.cs" />
     <Compile Include="InStoreBLL.cs" />
+    <Compile Include="MemberBLL.cs" />
     <Compile Include="OrderBLL.cs" />
+    <Compile Include="OrderEvalBLL.cs" />
     <Compile Include="PriceBLL.cs" />
     <Compile Include="ProductBLL.cs" />
     <Compile Include="ProductTypeBLL.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="StaffBLL.cs" />
     <Compile Include="StoreBLL.cs" />
     <Compile Include="SwiperBLL.cs" />
+    <Compile Include="SysOptionBLL.cs" />
     <Compile Include="UserInfoBLL.cs" />
   </ItemGroup>
   <ItemGroup>

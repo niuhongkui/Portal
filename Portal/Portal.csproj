@@ -2138,6 +2138,7 @@
     <Compile Include="Controllers\Api\SwiperController.cs" />
     <Compile Include="Controllers\Api\OrderController.cs" />
     <Compile Include="Controllers\Api\ProductController.cs" />
+    <Compile Include="Controllers\Api\SysOptController.cs" />
     <Compile Include="Controllers\Api\UserInfoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

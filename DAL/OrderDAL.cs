@@ -92,7 +92,7 @@ namespace DAL
         {
             var page = new Page<OrderData>(parm);
             var strSql = new StringBuilder();
-            strSql.Append("select * from  `order` where 1=1");
+            strSql.Append("select ID,OrderNo,State,UserID,UserName,PMoney,Money,Amount,CreateDate,Remark,Address,SendTime,Phone,SendType,SendMoney from  `order` where 1=1");
             strSql.Append(" And UserID=@Id");
             if (parm.Type != "全部")
             {
@@ -195,16 +195,66 @@ namespace DAL
             var api = new ApiMessage<bool>();
             api.Msg = "数据有误";
             api.Success = false;
-            var model= order.FirstOrDefault("where OrderNo =@0", orderNo);
-            if (model.State != "待付款")
-                return api;
-            model.State = "已关闭";
-            var sign= model.Update();
-            if (sign > 0) {
-                return new ApiMessage<bool>();
-            }
-            else
+
+            using (var tran = new PetaPoco.Transaction(_db))
             {
+                var model = _db.FirstOrDefault<order>("where OrderNo =@0", orderNo);
+                if (model.State != "待付款")
+                    return api;
+                model.State = "已关闭";
+                var orderd = _db.Query<orderdetail>("where OrderNo=@0", model.OrderNo);
+                orderd = JsonConvert.DeserializeObject<List<orderdetail>>(JsonConvert.SerializeObject(orderd));
+                foreach (var d in orderd)
+                {
+                    var storeModel = _db.FirstOrDefault<store>("where ProductID=@0 and UnitID=@1", d.ProductID, d.UnitID);
+                    storeModel.Amount += d.Amount;
+                    storeModel.LuckAmount -= d.Amount;
+                    storeModel.UpdateDate = DateTime.Now;
+                    _db.Update(storeModel);
+                }
+                var sign = _db.Update(model);
+                tran.Complete();
+                if (sign > 0)
+                    return new ApiMessage<bool>();
+                else
+                    return api;
+            }
+        }
+
+        public ApiMessage<bool> UpdateState(string orderNo)
+        {
+            var api = new ApiMessage<bool>();
+            using (var tran = new PetaPoco.Transaction(_db))
+            {
+                var model = order.FirstOrDefault("where orderno=@0", orderNo);
+                if (model == null)
+                    return api;
+                if (model.State != "待付款")
+                    return api;
+                var orderd = orderdetail.Query("where orderno=@0", orderNo);
+                orderd = JsonConvert.DeserializeObject<List<orderdetail>>(JsonConvert.SerializeObject(orderd));
+                foreach (var d in orderd)
+                {
+                    var storeModel = _db.FirstOrDefault<store>("where ProductID=@0 and UnitID=@1", d.ProductID, d.UnitID);
+                    storeModel.OutAmount += d.Amount;
+                    storeModel.LuckAmount -= d.Amount;
+                    storeModel.UpdateDate = DateTime.Now;
+                    _db.Update(storeModel);
+                }
+                model.State = "待收货";
+                model.Update();
+                var pointModel = new point();
+                pointModel.Money = model.Money;
+                pointModel.ID = Guid.NewGuid().ToString();
+                pointModel.OrderNo = orderNo;
+                pointModel.UserID = model.UserID;
+                pointModel.Amount = (int)model.Money;
+
+                var user = userinfo.FirstOrDefault("where id=@0", model.UserID);
+                user.PointAmount += pointModel.Amount;
+                pointModel.Insert();
+                user.Update();
+                tran.Complete();
                 return api;
             }
         }

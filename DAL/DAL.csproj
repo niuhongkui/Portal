@@ -51,7 +51,9 @@
     <Compile Include="CartDAL.cs" />
     <Compile Include="FavoriteDAL.cs" />
     <Compile Include="InStoreDAL.cs" />
+    <Compile Include="MemberDAL.cs" />
     <Compile Include="OrderDAL.cs" />
+    <Compile Include="OrderEvalDAL.cs" />
     <Compile Include="PriceDAL.cs" />
     <Compile Include="ProductDAL.cs" />
     <Compile Include="ProductTypeDAL.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="StaffDAL.cs" />
     <Compile Include="StoreDAL.cs" />
     <Compile Include="SwiperDAL.cs" />
+    <Compile Include="SysOptionDAL.cs" />
     <Compile Include="UserInfoDAL.cs" />
   </ItemGroup>
   <ItemGroup>

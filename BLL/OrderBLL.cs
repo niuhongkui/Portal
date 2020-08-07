@@ -80,5 +80,10 @@ namespace BLL
         {
             return dal.CloseOrder(orderNo);
         }
+
+        public ApiMessage<bool> UpdateState(string orderNo)
+        {
+            return dal.UpdateState(orderNo);
+        }
     }
 }
