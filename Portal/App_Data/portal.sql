@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2020-08-06 22:01:34
+Date: 2020-08-07 17:28:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -191,6 +191,8 @@ CREATE TABLE `member` (
   `PMoney` decimal(10,2) NOT NULL DEFAULT '0.00',
   `State` varchar(50) NOT NULL,
   `CreateDate` datetime NOT NULL,
+  `OrderNo` varchar(50) NOT NULL,
+  `PayOrderNo` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -242,6 +244,7 @@ CREATE TABLE `order` (
   `Phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机号',
   `SendType` varchar(50) NOT NULL DEFAULT '' COMMENT '送货or自取',
   `SendMoney` decimal(10,0) NOT NULL DEFAULT '0' COMMENT '送货费',
+  `PayOrderNo` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `order_index` (`OrderNo`) USING HASH,
   KEY `o_u_pk` (`UserID`),
@@ -251,7 +254,6 @@ CREATE TABLE `order` (
 -- ----------------------------
 -- Records of order
 -- ----------------------------
-INSERT INTO `order` VALUES ('32221547-e1be-4ce3-a77c-979f7de64ce2', 'O202008060954282244', '待付款', '93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_452588', '27.00', '28.00', '8.00', '2020-08-06 21:54:28', '', '河北省石家庄市长安区1319188566813191885668', '今天-undefined点', '13191885668', '送货', '2');
 
 -- ----------------------------
 -- Table structure for `orderdetail`
@@ -277,8 +279,6 @@ CREATE TABLE `orderdetail` (
 -- ----------------------------
 -- Records of orderdetail
 -- ----------------------------
-INSERT INTO `orderdetail` VALUES ('0b0a78a3-a943-43de-8957-8021d8f34fb7', 'O202008060954282244', '563833d8-e469-4515-ab96-f631214429a6', '香蕉', '500g', '500g', '3.00', '6.00', '15.00', '2.00', '5.00');
-INSERT INTO `orderdetail` VALUES ('786c1631-3a88-45e6-ae4c-196f57ae2ef2', 'O202008060954282244', '8611ed05-b483-46bf-9d52-b25862384dd4', '馒头', '500g', '500g', '5.00', '20.00', '10.00', '4.00', '2.00');
 
 -- ----------------------------
 -- Table structure for `ordereval`
@@ -620,8 +620,8 @@ CREATE TABLE `store` (
 -- ----------------------------
 -- Records of store
 -- ----------------------------
-INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '15.00', '33.00', '18.00', '2020-06-12 15:28:57', '2020-08-06 21:54:28');
-INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '238.00', '0.00', '12.00', '2020-06-15 09:18:27', '2020-08-06 21:55:51');
+INSERT INTO `store` VALUES ('1', '563833d8-e469-4515-ab96-f631214429a6', '22', '500g', '500g', '10.00', '33.00', '23.00', '2020-06-12 15:28:57', '2020-08-07 10:43:44');
+INSERT INTO `store` VALUES ('16e6b8d0-19e0-406d-8e52-dcc63e70b804', '8611ed05-b483-46bf-9d52-b25862384dd4', '333', '500g', '500g', '233.00', '0.00', '17.00', '2020-06-15 09:18:27', '2020-08-07 10:43:46');
 
 -- ----------------------------
 -- Table structure for `swiper`
@@ -664,6 +664,7 @@ CREATE TABLE `sysoption` (
 INSERT INTO `sysoption` VALUES ('1', '', '1个月', '10', ' ', 'member');
 INSERT INTO `sysoption` VALUES ('2', '', '1季度', '28', '', 'member');
 INSERT INTO `sysoption` VALUES ('3', '', '半年', '50', '', 'member');
+INSERT INTO `sysoption` VALUES ('4', ' ', 'V1.0', null, null, 'edition');
 
 -- ----------------------------
 -- Table structure for `userinfo`
@@ -695,9 +696,21 @@ INSERT INTO `userinfo` VALUES ('93e59c14-4e11-49ea-aa0f-42224c45542d', '用户_4
 -- ----------------------------
 DROP EVENT IF EXISTS `closeorder`;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` EVENT `closeorder` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-01-01 10:01:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `order` o SET o.State='已关闭'
-WHERE o.State='待付款' AND  now() >ADDDATE(o.CreateDate,interval 15 minute)
-;
+CREATE DEFINER=`root`@`localhost` EVENT `closeorder` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-05-05 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+UPDATE store s
+JOIN orderdetail o
+    ON s.ProductID = o.ProductID
+        AND s.UnitID = o.UnitID SET s.Amount=s.Amount+o.Amount ,
+         s.LuckAmount=s.LuckAmount-o.Amount
+WHERE o.OrderNo IN 
+    (SELECT i.OrderNo
+    FROM `order` i
+    WHERE i.State='待付款'
+            AND now() >ADDDATE(i.CreateDate,interval 15 minute));
+
+UPDATE `order` o SET o.State='已关闭'
+WHERE o.State='待付款' AND  now() >ADDDATE(o.CreateDate,interval 15 minute);
+END
 ;;
 DELIMITER ;
 
