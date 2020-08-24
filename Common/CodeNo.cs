@@ -26,6 +26,9 @@ namespace Common
                 case CodeType.Order:
                     code = "O";
                     break;
+                case CodeType.VIP:
+                    code = "V";
+                    break;
                 default:
                     code = "X";
                     break;
@@ -50,5 +53,7 @@ namespace Common
 
         [Description("订单")]
         Order,
+        [Description("订单")]
+        VIP,
     }
 }

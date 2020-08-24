@@ -221,9 +221,9 @@ namespace DAL
             }
         }
 
-        public ApiMessage<bool> UpdateState(string orderNo)
+        public ApiMessage<string> UpdateState(string orderNo)
         {
-            var api = new ApiMessage<bool>();
+            var api = new ApiMessage<string>();
             using (var tran = new PetaPoco.Transaction(_db))
             {
                 var model = order.FirstOrDefault("where orderno=@0", orderNo);
@@ -251,12 +251,26 @@ namespace DAL
                 pointModel.Amount = (int)model.Money;
 
                 var user = userinfo.FirstOrDefault("where id=@0", model.UserID);
-                user.PointAmount += pointModel.Amount;
+
+                if (user.PointAmount.HasValue)
+                {
+                    user.PointAmount += pointModel.Amount;
+                }
+                else
+                {
+                    user.PointAmount = pointModel.Amount;
+                }
+
                 pointModel.Insert();
                 user.Update();
                 tran.Complete();
                 return api;
             }
+        }
+
+        public order Get(string orderno)
+        {
+            return order.FirstOrDefault("where orderno=@0", orderno);
         }
     }
 }
