@@ -2079,6 +2079,7 @@
     <Fakes Include="Fakes\System.Web.Cors.fakes" />
     <None Include="Properties\PublishProfiles\11.pubxml" />
     <None Include="Properties\PublishProfiles\fb.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
