@@ -26,5 +26,12 @@ namespace Portal.Controllers.Api
             return bll.GetOptByType("member");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ApiMessage<string> Version(string id)
+        {
+            return bll.GetVersion();
+        }
+
     }
 }
