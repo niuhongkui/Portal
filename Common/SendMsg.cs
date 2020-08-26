@@ -32,14 +32,14 @@ namespace Common
             {
                 Ext = "",
                 Extend = "",
-                Params = new string[] { code, "120" },
+                Params = new string[] { code, "30" },
                 Sig = sig,
                 Sign = sign,
                 Tel = new Phone { Mobile = mobile,Nationcode = "86"/*国家标识*/ },
                 Time = time,
                 Tpl_id = tpl_id
             };
-            string url = $"https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid="+ appId + "&random={random}";
+            string url = $"https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid={appId}&random={random}";
             string postDataStr = JsonConvert.SerializeObject(postData).ToLower();
             LogHelper.WriteLog("sendmsg postData"+postDataStr, LogHelper.LogType.Info);
             string result = SendTools.HttpPost(url, postDataStr);
@@ -114,12 +114,14 @@ namespace Common
         public static string Sha256(string data)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(data);
+            byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
+
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < SHA256.Create().ComputeHash(bytes).Length; i++)
+            for (int i = 0; i < hash.Length; i++)
             {
-                builder.Append(SHA256.Create().ComputeHash(bytes)[i].ToString("X2"));
+                builder.Append(hash[i].ToString("X2"));
             }
-            return builder.ToString();
+            return builder.ToString().ToLower();           
         }
         /// <summary>
         /// post请求
