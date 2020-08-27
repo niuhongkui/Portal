@@ -118,7 +118,8 @@ namespace BLL
                 Phone = user.UserCode,
                 UserCode = user.UserCode,
                 ImgUrl = "",
-                UserName = "用户_" + new Random().Next(100000, 999999)
+                UserName = "用户_" + new Random().Next(100000, 999999),
+                MemberDate = DateTime.Now.AddDays(-1)
             };
             api = _dal.Add(dbUser);
             return api;

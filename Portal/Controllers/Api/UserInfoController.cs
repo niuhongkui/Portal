@@ -50,7 +50,9 @@ namespace Portal.Controllers.Api
                 currentUser.ImageUrl,
                 currentUser.Id,
                 currentUser.Phone,
-                currentUser.IsMember
+                currentUser.IsMember,
+                currentUser.PointAmount
+
             };
             CacheHelper.SetCache(key, currentUser, new TimeSpan(0, 30, 0));
             return outData;

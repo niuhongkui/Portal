@@ -49,6 +49,8 @@ namespace Portal.Models
         }
         public static CurrentUser FormatUser(userinfo admin)
         {
+            if (admin.MemberDate == null)
+                admin.MemberDate = DateTime.Now.AddYears(-1);
             TimeSpan sp = admin.MemberDate.Value.Subtract(DateTime.Now);
             var days = sp.Days;
             CurrentUser user = new CurrentUser();
@@ -60,7 +62,7 @@ namespace Portal.Models
             user.Phone = admin.Phone;
             user.Id = admin.ID;
             user.IsMember = days > 0? days :0;
-            user.PointAmount = admin.PointAmount.Value;
+            user.PointAmount = admin.PointAmount??0;
             return user;
         }
     }
