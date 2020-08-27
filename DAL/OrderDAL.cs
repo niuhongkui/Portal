@@ -221,7 +221,7 @@ namespace DAL
             }
         }
 
-        public ApiMessage<string> UpdateState(string orderNo)
+        public ApiMessage<string> UpdateState(string orderNo,string trade_no)
         {
             var api = new ApiMessage<string>();
             using (var tran = new PetaPoco.Transaction(_db))
@@ -242,6 +242,7 @@ namespace DAL
                     _db.Update(storeModel);
                 }
                 model.State = "待收货";
+                model.TradeNo = trade_no;
                 model.Update();
                 var pointModel = new point();
                 pointModel.Money = model.Money;

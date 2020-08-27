@@ -18,7 +18,7 @@ namespace DAL
             return true;
         }
 
-        public bool UpdateVip(string orderno)
+        public bool UpdateVip(string orderno,string trade_no)
         {
             using (var scope = new PetaPoco.Transaction(_db))
             {
@@ -63,6 +63,7 @@ namespace DAL
                     }
                 }
                 m.State = "已付款";
+                m.TradeNo = trade_no;
                 m.Update();
                 user.Update();
                 scope.Complete();

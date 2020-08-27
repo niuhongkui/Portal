@@ -83,7 +83,7 @@ namespace BLL
 
         public ApiMessage<string> UpdateState(string orderNo)
         {
-            return dal.UpdateState(orderNo);
+            return dal.UpdateState(orderNo,"");
         }
     }
 }

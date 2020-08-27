@@ -93,7 +93,8 @@ namespace Portal.Controllers.Api
                 return "fail";
 
             var orderno = sArray["out_trade_no"];
-            var sign = bll.UpdateOrder(orderno);
+            var trade_no= sArray["trade_no"];
+            var sign = bll.UpdateOrder(orderno, trade_no);
 
             return sign.Success ? "success" : "fail";
 

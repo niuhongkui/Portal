@@ -1,0 +1,32 @@
+﻿
+--
+-- Create column `TradeNo` on table `order`
+--
+ALTER TABLE `order` 
+  ADD COLUMN TradeNo VARCHAR(50) DEFAULT NULL;
+
+--
+-- Create column `TradeNo` on table `member`
+--
+ALTER TABLE member 
+  ADD COLUMN TradeNo VARCHAR(50) DEFAULT NULL;
+
+--
+-- Create table `coupon`
+--
+CREATE TABLE coupon (
+  ID VARCHAR(50) NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  TypeName VARCHAR(50) NOT NULL,
+  State VARCHAR(50) NOT NULL,
+  StateDate DATE NOT NULL,
+  EndDate DATE NOT NULL,
+  ProID VARCHAR(50) NOT NULL,
+  PPrice DECIMAL(10, 2) NOT NULL,
+  LimitNum INT(11) NOT NULL,
+  Conditions INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (ID)
+)
+ENGINE = INNODB,
+CHARACTER SET utf8,
+COLLATE utf8_general_ci;

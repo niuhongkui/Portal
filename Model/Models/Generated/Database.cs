@@ -139,6 +139,23 @@ namespace Model
 		[Column] public DateTime CreatDate { get; set; }
 	}
     
+	[TableName("portal.coupon")]
+	[PrimaryKey("ID", AutoIncrement=false)]
+	[ExplicitColumns]
+    public partial class coupon : DB.Record<coupon>  
+    {
+		[Column] public string ID { get; set; }
+		[Column] public string Name { get; set; }
+		[Column] public string TypeName { get; set; }
+		[Column] public string State { get; set; }
+		[Column] public DateTime StateDate { get; set; }
+		[Column] public DateTime EndDate { get; set; }
+		[Column] public string ProID { get; set; }
+		[Column] public decimal PPrice { get; set; }
+		[Column] public int LimitNum { get; set; }
+		[Column] public int Conditions { get; set; }
+	}
+    
 	[TableName("portal.favorite")]
 	[PrimaryKey("ID", AutoIncrement=false)]
 	[ExplicitColumns]
@@ -224,6 +241,7 @@ namespace Model
 		[Column] public DateTime CreateDate { get; set; }
 		[Column] public string OrderNo { get; set; }
 		[Column] public string PayOrderNo { get; set; }
+		[Column] public string TradeNo { get; set; }
 	}
     
 	[TableName("portal.oldprice")]
@@ -263,6 +281,7 @@ namespace Model
 		[Column] public string SendType { get; set; }
 		[Column] public decimal SendMoney { get; set; }
 		[Column] public string PayOrderNo { get; set; }
+		[Column] public string TradeNo { get; set; }
 	}
     
 	[TableName("portal.orderdetail")]

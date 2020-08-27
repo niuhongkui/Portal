@@ -73,13 +73,13 @@ namespace BLL
             return res;
         }
 
-        public ApiMessage<string> UpdateOrder(string orderNo)
+        public ApiMessage<string> UpdateOrder(string orderNo,string trade_no)
         {
             var api = new ApiMessage<string>();
             //VIP购买
             if (orderNo.IndexOf('V') > -1)
             {
-                if (!mdal.UpdateVip(orderNo))
+                if (!mdal.UpdateVip(orderNo,trade_no))
                 {
                     api.Success = false;
                 }
@@ -87,7 +87,7 @@ namespace BLL
             else //订单购买
             {
                 orderNo = orderNo.Substring(0, orderNo.Length - 4);
-                api = odal.UpdateState(orderNo);
+                api = odal.UpdateState(orderNo, trade_no);
             }
             return api;
         }

@@ -2077,6 +2077,7 @@
     <Content Include="Content\ElementUI\fonts\element-icons.woff" />
     <Content Include="Content\ElementUI\fonts\element-icons.ttf" />
     <Fakes Include="Fakes\System.Web.Cors.fakes" />
+    <Content Include="App_Data\V1.0" />
     <None Include="Properties\PublishProfiles\11.pubxml" />
     <None Include="Properties\PublishProfiles\fb.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
