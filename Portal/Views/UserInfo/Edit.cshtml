@@ -8,6 +8,13 @@
             interval: null
         },
         methods: {
+            format(str) {
+                debugger
+                if (!str)
+                    return "";
+                var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
+                return d.format("yyyy-MM-dd");
+            },
             init: function () {
                 var that = this;
                 var url = "/userinfo/Get?id=" + (that.id ? that.id : "");
@@ -15,6 +22,7 @@
                     if (json.Success) {
                         json.Data.IsActive = json.Data.IsActive == 1 ? true : false;
                         json.Data.IsMember = json.Data.IsMember == 1 ? true : false;
+                        json.Data.MemberDate =  that.format(json.Data.MemberDate);
                         that.form = json.Data;
                     }
                 });
@@ -98,9 +106,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label"> 密码</label>
+            <label class="col-sm-2 control-label">密码</label>
             <div class="col-sm-10">
                 <input type="password" v-model="form.PassWord" class="form-control" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">积分</label>
+            <div class="col-sm-10">
+                <input type="text" v-model="form.PointAmount" readonly="readonly" class="form-control" placeholder="用户积分">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">会员日期</label>
+            <div class="col-sm-10">
+                <input type="date" v-model="form.MemberDate"  class="form-control" placeholder="会员日期">
             </div>
         </div>
         <div class="form-group">
