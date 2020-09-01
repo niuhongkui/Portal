@@ -121,6 +121,7 @@ namespace Portal.Controllers.Api
             data.ID = Guid.NewGuid().ToString();
             data.OrderNo = CodeNo.Get(CodeType.Order);
             data.IsMember = UserInfo.IsMember;
+            data.Address = data.Address ?? "";
             return obll.Save(data);
         }
 
