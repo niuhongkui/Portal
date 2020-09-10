@@ -18,7 +18,7 @@ namespace Common
 
         public string Code { set; get; }
 
-        public DateTime? State { set; get; }
+        public DateTime? Start { set; get; }
 
         public DateTime? End { set; get; }
         

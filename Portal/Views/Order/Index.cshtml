@@ -1,8 +1,41 @@
 ﻿
 <script>
+    var date = new Date();//今天
+    var dateNow = date.format('yyyy-MM-dd');
     $(function () {
-        QueryOrder({Type:'待取货'});
+        $("#date_end").datebox().datebox('calendar').calendar({
+            validator: function (beginDate) {
+                return beginDate <= date;
+            }
+        });
+        $("#date_start").datebox().datebox('calendar').calendar({
+            validator: function (beginDate) {
+                return beginDate <= date;
+            }
+        });
+        $("#date_end").datebox({
+            onSelect: function (beginDate) {
+                $('#date_start').datebox('calendar').calendar({
+                    validator: function (endDate) {
+                        return beginDate >= endDate;
+                    }
+                });
+            }
+        });
+        $("#date_start").datebox({
+            onSelect: function (beginDate) {
+                $('#date_end').datebox('calendar').calendar({
+                    validator: function (endDate) {
+                        return beginDate <= endDate && endDate <= date;;
+                    }
+                });
+            }
+        });
+        $('#date_start').datebox('setValue', dateNow);
+        $('#date_end').datebox('setValue', dateNow);
+        QueryOrder({ Type: '待收货',State:dateNow,End:dateNow,Query:1 });
     });
+
     function QueryOrder(parm) {
         $('#gd_order').datagrid({
             title: '',
@@ -22,20 +55,26 @@
                 {
                     field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
                         var btn = "<a href='#' onclick=edit('" + row.OrderNo + "') class='easyui-splitbutton'>查看</a>";
-						            btn += " <a href='#' onclick=pickUp('" + row.OrderNo + "') class='easyui-splitbutton'>取货</a>";
+                        btn += " <a href='#' onclick=pickUp('" + row.OrderNo + "') class='easyui-splitbutton'>取货</a>";
                         return btn;
                     }
                 },
                 { field: 'OrderNo', title: '订单号', width: 180 },
-                { field: 'UserName', title: '下单人', width: 180 },
-                { field: 'Money', title: '支付金额', width: 180 },
-                { field: 'PMoney', title: '优惠金额', width: 180 },
+                { field: 'State', title: '订单状态', width: 80 },
+                { field: 'SendState', title: '送货状态', width: 80 },
+                { field: 'UserName', title: '下单人', width: 80 },
+                { field: 'Money', title: '支付金额', width: 60 },
+                { field: 'PMoney', title: '优惠金额', width: 60 },
                 {
                     field: 'CreateDate', title: '下单时间', width: 180, formatter: function (str) {
                         var d = eval('new ' + str.substr(1, str.length - 2)); //new Date()
                         return d.format("yyyy-MM-dd hh:mm:ss");
                     }
                 },
+                { field: 'SendType', title: '送货方式', width: 80 },
+                { field: 'SendTime', title: '送货时间', width: 80 },
+                { field: 'Address', title: '送货地址', width: 300 },
+                { field: 'Phone', title: '收货手机号', width: 100 },
                 { field: 'Remark', title: '备注', width: 200 }
             ]]
         });
@@ -43,12 +82,13 @@
     function edit(id) {
         addTab("订单明细", "/order/Detail?id=" + id, "icon-application-side-list", false);
     }
-      function pickUp(id) {
+    function pickUp(id) {
         $.messager.confirm("提示", "确定取货吗？", function (r) {
             if (r) {
                 $.get("/order/pickup?id=" + id, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
+                     
                         $('#gd_order').datagrid("reload");
                     } else {
                         $.messager.alert("警告", data.Msg, "error");
@@ -57,31 +97,71 @@
             }
         });
     }
-  
+
     function searchOrderList() {
         var name = $("#p_name").textbox("getValue");
-		    var order=$("#p_order").textbox("getValue");
-		    var state=$("#p_state").combobox("getValue");
-        QueryOrder({ Name: name,Order:order,Type:state });
+        var order = $("#p_order").textbox("getValue");
+        var state = $("#p_state").combobox("getValue");
+        var start=  $('#date_start').datebox('getValue');
+        var end = $('#date_end').datebox('getValue');
+        var q = $("#isSend").prop("checked") ? 1 : 0;
+        QueryOrder({ Name: name, Order: order, Type: state, Query: q, Start: start,End:end });
     }
+
+    function dayin() {
+	var userAgent = navigator.userAgent.toLowerCase(); //取得浏览器的userAgent字符串
+	if (userAgent.indexOf("trident") > -1){
+		alert("请使用google或者360浏览器打印");
+		return false;
+	}else if(userAgent.indexOf('msie')>-1){ 
+		var onlyChoseAlert = simpleAlert({
+           "content":"请使用Google或者360浏览器打印",
+           "buttons":{
+               "确定":function () {
+                   onlyChoseAlert.close();
+               }
+           }
+       })
+		alert("请使用google或者360浏览器打印");
+		return false;
+	}else{//其它浏览器使用lodop
+		var oldstr = document.body.innerHTML; 
+		var headstr = "<html><head><title></title></head><body>";  
+		var footstr = "</body>";  
+		//执行隐藏打印区域不需要打印的内容
+		document.getElementById("otherpho").style.display="none";
+		//此处id换为你自己的id
+		var printData = document.getElementById("printdivaa").innerHTML; //获得 div 里的所有 html 数据
+		document.body.innerHTML = headstr+printData+footstr;
+		window.print();
+		//打印结束后，放开隐藏内容
+		document.getElementById("otherpho").style.display="block";
+		document.body.innerHTML = oldstr ;
+	}
+}
 </script>
 
 <div class="easyui-layout" fit="true">
     <div region="north" border="false" style="height:50px">
-	    <div class="search-list">
-		    <label class="search-lable" for="p_state">状态:</label>
-		    <select id="p_state" class="easyui-combobox form-control search-text" name="State">
-			    <option value="">全部</option>
-			    <option value="待付款">待付款</option>
-			    <option value="待取货" selected>待取货</option>
-				<option value="已关闭">已关闭</option>
-		    </select>
-		    <label class="search-lable" for="p_name">用户名:</label>
-		    <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入用户名'"/>
-		    <label class="search-lable" for="p_order">订单号:</label>
-		    <input id="p_order" class="easyui-textbox form-control search-text" type="text" name="Order" data-options="prompt:'请输入订单号'"/>
-		    <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchOrderList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
-	    </div>
+        <div class="search-list">
+            <label class="search-lable" for="p_state">状态:</label>
+            <select id="p_state" class="easyui-combobox form-control search-text" name="State">
+                <option value="">全部</option>
+                <option value="待付款">待付款</option>
+                <option value="待收货" selected>待收货</option>
+                <option value="已关闭">已关闭</option>
+            </select>
+            <label class="search-lable" for="date_start">开始时间:</label>
+            <input id="date_start" type="text" class="easyui-datebox" data-options="prompt:'请输开始时间'">
+            <label class="search-lable" for="date_end">结束时间:</label>
+            <input id="date_end" type="text" class="easyui-datebox" data-options="prompt:'请输结束时间'">
+            <label class="search-lable" for="p_name">用户名:</label>
+            <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入用户名'" />
+            <label class="search-lable" for="p_order">订单号:</label>
+            <input id="p_order" class="easyui-textbox form-control search-text" type="text" name="Order" data-options="prompt:'请输入订单号'" />
+            <label class="search-lable"><input type="checkbox" checked="checked" id="isSend" />不显示配送中</label>
+            <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchOrderList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
+        </div>
     </div>
     <div region="center" id="d_order" border="false">
         <table id="gd_order"></table>

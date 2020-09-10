@@ -44,6 +44,15 @@
                         fn.beforeSend(xhr);
                     },
                     complete: function (xhr, ts) {
+                        if (xhr.responseText.indexOf("<title>商城管理平台</title>") > -1) {
+                            if (window.parent.window != window) {
+                                var href = window.top.location.href.toLowerCase();
+                                if (href.indexOf("/login/index") < 0) {
+                                    window.top.location.href = "/login/index";
+                                }
+                            }
+                            return; 
+                        }
                         fn.complete(xhr, ts);
                     }
                 }, options);

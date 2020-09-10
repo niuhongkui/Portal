@@ -1,0 +1,2 @@
+﻿ALTER TABLE `order` 
+  ADD COLUMN SendState VARCHAR(50) DEFAULT NULL;

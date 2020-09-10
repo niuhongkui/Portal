@@ -134,7 +134,19 @@ namespace DAL
             {
                 strSql.Append(" AND OrderNo = @Code");
             }
-
+            if (parm.Query == "1")
+            {
+                parm.Query = "配送中";
+                strSql.Append(" AND SendState <> @Query");
+            }
+            if (parm.End!=null) {
+                parm.End = parm.End.Value.AddDays(1);
+                strSql.Append(" AND CreateDate <@End");
+            }
+            if (parm.Start != null)
+            {
+                strSql.Append(" AND CreateDate >@Start");
+            }
             var list = _db.Page<order>(parm.page, parm.rows, strSql.ToString(), parm);
 
             page.rows = list.Items;
@@ -154,10 +166,9 @@ namespace DAL
         {
             var api = new ApiMessage<string>();
             var model = order.Query(" where orderNo=@0", orderNo).FirstOrDefault();
-            if (model?.State == "待取货")
+            if (model?.State == "待收货")
             {
-                model.State = "已关闭";
-
+                model.SendState = "配送中";
                 model.Update();
                 api.Success = true;
                 api.Msg = "取货成功";
@@ -165,8 +176,8 @@ namespace DAL
             }
             else
             {
-                api.Msg = "非待取货,不能取货";
-                api.Data = "非待取货,不能取货";
+                api.Msg = "非待收货,不能取货";
+                api.Data = "非待收货,不能取货";
                 api.Success = false;
                 return api;
             }
@@ -221,7 +232,7 @@ namespace DAL
             }
         }
 
-        public ApiMessage<string> UpdateState(string orderNo,string trade_no)
+        public ApiMessage<string> UpdateState(string orderNo, string trade_no)
         {
             var api = new ApiMessage<string>();
             using (var tran = new PetaPoco.Transaction(_db))
