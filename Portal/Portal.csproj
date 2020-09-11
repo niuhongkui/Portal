@@ -2120,6 +2120,7 @@
     <Content Include="scripts\locale\easyui-lang-tr.js" />
     <Content Include="scripts\locale\easyui-lang-zh_CN.js" />
     <Content Include="scripts\locale\easyui-lang-zh_TW.js" />
+    <Content Include="scripts\LodopFuncs.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\npm.js" />
     <Content Include="scripts\vue.js" />

@@ -1,5 +1,6 @@
-﻿
+﻿<script src="~/scripts/LodopFuncs.js"></script>
 <script>
+    var LODOP; //声明为全局变量
     var date = new Date();//今天
     var dateNow = date.format('yyyy-MM-dd');
     $(function () {
@@ -33,7 +34,7 @@
         });
         $('#date_start').datebox('setValue', dateNow);
         $('#date_end').datebox('setValue', dateNow);
-        QueryOrder({ Type: '待收货',State:dateNow,End:dateNow,Query:1 });
+        QueryOrder({ Type: '待收货', State: dateNow, End: dateNow, Query: 1 });
     });
 
     function QueryOrder(parm) {
@@ -55,7 +56,7 @@
                 {
                     field: 'ID', title: '操作', width: 100, align: 'center', formatter: function (value, row, index) {
                         var btn = "<a href='#' onclick=edit('" + row.OrderNo + "') class='easyui-splitbutton'>查看</a>";
-                        btn += " <a href='#' onclick=pickUp('" + row.OrderNo + "') class='easyui-splitbutton'>取货</a>";
+                        btn += " <a href='#' onclick=pickUp('" + JSON.stringify(row) + "') class='easyui-splitbutton'>取货</a>";
                         return btn;
                     }
                 },
@@ -82,14 +83,16 @@
     function edit(id) {
         addTab("订单明细", "/order/Detail?id=" + id, "icon-application-side-list", false);
     }
-    function pickUp(id) {
+    function pickUp(row) {
+        row = JSON.parse(row);
         $.messager.confirm("提示", "确定取货吗？", function (r) {
             if (r) {
-                $.get("/order/pickup?id=" + id, function (data) {
+                $.get("/order/pickup?id=" + row.OrderNo, function (data) {
                     if (data.Success) {
                         $.messager.alert("提示", data.Msg, "info");
-                     
                         $('#gd_order').datagrid("reload");
+                        OpenPreview(row);
+
                     } else {
                         $.messager.alert("警告", data.Msg, "error");
                     }
@@ -102,43 +105,76 @@
         var name = $("#p_name").textbox("getValue");
         var order = $("#p_order").textbox("getValue");
         var state = $("#p_state").combobox("getValue");
-        var start=  $('#date_start').datebox('getValue');
+        var start = $('#date_start').datebox('getValue');
         var end = $('#date_end').datebox('getValue');
         var q = $("#isSend").prop("checked") ? 1 : 0;
-        QueryOrder({ Name: name, Order: order, Type: state, Query: q, Start: start,End:end });
+        QueryOrder({ Name: name, Order: order, Type: state, Query: q, Start: start, End: end });
     }
 
-    function dayin() {
-	var userAgent = navigator.userAgent.toLowerCase(); //取得浏览器的userAgent字符串
-	if (userAgent.indexOf("trident") > -1){
-		alert("请使用google或者360浏览器打印");
-		return false;
-	}else if(userAgent.indexOf('msie')>-1){ 
-		var onlyChoseAlert = simpleAlert({
-           "content":"请使用Google或者360浏览器打印",
-           "buttons":{
-               "确定":function () {
-                   onlyChoseAlert.close();
-               }
-           }
-       })
-		alert("请使用google或者360浏览器打印");
-		return false;
-	}else{//其它浏览器使用lodop
-		var oldstr = document.body.innerHTML; 
-		var headstr = "<html><head><title></title></head><body>";  
-		var footstr = "</body>";  
-		//执行隐藏打印区域不需要打印的内容
-		document.getElementById("otherpho").style.display="none";
-		//此处id换为你自己的id
-		var printData = document.getElementById("printdivaa").innerHTML; //获得 div 里的所有 html 数据
-		document.body.innerHTML = headstr+printData+footstr;
-		window.print();
-		//打印结束后，放开隐藏内容
-		document.getElementById("otherpho").style.display="block";
-		document.body.innerHTML = oldstr ;
-	}
-}
+
+    function OpenPreview(row) {
+        let dc = eval('new ' + row.CreateDate.substr(1, row.CreateDate.length - 2)); //new Date()
+        let strDate = dc.format("yyyy-MM-dd hh:mm:ss");
+        let h = 230;
+
+        $.post('/order/getOrder/' + row.OrderNo, {}, function (data) {
+            LODOP = getLodop();
+            //LODOP.NEWPAGEA();
+            //LODOP.ADD_PRINT_RECT(10,18,324,392,0,1);
+            LODOP.ADD_PRINT_TEXT(30, 10, 258, 54, "****#1 " + row.UserName + "****");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+
+            LODOP.ADD_PRINT_TEXT(80, 50, 258, 54, " 倚 民 超 市 ");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 10);
+
+            LODOP.ADD_PRINT_TEXT(120, 40, 258, 54, "--已在线支付--");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+
+            LODOP.ADD_PRINT_TEXT(150, 15, 258, 54, "................................");
+            LODOP.ADD_PRINT_TEXT(180, 15, 258, 54, "【下单时间】" + strDate);
+            LODOP.ADD_PRINT_TEXT(210, 15, 258, 54, "..............商品..............");
+
+            var list = data.rows;
+            for (var i = 0; i < list.length; i++) {
+                let n = list[i];
+                //商品列表
+                LODOP.ADD_PRINT_TEXT(h, 15, 100, 54, n.ProductName);
+                LODOP.ADD_PRINT_TEXT(h, 130, 40, 54, "*" + n.Amount);
+                LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+                LODOP.ADD_PRINT_TEXT(h, 170, 40, 54, n.Price);
+                LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+                h = h + 40;
+            }
+            //其他
+            LODOP.ADD_PRINT_TEXT(h, 15, 258, 54, "..............其他..............");
+            LODOP.ADD_PRINT_TEXT(h + 20, 15, 258, 54, "配送费：" + row.SendMoney + "元");
+            LODOP.ADD_PRINT_TEXT(h + 40, 15, 258, 54, "优惠：" + row.PMoney + "元");
+            LODOP.ADD_PRINT_TEXT(h + 60, 15, 258, 54, "商品总金额：" + row.Money + "元");
+            LODOP.ADD_PRINT_TEXT(h + 80, 15, 258, 54, "................................");
+            //总计
+            LODOP.ADD_PRINT_TEXT(h + 100, 15, 258, 54, "总计：");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+            LODOP.ADD_PRINT_TEXT(h + 100, 100, 100, 54, "￥" + row.Money);
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+            //时间
+            LODOP.ADD_PRINT_TEXT(h + 130, 15, 258, 54, "收货时间：");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 14);
+            LODOP.ADD_PRINT_TEXT(h + 130, 100, 100, 54, row.SendTime);
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 14);
+            //地址
+            LODOP.ADD_PRINT_TEXT(h + 170, 15, 200, 54, row.SendType == "自取" ? row.SendType : row.Address);
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 14);
+            //收货人 h+220
+            LODOP.ADD_PRINT_TEXT(h + 250, 15, 200, 54, row.Phone);
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+            LODOP.ADD_PRINT_TEXT(h + 280, 10, 258, 54, "*******#1 完******");
+            LODOP.SET_PRINT_STYLEA(0, "fontsize", 16);
+            //设定打印页面大小
+            LODOP.SET_PRINT_PAGESIZE(3, h + 270, 45, "订单页面");
+            //LODOP.PREVIEW();
+            LODOP.PRINT();
+        })
+    }
 </script>
 
 <div class="easyui-layout" fit="true">
