@@ -34,7 +34,7 @@
         });
         $('#date_start').datebox('setValue', dateNow);
         $('#date_end').datebox('setValue', dateNow);
-        QueryOrder({ Type: '待收货', State: dateNow, End: dateNow, Query: 1 });
+        QueryOrder({ Type: '待收货', State: dateNow, End: dateNow, Query: 0 });
     });
 
     function QueryOrder(parm) {
@@ -116,7 +116,7 @@
         let dc = eval('new ' + row.CreateDate.substr(1, row.CreateDate.length - 2)); //new Date()
         let strDate = dc.format("yyyy-MM-dd hh:mm:ss");
         let h = 230;
-
+        
         $.post('/order/getOrder/' + row.OrderNo, {}, function (data) {
             LODOP = getLodop();
             //LODOP.NEWPAGEA();
@@ -195,7 +195,7 @@
             <input id="p_name" class="easyui-textbox form-control search-text" type="text" name="Name" data-options="prompt:'请输入用户名'" />
             <label class="search-lable" for="p_order">订单号:</label>
             <input id="p_order" class="easyui-textbox form-control search-text" type="text" name="Order" data-options="prompt:'请输入订单号'" />
-            <label class="search-lable"><input type="checkbox" checked="checked" id="isSend" />不显示配送中</label>
+            <label class="search-lable"><input type="checkbox"  id="isSend" />显示配送中</label>
             <a href="#" class="easyui-linkbutton search-lable" onclick="javascript: searchOrderList();" data-options="iconCls:'icon-search'" style="width: 80px">查询</a>
         </div>
     </div>

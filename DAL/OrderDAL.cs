@@ -137,7 +137,7 @@ namespace DAL
             if (parm.Query == "1")
             {
                 parm.Query = "配送中";
-                strSql.Append(" AND SendState <> @Query");
+                strSql.Append(" AND SendState = @Query");
             }
             if (parm.End!=null) {
                 parm.End = parm.End.Value.AddDays(1);
