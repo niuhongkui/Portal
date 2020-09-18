@@ -29,7 +29,7 @@ namespace Portal.Controllers.Api
         public ApiMessage<object> GetCate()
         {
             var list = new List<object>();
-            var last = _typeBll.List(new BaseParm { rows = 1000, page = 1 }).rows.OrderBy(n => n.CreateDate);
+            var last = _typeBll.List(new BaseParm { rows = 1000, page = 1 }).rows.OrderBy(n => n.OrderByNo).ThenBy(n=>n.CreateDate);
             foreach (var item in last)
             {
                 list.Add(new { id = item.ID, name = item.Name });

@@ -3,3 +3,10 @@
 
 ALTER TABLE `order` 
   ADD COLUMN PayType VARCHAR(50) DEFAULT NULL;
+
+ALTER TABLE product 
+  ADD COLUMN OrderByNo int(4) DEFAULT 0;
+
+
+ALTER TABLE producttype 
+ ADD COLUMN OrderByNo int(4) DEFAULT 0;

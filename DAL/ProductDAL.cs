@@ -194,7 +194,7 @@ namespace DAL
                   LEFT JOIN productprice p2 ON p.ID = p2.ProductID
                   INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
                   LEFT JOIN producttype  p3 ON p.TypeID=p3.ID
-                  WHERE p.IsActive = 1  ORDER BY p3.CreateDate
+                  WHERE p.IsActive = 1  ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo
                 ");
             api.Data = _db.Fetch<StoreGood>(strSql.ToString()).ToList();
 
