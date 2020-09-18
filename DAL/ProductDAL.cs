@@ -37,8 +37,10 @@ namespace DAL
             {
                 try
                 {
-                    var rows = product.Delete(" where id=@0", id);
                     productimg.Delete("where productid=@0", id);
+                    instore.Delete("where productid=@0", id);
+                    store.Delete("where productid=@0", id);
+                    var rows = product.Delete(" where id=@0", id);                 
                     var msg = new ApiMessage<string>();
                     if (rows > 0)
                     {
