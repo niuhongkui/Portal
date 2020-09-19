@@ -51,7 +51,7 @@ namespace BLL
             {
                 user.ID = Guid.NewGuid().ToString();
                 user.CreateDate = DateTime.Now;
-                user.Phone = "";
+                user.Phone = user.Phone;
                 user.PassWord = Encrypt.MD5(user.PassWord);
                 return _dal.Add(user);
             }

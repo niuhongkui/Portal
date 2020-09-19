@@ -52,6 +52,9 @@ namespace Portal.Controllers
 
         public JsonResult Save(staff user)
         {
+            user.StationID = UserInfo.StationId;
+            user.StationName = UserInfo.StationName;
+            user.StationCode = UserInfo.StationCode;
             var res = _bll.Save(user);
             return Json(res); ;
 

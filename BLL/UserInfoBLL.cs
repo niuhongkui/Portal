@@ -7,6 +7,7 @@ using Common;
 using DAL;
 using Model;
 using Model.Entity;
+using System.Configuration;
 
 namespace BLL
 {
@@ -108,6 +109,9 @@ namespace BLL
                 api.Msg = "验证码有误";
                 return api;
             }
+            var strDate= ConfigurationManager.AppSettings["Member_Date"]; 
+            if(string.IsNullOrEmpty(strDate))
+                strDate = "2020-10-31";
             var dbUser = new userinfo
             {
                 ID = Guid.NewGuid().ToString(),
@@ -119,7 +123,7 @@ namespace BLL
                 UserCode = user.UserCode,
                 ImgUrl = "",
                 UserName = "用户_" + new Random().Next(100000, 999999),
-                MemberDate = DateTime.Parse("2020-10-31")
+                MemberDate = DateTime.Parse(strDate)
             };
             api = _dal.Add(dbUser);
             return api;
