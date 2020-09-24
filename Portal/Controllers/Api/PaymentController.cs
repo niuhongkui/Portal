@@ -65,7 +65,7 @@ namespace Portal.Controllers.Api
 
            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
             request.SetBizModel(model);
-            request.SetNotifyUrl("http://49.232.204.122/api/payment/updateorder/alipay");
+            request.SetNotifyUrl("https://www.sjzminyi.com/api/payment/updateorder/alipay");
             AlipayTradeAppPayResponse response = client.SdkExecute(request);
             api.Data = response.Body;
             return api;
