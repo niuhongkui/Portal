@@ -84,9 +84,26 @@ namespace BLL
         /// 指定商铺下的所有商品
         /// </summary>
         /// <returns></returns>
-        public ApiMessage<List<StoreGood>> GetAllGood(string userId)
+        public ApiMessage<List<StoreGood>> GetAllGood(string userId, BaseParm parm)
         {
-            var res= _dal.GetAllGood(userId);
+            var res = _dal.GetAllGood(parm);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var cartList = new CartDAL().List(userId);
+                res.Data.ForEach(n =>
+                {
+                    var node = cartList.Data.FirstOrDefault(m => n.ID == m.ProductID);
+                    if (node != null)
+                    {
+                        n.SelectAmount = node.Amount;
+                    }
+                });
+            }
+            return res;
+        }
+        public ApiMessage<List<StoreGood>> GetAllGood2(string userId,BaseParm parm)
+        {
+            var res= _dal.GetAllGood2(parm);
             if (!string.IsNullOrEmpty(userId)) {
                 var cartList = new CartDAL().List(userId);
                 res.Data.ForEach(n =>
@@ -94,12 +111,9 @@ namespace BLL
                     var node = cartList.Data.FirstOrDefault(m => n.ID == m.ProductID);
                     if (node != null)
                     {
-
                         n.SelectAmount = node.Amount;
                     }
                 });
-               
-
             }
             return res;
         }

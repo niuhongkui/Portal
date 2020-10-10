@@ -26,10 +26,10 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ApiMessage<object> GetCate()
+        public ApiMessage<object> GetCate(BaseParm parm)
         {
             var list = new List<object>();
-            var last = _typeBll.List(new BaseParm { rows = 1000, page = 1 }).rows.OrderBy(n => n.OrderByNo).ThenBy(n=>n.CreateDate);
+            var last = _typeBll.List(parm).rows.OrderBy(n => n.OrderByNo).ThenBy(n=>n.CreateDate);
             foreach (var item in last)
             {
                 list.Add(new { id = item.ID, name = item.Name });
@@ -42,27 +42,21 @@ namespace Portal.Controllers.Api
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [AllowAnonymous]
-        public ApiMessage<object> GetLastCate(string id)
-        {
-            var list = new List<object>();
-            var top = _typeBll.GetCategory().rows;
-            var last = _typeBll.List(new BaseParm()).rows;
-            foreach (var item in top)
-            {
-                var node = new { id = item.EnumValue, name = item.EnumName, child = new List<object>() };
-                //var temp = last.Where(n => n.TopCategoryID == item.EnumValue.ToString()).ToList();
-                //foreach (var t in temp)
-                //{
-                //    node.child.Add(new { id = t.ID, pid = t.TopCategoryID, name = t.Name, picture = t.ImgUrl });
-                //}
-                list.Add(node);
-            }
-            var res = new ApiMessage<object>();
-            res.Data = list;
-            return res;
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public ApiMessage<object> GetLastCate(string id)
+        //{
+        //    var list = new List<object>();
+        //    var top = _typeBll.GetCategory().rows;
+        //    foreach (var item in top)
+        //    {
+        //        var node = new { id = item.EnumValue, name = item.EnumName, child = new List<object>() };
+        //        list.Add(node);
+        //    }
+        //    var res = new ApiMessage<object>();
+        //    res.Data = list;
+        //    return res;
+        //}
 
 
         /// <summary>
@@ -114,10 +108,18 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ApiMessage<List<StoreGood>> GetAllGood()
+        public ApiMessage<List<StoreGood>> GetAllGood(BaseParm parm)
         {
             var userId = UserInfo?.Id;
-            return _proBll.GetAllGood(userId);
+            return _proBll.GetAllGood(userId, parm);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiMessage<List<StoreGood>> GetAllGood2(BaseParm parm)
+        {
+            var userId = UserInfo?.Id;
+            return _proBll.GetAllGood2(userId, parm);
         }
 
     }

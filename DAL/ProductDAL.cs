@@ -179,13 +179,14 @@ namespace DAL
             page.Data = list;
             return page;
         }
-        
+
         /// <summary>
         /// 指定商铺下的所有商品
         /// </summary>
         /// <returns></returns>
-        public ApiMessage<List<StoreGood>> GetAllGood(string userId)
+        public ApiMessage<List<StoreGood>> GetAllGood(BaseParm parm)
         {
+
             var api = new ApiMessage<List<StoreGood>>();
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT p.ID,p.Name,p.TypeID,p1.Url,p2.Price,p2.MemberPrice,p2.LimitNum,p2.UnitName,p2.UnitID,s.Amount 
@@ -194,9 +195,31 @@ namespace DAL
                   LEFT JOIN productprice p2 ON p.ID = p2.ProductID
                   INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
                   LEFT JOIN producttype  p3 ON p.TypeID=p3.ID
-                  WHERE p.IsActive = 1  ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo
+                  WHERE p.IsActive = 1    ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo 
                 ");
             api.Data = _db.Fetch<StoreGood>(strSql.ToString()).ToList();
+
+            return api;
+        }
+        public ApiMessage<List<StoreGood>> GetAllGood2(BaseParm parm)
+        {
+            
+               var api = new ApiMessage<List<StoreGood>>();
+            var strSql = new StringBuilder();
+            strSql.Append(@"SELECT p.ID,p.Name,p.TypeID,p1.Url,p2.Price,p2.MemberPrice,p2.LimitNum,p2.UnitName,p2.UnitID,s.Amount 
+                  FROM product p
+                  LEFT JOIN(SELECT * FROM productimg n WHERE n.RowNO = 0)  p1 ON p.ID = p1.ProductID
+                  LEFT JOIN productprice p2 ON p.ID = p2.ProductID
+                  INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
+                  LEFT JOIN producttype  p3 ON p.TypeID=p3.ID
+                  WHERE p.IsActive = 1  AND p.TypeID=@Type  ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo  LIMIT @m ,@n
+                ");
+            api.Data = _db.Fetch<StoreGood>(strSql.ToString(),new
+            {
+                parm.Type,
+                m = (parm.page) * parm.rows,
+                n = parm.rows
+            }).ToList();
 
             return api;
         }
