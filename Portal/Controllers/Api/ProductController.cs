@@ -26,10 +26,10 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ApiMessage<object> GetCate(BaseParm parm)
+        public ApiMessage<object> GetCate()
         {
             var list = new List<object>();
-            var last = _typeBll.List(parm).rows.OrderBy(n => n.OrderByNo).ThenBy(n=>n.CreateDate);
+            var last = _typeBll.List(new BaseParm() { page=1,rows=30}).rows.OrderBy(n => n.OrderByNo).ThenBy(n=>n.CreateDate);
             foreach (var item in last)
             {
                 list.Add(new { id = item.ID, name = item.Name });
