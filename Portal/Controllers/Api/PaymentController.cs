@@ -70,6 +70,41 @@ namespace Portal.Controllers.Api
             api.Data = response.Body;
             return api;
         }
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pm"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiMessage<string> Wxpay(PayModel pm)
+        {
+            var api = new ApiMessage<string>();
+            IAopClient client = new DefaultAopClient(URL, APPID, APP_PRIVATE_KEY, "json", "1.0", RSA2, ALIPAY_PUBLIC_KEY, CHARSET, false);
+            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+            var res = bll.CkeckWxData(pm, UserInfo);
+            if (!res.Success)
+            {
+                api.Success = false;
+                api.Msg = res.Msg;
+                return api;
+            }
+            var oData = res.Data;
+            model.Body = oData.Body;
+            model.Subject = oData.Subject;
+            model.TotalAmount = oData.TotalAmount.ToString();
+            model.ProductCode = "QUICK_MSECURITY_PAY";
+            model.OutTradeNo = oData.OutTradeNo;
+
+
+            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+            request.SetBizModel(model);
+            request.SetNotifyUrl("https://www.sjzminyi.com/api/payment/updateorder/alipay");
+            AlipayTradeAppPayResponse response = client.SdkExecute(request);
+            api.Data = response.Body;
+            return api;
+        }
+
         /// <summary>
         /// 
         /// </summary>

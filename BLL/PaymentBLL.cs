@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Model;
+using Newtonsoft.Json.Linq;
 
 namespace BLL
 {
@@ -70,6 +71,56 @@ namespace BLL
             res.Msg = "";
             res.Success = true;
             LogHelper.WriteLog("支付请求：" + JsonConvert.SerializeObject(res.Data), LogHelper.LogType.Info);
+            return res;
+        }
+
+        public ApiMessage<object> CkeckWxData(PayModel pm, CurrentUser user)
+        {
+            var res = new ApiMessage<object>();
+            res.Success = false;
+            res.Msg = "数据有误";
+            var requestXml = WeiXinUtil.BuildRequest("","",1,"");
+            var resultXml = WeiXinUtil.Post("https://api.mch.weixin.qq.com/pay/unifiedorder", requestXml);
+
+            var dic = WeiXinUtil.FromXml(resultXml);
+
+            string returnCode;
+            dic.TryGetValue("return_code", out returnCode);
+
+            if (returnCode == "SUCCESS")
+            {
+                var prepay_id = WeiXinUtil.GetValueFromDic<string>(dic, "prepay_id");
+                if (!string.IsNullOrEmpty(prepay_id))
+                {
+                    var payInfo = JsonConvert.DeserializeObject<WeiXinUtil.WxPayModel>(WeiXinUtil.BuildAppPay(prepay_id));
+                    var orderinfo = new
+                    {
+                        payInfo.appid,
+                        payInfo.partnerid,
+                        payInfo.prepayid,
+                        payInfo.package,
+                        payInfo.noncestr,
+                        payInfo.timestamp,
+                        payInfo.sign,
+                        code=0,
+                        msg= "成功"
+                    };
+                    res.Success = true;
+                    res.Data = orderinfo;
+                    res.Msg = "";
+                }
+                else
+                {
+                    res.Msg = "支付错误:" + WeiXinUtil.GetValueFromDic<string>(dic, "err_code_des");
+                 
+                    return res;
+                }
+            }
+            else
+            {
+                res.Msg = "配置错误";
+                return res;
+            }
             return res;
         }
 
