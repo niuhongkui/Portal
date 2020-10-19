@@ -70,7 +70,7 @@ namespace Common
             const string amount = "1";
             double dubamount;
             double.TryParse(amount, out dubamount);
-            var notify_url = "https://www.sjzminyi.com/api/payment/updateorder/wxpay"; //支付完成后的回调处理页面
+            var notify_url =ConfigHelper.WebSiteUrl+ "/api/payment/updateorder/wxpay"; //支付完成后的回调处理页面
 
             var dic = new SortedDictionary<string, string>
         {

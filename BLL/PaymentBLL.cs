@@ -85,8 +85,6 @@ namespace BLL
 
             var dic = WeiXinUtil.FromXml(resultXml);
 
-            Common.LogHelper.WriteLog("niuhk"+JsonConvert.SerializeObject(dic), LogHelper.LogType.Info);
-
             string returnCode;
             dic.TryGetValue("return_code", out returnCode);
 

@@ -101,7 +101,7 @@ namespace Portal.Controllers.Api
         [AllowAnonymous]
         public string UpdateOrder(string type)
         {
-            if (type == "alipay")
+            if (type != "wxpay")
             {
                 NameValueCollection collection = HttpContext.Current.Request.Form;
                 String[] requestItem = HttpContext.Current.Request.Form.AllKeys;
