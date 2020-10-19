@@ -61,78 +61,140 @@ namespace Portal.Controllers.Api
             model.TotalAmount = oData.TotalAmount.ToString();
             model.ProductCode = "QUICK_MSECURITY_PAY";
             model.OutTradeNo = oData.OutTradeNo;
-           
 
-           AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+
+            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
             request.SetBizModel(model);
-            request.SetNotifyUrl("https://www.sjzminyi.com/api/payment/updateorder/alipay");
+            request.SetNotifyUrl(ConfigHelper.WebSiteUrl+"/api/payment/updateorder/alipay");
             AlipayTradeAppPayResponse response = client.SdkExecute(request);
             api.Data = response.Body;
             return api;
         }
-       
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="pm"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiMessage<string> Wxpay(PayModel pm)
+        public ApiMessage<object> Wxpay(PayModel pm)
         {
-            var api = new ApiMessage<string>();
-            IAopClient client = new DefaultAopClient(URL, APPID, APP_PRIVATE_KEY, "json", "1.0", RSA2, ALIPAY_PUBLIC_KEY, CHARSET, false);
-            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-            var res = bll.CkeckWxData(pm, UserInfo);
+            var api = new ApiMessage<object>();
+            var res = bll.CkeckData(pm, UserInfo);
             if (!res.Success)
             {
                 api.Success = false;
                 api.Msg = res.Msg;
                 return api;
             }
-            var oData = res.Data;
-            model.Body = oData.Body;
-            model.Subject = oData.Subject;
-            model.TotalAmount = oData.TotalAmount.ToString();
-            model.ProductCode = "QUICK_MSECURITY_PAY";
-            model.OutTradeNo = oData.OutTradeNo;
-
-
-            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-            request.SetBizModel(model);
-            request.SetNotifyUrl("https://www.sjzminyi.com/api/payment/updateorder/alipay");
-            AlipayTradeAppPayResponse response = client.SdkExecute(request);
-            api.Data = response.Body;
+            var oData = res.Data;            
+            oData.IP = HttpContext.Current.Request.UserHostAddress;
+            api = bll.CkeckWxData(oData, UserInfo);           
             return api;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="type"></param>
         [HttpPost]
         [AllowAnonymous]
-        public string UpdateOrder(object obj)
+        public string UpdateOrder(string type)
         {
-            NameValueCollection collection = HttpContext.Current.Request.Form;
-            String[] requestItem = HttpContext.Current.Request.Form.AllKeys;
-            IDictionary<string, string> sArray = new Dictionary<string, string>();
-
-            for (int i = 0; i < requestItem.Length; i++)
+            if (type == "alipay")
             {
-                sArray.Add(requestItem[i], collection[requestItem[i]]);
+                NameValueCollection collection = HttpContext.Current.Request.Form;
+                String[] requestItem = HttpContext.Current.Request.Form.AllKeys;
+                IDictionary<string, string> sArray = new Dictionary<string, string>();
+
+                for (int i = 0; i < requestItem.Length; i++)
+                {
+                    sArray.Add(requestItem[i], collection[requestItem[i]]);
+                }
+
+                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(sArray), LogHelper.LogType.Info);
+
+                var success = AlipaySignature.RSACheckV1(sArray, Ali_PUBLIC_KEY, CHARSET, "RSA2", false);
+                if (!success)
+                    return "fail";
+
+                var orderno = sArray["out_trade_no"];
+                var trade_no = sArray["trade_no"];
+                var sign = bll.UpdateOrder(orderno, trade_no);
+
+                return sign.Success ? "success" : "fail";
             }
-         
-            LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(sArray), LogHelper.LogType.Info);
+            else
+            {
+                HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context
+                HttpRequestBase request = context.Request;//定义传统request对象           
+                var verifyResult = "fail";
+                var requestXml = WeiXinUtil.GetRequestXmlData(request);
+                var dic = WeiXinUtil.FromXml(requestXml);
 
-            var success = AlipaySignature.RSACheckV1(sArray, Ali_PUBLIC_KEY, CHARSET, "RSA2", false);
-            if (!success)
-                return "fail";
+                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(dic), LogHelper.LogType.Info);
 
-            var orderno = sArray["out_trade_no"];
-            var trade_no= sArray["trade_no"];
-            var sign = bll.UpdateOrder(orderno, trade_no);
+                var returnCode = WeiXinUtil.GetValueFromDic<string>(dic, "return_code");
 
-            return sign.Success ? "success" : "fail";
+                if (!string.IsNullOrEmpty(returnCode) && returnCode == "SUCCESS")//通讯成功
+                {
+                    var result = WeiXinUtil.WePayNotifyValidation(dic);
+                    if (result)
+                    {
+                        var transactionid = WeiXinUtil.GetValueFromDic<string>(dic, "transaction_id");
+
+                        if (!string.IsNullOrEmpty(transactionid))
+                        {
+                            var queryXml = WeiXinUtil.BuildQueryRequest(transactionid, dic);
+                            var queryResult = WeiXinUtil.Post("https://api.mch.weixin.qq.com/pay/orderquery", queryXml);
+                            var queryReturnDic = WeiXinUtil.FromXml(queryResult);
+
+                            if (WeiXinUtil.ValidatonQueryResult(queryReturnDic))//查询成功
+                            {
+                                verifyResult = "success";
+                                var status = WeiXinUtil.GetValueFromDic<string>(dic, "result_code");
+
+                                if (!string.IsNullOrEmpty(status) && status == "SUCCESS")
+                                {
+                                    //var order = new Order()
+                                    //{
+                                    //    OrderNumber = WeiXinUtil.GetValueFromDic<string>(dic, "out_trade_no"),
+                                    //    TransactionId = transactionid,
+                                    //    ProductPrice = WeiXinUtil.GetValueFromDic<decimal>(dic, "total_fee") / 100,
+                                    //    TradeType = WeiXinUtil.GetValueFromDic<string>(dic, "trade_type"),
+                                    //    BankType = WeiXinUtil.GetValueFromDic<string>(dic, "bank_type"),
+                                    //    PayDate = DateTime.Parse(WeiXinUtil.GetValueFromDic<string>(dic, "time_end")),
+                                    //    StatusId = 1,
+                                    //    IsPresent = false,
+                                    //    AddDate = DateTime.Now,
+                                    //    IsDelete = false
+                                    //};
+                                    //CURD.Add(order, ConfigHelper.WriteDB);
+                                    var orderNo = WeiXinUtil.GetValueFromDic<string>(dic, "out_trade_no");
+                                    var sign = bll.UpdateOrder(orderNo, transactionid);
+
+                                    WeiXinUtil.BuildReturnXml("OK", "成功");
+                                }
+                            }
+                            else
+                                WeiXinUtil.BuildReturnXml("FAIL", "订单查询失败");
+                        }
+                        else
+                            WeiXinUtil.BuildReturnXml("FAIL", "支付结果中微信订单号不存在");
+                    }
+                    else
+                        WeiXinUtil.BuildReturnXml("FAIL", "签名失败");
+                }
+                else
+                {
+                    string returnmsg;
+                    dic.TryGetValue("return_msg", out returnmsg);
+                    throw new Exception("异步通知错误：" + returnmsg);
+                }
+
+                return verifyResult;
+            }
+
 
         }
     }

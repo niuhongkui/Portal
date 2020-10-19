@@ -74,15 +74,18 @@ namespace BLL
             return res;
         }
 
-        public ApiMessage<object> CkeckWxData(PayModel pm, CurrentUser user)
+        public ApiMessage<object> CkeckWxData( OutPayModel pm, CurrentUser user)
         {
             var res = new ApiMessage<object>();
             res.Success = false;
             res.Msg = "数据有误";
-            var requestXml = WeiXinUtil.BuildRequest("","",1,"");
+            var requestXml = WeiXinUtil.BuildRequest(pm.OutTradeNo,pm.Subject,pm.TotalAmount,pm.IP);
+
             var resultXml = WeiXinUtil.Post("https://api.mch.weixin.qq.com/pay/unifiedorder", requestXml);
 
             var dic = WeiXinUtil.FromXml(resultXml);
+
+            Common.LogHelper.WriteLog("niuhk"+JsonConvert.SerializeObject(dic), LogHelper.LogType.Info);
 
             string returnCode;
             dic.TryGetValue("return_code", out returnCode);

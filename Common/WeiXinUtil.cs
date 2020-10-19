@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 
 namespace Common
@@ -69,7 +70,7 @@ namespace Common
             const string amount = "1";
             double dubamount;
             double.TryParse(amount, out dubamount);
-            var notify_url = ConfigHelper.WebSiteUrl + "/api/v1/testWeiXin"; //支付完成后的回调处理页面
+            var notify_url = "https://www.sjzminyi.com/api/payment/updateorder/wxpay"; //支付完成后的回调处理页面
 
             var dic = new SortedDictionary<string, string>
         {
@@ -273,6 +274,100 @@ namespace Common
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the request XML data.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static string GetRequestXmlData(HttpRequestBase request)
+        {
+            var stream = request.InputStream;
+            int count;
+            var buffer = new byte[1024];
+            var builder = new StringBuilder();
+            while ((count = stream.Read(buffer, 0, 1024)) > 0)
+            {
+                builder.Append(Encoding.UTF8.GetString(buffer, 0, count));
+            }
+            stream.Flush();
+            stream.Close();
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Wes the pay notify validation.
+        /// </summary>
+        /// <param name="dic">The dic.</param>
+        /// <returns></returns>
+        public static bool WePayNotifyValidation(SortedDictionary<string, string> dic)
+        {
+            var sign = GetValueFromDic<string>(dic, "sign");
+            if (dic.ContainsKey("sign"))
+            {
+                dic.Remove("sign");
+            }
+
+            var tradeType = GetValueFromDic<string>(dic, "trade_type");
+            var preString = CreateURLParamString(dic);
+
+            if (string.IsNullOrEmpty(tradeType))
+            {
+                var preSignString = preString + "&key=" + ConfigHelper.APIKey;
+                var signString = Sign(preSignString, "utf-8").ToUpper();
+                return signString == sign;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Builds the query request.
+        /// </summary>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <param name="dic">The dic.</param>
+        /// <returns></returns>
+        public static string BuildQueryRequest(string transactionId, SortedDictionary<string, string> dic)
+        {
+            var dicParam = CreateQueryParam(transactionId);
+            var signString = CreateURLParamString(dicParam);
+            var key = ConfigHelper.APIKey;
+            var preString = signString + "&key=" + key;
+            var sign = Sign(preString, "utf-8").ToUpper();
+            dicParam.Add("sign", sign);
+
+            return BuildForm(dicParam);
+        }
+
+        /// <summary>
+        /// Creates the query parameter.
+        /// </summary>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns></returns>
+        private static SortedDictionary<string, string> CreateQueryParam(string transactionId)
+        {
+            var dic = new SortedDictionary<string, string>
+        {
+            {"appid", ConfigHelper.AppID},//公众账号ID
+            {"mch_id", ConfigHelper.MchID},//商户号
+            {"nonce_str", Guid.NewGuid().ToString().Replace("-", "")},//随机字符串
+            {"transaction_id", transactionId}//微信订单号
+        };
+            return dic;
+        }
+
+        /// <summary>
+        /// Builds the return XML.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="returnMsg">The return MSG.</param>
+        /// <returns></returns>
+        public static string BuildReturnXml(string code, string returnMsg)
+        {
+            return
+                $"<xml><return_code><![CDATA[{code}]]></return_code><return_msg><![CDATA[{returnMsg}]]></return_msg></xml>";
         }
     }
 }

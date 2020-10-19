@@ -22,6 +22,7 @@ namespace Model.Entity
         public string OutTradeNo { set; get; }
         public string Subject { set; get; }
         public string Body { set; get; }
+        public string IP { set; get; }
 
     }
 }
