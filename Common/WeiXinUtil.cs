@@ -67,11 +67,8 @@ namespace Common
         /// <returns></returns>
         private static SortedDictionary<string, string> CreateParam(string trade_no, string detail, decimal fee, string ip)
         {
-            const string amount = "1";
-            double dubamount;
-            double.TryParse(amount, out dubamount);
             var notify_url =ConfigHelper.WebSiteUrl+ "/api/payment/updateorder/wxpay"; //支付完成后的回调处理页面
-
+            var money = fee * 100;
             var dic = new SortedDictionary<string, string>
         {
             {"appid", ConfigHelper.AppID},//账号ID
@@ -79,7 +76,7 @@ namespace Common
             {"nonce_str", Guid.NewGuid().ToString().Replace("-", "")},//随机字符串
             {"body", detail}, //商品描述
             {"out_trade_no", trade_no},//商户订单号
-            {"total_fee", (fee*100).ToString()},//总金额
+            {"total_fee", ((int)money).ToString()},//总金额
             {"spbill_create_ip",ip},//终端IP
             {"notify_url", notify_url},//通知地址
             {"trade_type", "APP"}//交易类型
@@ -310,17 +307,17 @@ namespace Common
                 dic.Remove("sign");
             }
 
-            var tradeType = GetValueFromDic<string>(dic, "trade_type");
+            //var tradeType = GetValueFromDic<string>(dic, "trade_type");
             var preString = CreateURLParamString(dic);
 
-            if (string.IsNullOrEmpty(tradeType))
-            {
-                var preSignString = preString + "&key=" + ConfigHelper.APIKey;
-                var signString = Sign(preSignString, "utf-8").ToUpper();
-                return signString == sign;
-            }
-            else
-                return false;
+            //if (string.IsNullOrEmpty(tradeType))
+            //{
+            var preSignString = preString + "&key=" + ConfigHelper.APIKey;
+            var signString = Sign(preSignString, "utf-8").ToUpper();
+            return signString == sign;
+            //}
+            //else
+            //    return false;
         }
 
         /// <summary>

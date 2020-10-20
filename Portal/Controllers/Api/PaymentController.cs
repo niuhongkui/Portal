@@ -89,19 +89,20 @@ namespace Portal.Controllers.Api
             }
             var oData = res.Data;            
             oData.IP = HttpContext.Current.Request.UserHostAddress;
-            api = bll.CkeckWxData(oData, UserInfo);           
+            api = bll.CkeckWxData(oData, UserInfo);
             return api;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="id"></param>
         [HttpPost]
         [AllowAnonymous]
-        public string UpdateOrder(string type)
+        public string UpdateOrder(string id)
         {
-            if (type != "wxpay")
+            LogHelper.WriteLog("支付返回：" + id, LogHelper.LogType.Debug);
+            if (id != "wxpay")
             {
                 NameValueCollection collection = HttpContext.Current.Request.Form;
                 String[] requestItem = HttpContext.Current.Request.Form.AllKeys;
@@ -112,7 +113,7 @@ namespace Portal.Controllers.Api
                     sArray.Add(requestItem[i], collection[requestItem[i]]);
                 }
 
-                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(sArray), LogHelper.LogType.Info);
+                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(sArray), LogHelper.LogType.Debug);
 
                 var success = AlipaySignature.RSACheckV1(sArray, Ali_PUBLIC_KEY, CHARSET, "RSA2", false);
                 if (!success)
@@ -128,11 +129,11 @@ namespace Portal.Controllers.Api
             {
                 HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context
                 HttpRequestBase request = context.Request;//定义传统request对象           
-                var verifyResult = "fail";
+                var verifyResult = "false"; 
                 var requestXml = WeiXinUtil.GetRequestXmlData(request);
                 var dic = WeiXinUtil.FromXml(requestXml);
 
-                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(dic), LogHelper.LogType.Info);
+                LogHelper.WriteLog("支付返回：" + JsonConvert.SerializeObject(dic), LogHelper.LogType.Debug);
 
                 var returnCode = WeiXinUtil.GetValueFromDic<string>(dic, "return_code");
 
@@ -151,7 +152,7 @@ namespace Portal.Controllers.Api
 
                             if (WeiXinUtil.ValidatonQueryResult(queryReturnDic))//查询成功
                             {
-                                verifyResult = "success";
+                                verifyResult = "true";
                                 var status = WeiXinUtil.GetValueFromDic<string>(dic, "result_code");
 
                                 if (!string.IsNullOrEmpty(status) && status == "SUCCESS")
@@ -173,17 +174,17 @@ namespace Portal.Controllers.Api
                                     var orderNo = WeiXinUtil.GetValueFromDic<string>(dic, "out_trade_no");
                                     var sign = bll.UpdateOrder(orderNo, transactionid);
 
-                                    WeiXinUtil.BuildReturnXml("OK", "成功");
+                                  return  WeiXinUtil.BuildReturnXml("SUCCESS", "成功");
                                 }
                             }
                             else
-                                WeiXinUtil.BuildReturnXml("FAIL", "订单查询失败");
+                                return WeiXinUtil.BuildReturnXml("FAIL", "订单查询失败");
                         }
                         else
-                            WeiXinUtil.BuildReturnXml("FAIL", "支付结果中微信订单号不存在");
+                            return WeiXinUtil.BuildReturnXml("FAIL", "支付结果中微信订单号不存在");
                     }
                     else
-                        WeiXinUtil.BuildReturnXml("FAIL", "签名失败");
+                        return WeiXinUtil.BuildReturnXml("FAIL", "签名失败");
                 }
                 else
                 {
@@ -192,7 +193,7 @@ namespace Portal.Controllers.Api
                     throw new Exception("异步通知错误：" + returnmsg);
                 }
 
-                return verifyResult;
+                return WeiXinUtil.BuildReturnXml("FAIL", "签名失败"); ;
             }
 
 
