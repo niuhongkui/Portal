@@ -52,6 +52,8 @@ namespace Model.Entity
         /// </summary>
         public string UnitName { set; get; }
 
+        public int OutAmount { set; get; }
+
         public int SelectAmount { set; get; }
     }
 }

@@ -38,7 +38,7 @@ namespace BLL
             return _dal.GetUnit();
         }
 
-        public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
+        public ApiMessage<List<StoreGood>> GetGoods(BaseParm parm)
         {
             return _dal.GetGoods(parm);
         }

@@ -40,7 +40,7 @@ namespace DAL
                     productimg.Delete("where productid=@0", id);
                     instore.Delete("where productid=@0", id);
                     store.Delete("where productid=@0", id);
-                    var rows = product.Delete(" where id=@0", id);                 
+                    var rows = product.Delete(" where id=@0", id);
                     var msg = new ApiMessage<string>();
                     if (rows > 0)
                     {
@@ -142,22 +142,43 @@ namespace DAL
             return page;
         }
 
-        public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
+        public ApiMessage<List<StoreGood>> GetGoods(BaseParm parm)
         {
-            var page = new ApiMessage<List<Goods>>();
+            var page = new ApiMessage<List<StoreGood>>();
+            var strSql = new StringBuilder();
+            strSql.Append(@"SELECT DISTINCT p.ID,p.Name,p.TypeID,p1.Url,p2.Price,p2.MemberPrice,p2.LimitNum,p2.UnitName,p2.UnitID,s.Amount ,s.OutAmount
+                  FROM product p
+                  LEFT JOIN(SELECT * FROM productimg n WHERE n.RowNO = 0)  p1 ON p.ID = p1.ProductID
+                  LEFT JOIN productprice p2 ON p.ID = p2.ProductID
+                  INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
+                  LEFT JOIN producttype  p3 ON p.TypeID = p3.ID
+                  WHERE p.IsActive = 1 ");
+            if (!string.IsNullOrEmpty(parm.Name)) {
+                strSql.Append(" And p.name like  CONCAT('%',@name,'%')");
+            }
+            if (parm.Type == "2")
+            {
+                if (parm.Code == "1")
+                    strSql.Append(" ORDER BY p2.Price Desc");
+                else
+                    strSql.Append(" ORDER BY p2.Price ");
+            }
+            else if (parm.Type == "1")
+            {
+                strSql.Append(" ORDER BY s.OutAmount desc");
+            }
+            else
+            {
+                strSql.Append(" ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo ");
+            }
+            strSql.Append("  LIMIT @m,@n");
             var list =
-                _db.Fetch<Goods>(
-                    @"SELECT  p.ID,p.`Name` title,MIN(p1.Price) price,p.TypeName 
-                    FROM product p 
-                    LEFT JOIN productprice p1 ON p.ID = p1.ProductID
-                    LEFT JOIN producttype t on t.`ID`=p.TypeID
-                    WHERE p1.Price>0 AND p.IsActive=1  AND t.ID=@id
-                    GROUP BY p.ID LIMIT @m,@n", new
-                    {
-                        id = parm.Id,
-                        m = (parm.page - 1) * parm.rows,
-                        n = parm.rows
-                    });
+                _db.Fetch<StoreGood>(strSql.ToString(), new
+                {
+                    name = parm.Name,
+                    m = (parm.page - 1) * parm.rows,
+                    n = parm.rows
+                });
             page.Data = list;
             return page;
         }
@@ -203,8 +224,8 @@ namespace DAL
         }
         public ApiMessage<List<StoreGood>> GetAllGood2(BaseParm parm)
         {
-            
-               var api = new ApiMessage<List<StoreGood>>();
+
+            var api = new ApiMessage<List<StoreGood>>();
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT p.ID,p.Name,p.TypeID,p1.Url,p2.Price,p2.MemberPrice,p2.LimitNum,p2.UnitName,p2.UnitID,s.Amount 
                   FROM product p
@@ -214,7 +235,7 @@ namespace DAL
                   LEFT JOIN producttype  p3 ON p.TypeID=p3.ID
                   WHERE p.IsActive = 1  AND p.TypeID=@Type  ORDER BY p3.OrderByNo, p3.CreateDate, p.OrderByNo  LIMIT @m ,@n
                 ");
-            api.Data = _db.Fetch<StoreGood>(strSql.ToString(),new
+            api.Data = _db.Fetch<StoreGood>(strSql.ToString(), new
             {
                 parm.Type,
                 m = (parm.page) * parm.rows,

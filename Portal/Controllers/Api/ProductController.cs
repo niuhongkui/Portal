@@ -66,7 +66,7 @@ namespace Portal.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public ApiMessage<List<Goods>> GetGoods(BaseParm parm)
+        public ApiMessage<List<StoreGood>> GetGoods(BaseParm parm)
         {
             var res = _proBll.GetGoods(parm);
             return res;
