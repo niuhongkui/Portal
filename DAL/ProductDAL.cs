@@ -152,7 +152,7 @@ namespace DAL
                   LEFT JOIN productprice p2 ON p.ID = p2.ProductID
                   INNER JOIN store s ON p.ID = s.ProductID AND p2.UnitID = s.UnitID
                   LEFT JOIN producttype  p3 ON p.TypeID = p3.ID
-                  WHERE p.IsActive = 1 ");
+                  WHERE p.IsActive = 1 AND s.Amount>0 ");
             if (!string.IsNullOrEmpty(parm.Name)) {
                 strSql.Append(" And p.name like  CONCAT('%',@name,'%')");
             }
